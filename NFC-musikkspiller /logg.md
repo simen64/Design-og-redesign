@@ -22,4 +22,4 @@ Scanneren jeg har tenkt til å bruke er en RC5200 RFID scanner. Selvom denen sca
 For å spill av musikk har jeg tenkt til å gå gjennom Home assistant. Home assistant er et self hosted smarthus kontrollsenter, her har jeg tilkoblet høytalerne jeg tenker å bruke. Home assistant støøter webhooks som er en måte for enheter å sende data en vei til en server ved hjelp av http (web linker) Når et album er scannet skal SBCen finne ut hvilke album det er, sende dette med en webhook over til homeassistant, som gjennom Spotify sin API spiller det av på høytaleren jeg har bestemt.
 
 
-![Musikkspiller_flowchart](https://github.com/simen64/Design-og-redesign/assets/97337442/8a0ea1aa-618e-45fd-b188-cb79835bd02c)
+![Musikkspiller_flowchart](https://github.com/simen64/Design-og-redesign/blob/b5c3e3b5bfac3fbb8e957e4738b0917208530f8e/NFC-musikkspiller%20/Bilder/Musikkspiller_flowchart.jpg)
