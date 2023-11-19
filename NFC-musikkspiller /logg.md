@@ -28,15 +28,15 @@ For å spill av musikk har jeg tenkt til å gå gjennom Home assistant. Home ass
 
 Planen først var å bruke en Arduino som hjernen. Arduinoer er et elektronikk-brett med en mikroprosessor. De er veldig kjent for å brukes i elektronikk prosjekter som det her. Arduinoen har strøm, og data utganger som gjør den bra til å koble til komponenter. Jeg har hatt noen Arduinoer av forrige generajon liggende siden 2019, og har ikke egentlig brukt dem sins. Jeg fikk de til julegave sammen med masse andre elektroniske komponenter, som endte opp med å komme til nytte nå 4 år senere.
 
-For at prosjektet skal fungere trenger den å ha tilgang til Wifi, noe min arduino ikke har. Heldigvis har jeg også en ESP8266 modul som jeg også fikk sammen med Arduinoen. En esp8266 er også en mikroprosessor, bare at den har innebygd wifi. Det som er med den modulen jeg har er at den ikke har en USB til å programmere den, heller ikke nok GPIO pins (Porter for å koble til komponenter) Fordi den mangler dette koblet jeg den opp til Arduinoen min gjennom serial (en måte å sende data på gjennom ledninger)
+For at prosjektet skal fungere trenger den å ha tilgang til Wifi, noe min arduino ikke har. Heldigvis har jeg også en ESP8266 modul som jeg også fikk sammen med Arduinoen. En esp8266 er også en mikroprosessor, bare at den har innebygd wifi. Det som er med den modulen jeg har er at den ikke har en USB til å programmere den, heller ikke nok GPIO porter (Porter for å koble til komponenter) Fordi den mangler dette koblet jeg den opp til Arduinoen min gjennom serie kommunikasjon (en måte å sende data på gjennom ledninger)
 
 ## Oppkobling
 ![Arduino oppkobling](https://github.com/simen64/Design-og-redesign/blob/86e651944495e410128a51a4ffa52c13428fa7e2/NFC-musikkspiller%20/Bilder/Arduino%20oppkobling.png)
 
-### Serial kommunikasjon
+### Serie kommunikasjon
 
-For å kommunisere med ESP8266 modulen kan jeg bruke en serial monitor for å sende kommandoer til prosessoren, en sånn serial monitor er bygd inn i programvaren Arduino IDE, som er programmet jeg bruker til å kode til arduinoen.
-Et problem jeg endte opp med å ha var at siden jeg hadde koblet ESP8266 modulen til Arduinoen sine serial pins, ble det konflikt med USBen som lastet koden over. Derfor måtte jeg plugge ut modulen vær gang jeg lastet opp ny kode, for å så plugge den inn igjen. Koden jeg lastet opp til Arduinoen inneholdte ikke noe, fordi jeg for nå bare trengte å bruke serial kommandoer for å kommunisere med ESP8266 modulen.
+For å kommunisere med ESP8266 modulen kan jeg bruke en serie monitor for å sende kommandoer til prosessoren, en sånn serie monitor er bygd inn i programvaren Arduino IDE, som er programmet jeg bruker til å kode til arduinoen.
+Et problem jeg endte opp med å ha var at siden jeg hadde koblet ESP8266 modulen til Arduinoen sine serie porter, ble det konflikt med USBen som lastet koden over. Derfor måtte jeg plugge ut modulen vær gang jeg lastet opp ny kode, for å så plugge den inn igjen. Koden jeg lastet opp til Arduinoen inneholdte ikke noe, fordi jeg for nå bare trengte å bruke serie kommandoer for å kommunisere med ESP8266 modulen.
 
 Jeg startet med å sjekke at jeg hadde koblet til riktig:
 ```
@@ -56,9 +56,9 @@ I innstillingene til ruteren min kunne jeg verifisere at den var tilkoblet.
 
 ### Programmering
 
-Jeg måtte kode et program til Arduinoen som automatiserte å putte inn disse kommandoene, siden det er variasjoner av de som skal brukes til å requeste en webhook.
-`SoftwareSerial` er en pakke for Arduino som gjør det lett å sende kommandoer til moduler som er oppkoblet med serial pins.
-Her er koden jeg lagde for å automatisk koble meg til wifi hver gang Arduinoen blir skrudd på.
+Jeg måtte kode et program til Arduinoen som automatiserte å putte inn disse kommandoene, siden det er variasjoner av de som skal brukes til å forespørre en webhook.  
+`SoftwareSerial` er en pakke for Arduino som gjør det lett å sende kommandoer til moduler som er oppkoblet med serie porter.    
+Her er koden jeg lagde for å automatisk koble meg til wifi hver gang Arduinoen blir skrudd på.  
 
 ```cpp
 #include <SoftwareSerial.h> //inkluder SoftwareSerial pakken
@@ -76,10 +76,10 @@ void loop() {
 }
 ```
 
-En annen kul ting SoftwareSerial kan gjøre er å bruke virtuelle pins som pin 2, og 3 for å kommunisere gjennom serial. Dette hadde fikset konflikten med USB-kablen.
+En annen kul ting SoftwareSerial kan gjøre er å bruke virtuelle porter som pin 2, og 3 for å kommunisere gjennom serie. Dette hadde fikset konflikten med USB-kablen.
 Men når jeg prøvde dette endte det opp med å funke så jeg bare holdt meg til pin 0, og 1 selvom det skapte konflikter. Hva problemet var kommer jeg tilbake til senere.
 
-Koden jeg hadde lagde fungerte, og alt jeg puttet inn i `ESP8266.println("")` ble kjørt som om jeg sendte kommandoen gjennom serial monitor.
+Koden jeg hadde lagde fungerte, og alt jeg puttet inn i `ESP8266.println("")` ble kjørt som om jeg sendte kommandoen gjennom Serie monitor.  
 Jeg skulle nå begynne på å få webhooks til å fungere.
 
 ### Webhooks og HTTP requests
@@ -117,7 +117,7 @@ Nummer 347 Sjekker om noen enheter har IPen 192.168.x.x, nummer 348 gjentar dett
 Nummer 348 annonserer at den har tatt IPen 192.168.x.x
 
 Mens når jeg sendte kommandoen som skulle sende webhooken, skjedde ingenting i Wireshark.  
-For å verifisere at ESP8266 modulen faktisk kunne kommunisere med Home Assistant pinget jeg den med kommandoen `AT+PING="192.168.125.77"`
+For å verifisere at ESP8266 modulen faktisk kunne kommunisere med Home Assistant pinget (En måte å sjekke om man har kommunikasjon til en server eller klient) jeg den med kommandoen `AT+PING="192.168.125.77"`
 Og hva skjedde? Jo den kom fram.
 
 ![Wireshark capture av ping til HA](https://github.com/simen64/Design-og-redesign/blob/95fce086cf4167f07ed15089a7fa0fab81d15931/NFC-musikkspiller%20/Bilder/ESP8266_Ping.png)
