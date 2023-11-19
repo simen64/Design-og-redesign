@@ -32,3 +32,22 @@ For at prosjektet skal fungere trenger den å ha tilgang til Wifi, noe min ardui
 
 ## Oppkobling
 ![Arduino oppkoblin](https://github.com/simen64/Design-og-redesign/blob/86e651944495e410128a51a4ffa52c13428fa7e2/NFC-musikkspiller%20/Bilder/Arduino%20oppkobling.png)
+
+For å kommunisere med ESP8266 modulen kan jeg bruke en serial monitor for å sende kommandoer til prosessoren.
+Et problem jeg endte opp med å ha var at siden jeg hadde koblet ESP8266 modulen til Arduinoen sine serial pins, ble det konflikt med USBen som lastet koden over. Derfor måtte jeg plugge ut modulen vær gang jeg lastet opp ny kode, for å så plugge den inn igjen. Koden jeg lastet opp til Arduinoen inneholdte ikke noe, fordi jeg for nå bare trengte å bruke serial kommandoer for å kommunisere med ESP8266 modulen.
+
+Jeg startet med å sjekke at jeg hadde koblet til riktig:
+```
+AT
+
+OK
+```
+Når man mottar OK tilbake er det som regel et godt tegn.
+
+Etter dette koblet jeg den til wifi nettverket mitt, med denne kommandoen:
+```
+AT+CWJAP=\"Wifi SSID\",\"Wifi Passord\"\r"
+
+OK
+```
+I innstillingene til ruteren min kunne jeg verifisere at den var tilkoblet.
