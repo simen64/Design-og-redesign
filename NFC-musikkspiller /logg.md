@@ -101,16 +101,23 @@ Content-Type: application/json
 AT+CIPCLOSE // End tilkoblingen
 ```
 
-Men dette funket ikke, fordi ingenting skjedde i Home Assistant, jeg prøvde flere variasjoner men ingen funket.
-Wireshark er et program man bruker for å inspisere nettverks-trafikk.
-I wireshark filtrerte jeg på MAC adressen til ESP8266 modulen som jeg hentet fra innstillingene til ruteren min.
-Når jeg plugget inn og ut Arduinoen kunne jeg se at den koblet seg opp mot nettet:
+Men dette funket ikke, fordi ingenting skjedde i Home Assistant, jeg prøvde flere variasjoner men ingen funket.  
+Wireshark er et program man bruker for å inspisere nettverks-trafikk.  
+I wireshark filtrerte jeg på MAC adressen til ESP8266 modulen som jeg hentet fra innstillingene til ruteren min.  
+Når jeg plugget inn og ut Arduinoen kunne jeg se at den koblet seg opp mot nettet:  
 
-![Wireshark capture av at ESP8266 kobler til Wifi](https://github.com/simen64/Design-og-redesign/blob/81d3497b18b83b03ec614d8985c7bbfca2289ab6/NFC-musikkspiller%20/Bilder/Wireshark_ESP8266_connect.png)
+![Wireshark capture av at ESP8266 kobler til Wifi](https://github.com/simen64/Design-og-redesign/blob/22ef5045d6702a6e93ce154a2b9e5bc327a0faa5/NFC-musikkspiller%20/Bilder/Wireshark_ESP8266_connect.png)
 
+Jeg har strøket over all personlig informasjon som IP adresser og MAC adresser  
 Hver av disse linjene er det som kalles en packet.  
 Packet nummer 344 er en broadcast for å koble seg til nettet  
 Nummer 345 Ser etter DHCP servere på nettet  
 Nummer 346 Spør om en IP fra DHCP serveren  
-Nummer 347 Sjekker om noen enheter har IPen 192.168.50.118, nummer 348 gjentar dette for å dobbeltsjekke  
-Nummer 348 annonserer at den har tatt IPen 192.168.50.118  
+Nummer 347 Sjekker om noen enheter har IPen 192.168.x.x, nummer 348 gjentar dette for å dobbeltsjekke  
+Nummer 348 annonserer at den har tatt IPen 192.168.x.x
+
+Mens når jeg sendte kommandoen som skulle sende webhooken, skjedde ingenting i Wireshark.  
+For å verifisere at ESP8266 modulen faktisk kunne kommunisere med Home Assistant pinget jeg den med kommandoen `AT+PING="192.168.125.77"`
+Og hva skjedde? Jo den kom fram.
+
+![Wireshark capture av ping til HA](https://github.com/simen64/Design-og-redesign/blob/95fce086cf4167f07ed15089a7fa0fab81d15931/NFC-musikkspiller%20/Bilder/ESP8266_Ping.png)
