@@ -108,9 +108,9 @@ Når jeg plugget inn og ut Arduinoen kunne jeg se at den koblet seg opp mot nett
 
 ![Wireshark capture av at ESP8266 kobler til Wifi](https://github.com/simen64/Design-og-redesign/blob/81d3497b18b83b03ec614d8985c7bbfca2289ab6/NFC-musikkspiller%20/Bilder/Wireshark_ESP8266_connect.png)
 
-Hver av disse linjene er det som kalles en packet.
-Packet nummer 344 er en broadcast for å koble seg til nettet
-Nummer 345 Ser etter DHCP servere på nettet
-Nummer 346 Spør om en IP fra DHCP serveren
-Nummer 347 Sjekker om noen enheter har IPen 192.168.50.118, nummer 348 gjentar dette for å dobbeltsjekke
-Nummer 348 annonserer at den har tatt IPen 192.168.50.118
+Hver av disse linjene er det som kalles en packet.  
+Packet nummer 344 er en broadcast for å koble seg til nettet  
+Nummer 345 Ser etter DHCP servere på nettet  
+Nummer 346 Spør om en IP fra DHCP serveren  
+Nummer 347 Sjekker om noen enheter har IPen 192.168.50.118, nummer 348 gjentar dette for å dobbeltsjekke  
+Nummer 348 annonserer at den har tatt IPen 192.168.50.118  
