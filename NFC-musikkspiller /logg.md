@@ -188,3 +188,5 @@ Enkleste måten for å få input i HTML er å bruke `input` tagen med en `label 
 ```
 ### Igjen, ikke det fineste, men det funker
 ![Nettside input](https://github.com/simen64/Design-og-redesign/blob/e9e177adc302d0795266fffd2479a5351e68fdb0/NFC-musikkspiller%20/Bilder/nettside_input.png)
+
+### Funksjonalitet
