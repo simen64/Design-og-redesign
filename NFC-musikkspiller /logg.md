@@ -172,4 +172,19 @@ Igjen så var ikke dette så veldig vanskelig:
 
 ### Input
 
-For at denne nettsiden skal gjøre
+For at denne nettsiden skal gjøre det den skal trenger den en måte å ta input fra en bruker for å så putte det i en database.  
+Brukeren må putte inn to ting, et navn på albumet, en link til et album-cover, og en knapp for å legge til. Ne Det kan hende at jeg legger til mulighet for å laste opp bilder i framtiden.  
+Enkleste måten for å få input i HTML er å bruke `input` tagen med en `label for`over den:
+```html
+<label for="album_cover_input"> Album cover link:</label>
+
+<input type="text" id="album_cover_input" name="album_cover_input">
+
+<label for="album_name_input"> Album navn:</label>
+
+<input type="text" id="album_name_input" name="album_name_input">
+
+<button onclick="addNewRow()">Add New Album</button>
+```
+### Igjen, ikke det fineste, men det funker
+![Nettside input](https://github.com/simen64/Design-og-redesign/blob/e9e177adc302d0795266fffd2479a5351e68fdb0/NFC-musikkspiller%20/Bilder/nettside_input.png)
