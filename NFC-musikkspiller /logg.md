@@ -122,7 +122,22 @@ Og hva skjedde? Jo den kom fram.
 
 ![Wireshark capture av ping til HA](https://github.com/simen64/Design-og-redesign/blob/95fce086cf4167f07ed15089a7fa0fab81d15931/NFC-musikkspiller%20/Bilder/ESP8266_Ping.png)
 
+### Problemet
 
+Jo hva var problemet? Når jeg først leste meg opp på hvordan jeg skulle koble opp ESP8266 modulen til arduinoen sto det at jeg måtte passe på fordi ESP modulen tar 3,3V og arduinoen sender ut 5V. Jeg trodde dette bare var for tilkoblingen som gir strøm til modulen, derfor koblet jeg den inn i 3,3V porten til arduinoen. Det jeg glemte å ta inn i konsiderasjon var at de også mente serie portene. Alle arduino portene man bruker til å koble komponenter til sender ut 5V med strøm, mens portene på ESP modulen bare skal ha 3,3V. Jeg tror ikke at jeg har ødelagt modulen, men denne forskjellen i volt kan gjøre at signalet blir korrupt som gjør at det ikke kommer fram, at virtuelle porter ikke funker med `SoftwareSerial`, og det kan ødelegge modulen etterhvert.
+
+### Løsningen
+
+For å fikse dette problemet må man bruke det som heter en biodirectional logic level shift converter, dette er bare et fancy ord for et elektronisk komponent som gjør 5v til 3,3v for data.
+Ettersom at dette ikke er noe jeg har liggende, og jeg har ikke materialene til å bygge min egen, må jeg enten kjøpe en eller finne en annen for for hjerne. Siden denne komponenten kostet rundt 150kr bestemte jeg meg for å heller se om jeg kunne finne en annen elektronisk komponent som en hjerne.
+
+## En annen hjerne
+
+Av elektroniske komponenter som jeg har hjemme som ikke er i bruk var det to jeg kunne bruke.  
+
+Første valg er en Raspberry Pi Pico W. Dette er en veldig billig og liten enhet med en mikroprosessor, og den har innebygd wifi! Jeg kjøpte en mengde av disse for eksperimentering for en god stund siden så jeg har en god del liggende. Dette høres bra ut ettersom at det er egentlig alt jeg har bedt om og en annen pluss side er at den kan kodes med python som jeg skjenner bedre enn c++ som arduinoer bruker. Men det er en ting som gjør disse enhetene nesten ubrukelig til alle sånne her litt større prosjekter, lagring. Lagringsplassen på en Pico W er bare 2 MB! Dette kan kanskje være nok for den rene koden pluss firmwaret (det som gjør at koden kjører på enheten) Men det det ikke er plass til er en mengde med pakker for å styre komponenter, wifi etc.
+
+Det andre valget mitt er en Raspberry Pi 1b+ Dette er en veldig gammel generasjon av hoved linjen til Raspberry Pi, men for et prosjekt som dette kan det funke. Denne raspberry PIen er egentlig en mini pc som kjører Linux, noe jeg er godt kjent med hvordan man setter opp og holder oppe. Dette gir en rekke med fordeler som at den kan kjøre flere ting samtidig, den kjører fortsatt python (eller alt annent jeg vil bruke), den har nok lagring, den har massevis av porter til å koble til komponenter. Eneste tingen med denne veldig gamle versjonen er at den ikke kommer med innebygd wifi, dette planlegger jeg å fikse med å koble til en wifi USB adapter. Som du kanskje har forstått er dette planen. Men hvor kom denne fra? Jeg har hatt denne liggende lenge siden jeg fikk den fra stefaren min siden han ikke brukte den lenger. Nylig har jeg brukt den til å hoste en discord bot, men den brukes nesten aldri lenger så det skal ikke ha noe å si.
 
 ## Nettside
 
