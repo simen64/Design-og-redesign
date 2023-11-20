@@ -121,3 +121,55 @@ For å verifisere at ESP8266 modulen faktisk kunne kommunisere med Home Assistan
 Og hva skjedde? Jo den kom fram.
 
 ![Wireshark capture av ping til HA](https://github.com/simen64/Design-og-redesign/blob/95fce086cf4167f07ed15089a7fa0fab81d15931/NFC-musikkspiller%20/Bilder/ESP8266_Ping.png)
+
+
+
+## Nettside
+
+### Struktur
+
+Jeg har personlig aldri kodet i HTML, CSS, Javascript, eller Flask som er alle de programmeringsspråkene man bruker til å lage en nettside så dette var helt nytt for meg. Målet med denne nettsiden er å gjøre det lett å legge til nye album i databasen til musikkspilleren. Dette betyr at nettsiden trenger en front end (det brukeren ser på skjermen) og en back end (det som skjer bak i serveren som å legge sangene til en database)
+Det første jeg satt ut på å lære var HTML, som er strukturen til nettsiden. I min mening virker ikke HTMl som en veldig vanskelig ting å bruke. Man kan jo selvfølgelig gjøre det mer vanskelig med å lage mere komplekse nettsider. Teknisk sett er heller ikke HTML et programmeringsspråk, men et markeringsspråk for å strukturere tekst.  
+Her er koden for titlen på nettsiden:  
+```html
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Moderne vinylspiller</title>
+
+<h1>Moderne Vinylspiller, Album database:</h1>
+
+</head>
+<body>
+</body>
+</html> 
+```
+Alt dette gjør er å vise en tittel som sier: Moderne Vinylspiller, Album database  
+Neste jeg bestemte for å finne ut hvordan man gjorde var å legge til en tabell. Dette er hvor man skal kunne se alle albumene.  
+Igjen så var ikke dette så veldig vanskelig:
+```html
+<table id="album_table">
+    <tr>
+        <th>Album-cover</th>
+        <th>Album navn</th>
+        <th>Album ID</th>
+    </tr>
+    <tr>
+        <td>
+            <div style="text-align: center;">
+             <img src="https://upload.wikimedia.org/wikipedia/en/9/9c/Sports_Modern_Baseball_album.jpg" width="100" height="100">
+            </div>
+        </td>
+        <td>Sports Modern Baseball</td>
+        <td>0001</td>
+    </tr>
+</table> 
+```
+### Det er kanskje ikke den fineste nettsiden, men den får fram poenget.
+
+![Nettside med tabell](https://github.com/simen64/Design-og-redesign/blob/efcd7c3f0cea810994046d6398d68d4006d614df/NFC-musikkspiller%20/Bilder/Nettside_tabell.png)
+
+### Input
+
+For at denne nettsiden skal gjøre
