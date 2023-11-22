@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Moderne vinylspiller</title>
+</head>
+<body>
+
+<style>
+
+table, th, td {
+    border: 3px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+  padding: 15px;
+}
+
+button {
+    font-size: 20px;
+    padding: 6px;
+    margin-top: 14px;
+    display: block;
+}
+
+label{
+      display: block;
+      margin-bottom: 5px;
+      margin-top: 5px;
+    }
+
+input{
+    font-size: 20px;
+}
+</style>
+
+<h1>Moderne vinylspiller</h1>
+
+<h2>Album database:<h2>
+
+<table id="album_table">
+    <tr>
+        <th>Album-cover</th>
+        <th>Album navn</th>
+        <th>Album ID</th>
+    </tr>
+    <tr>
+
+    </tr>
+</table> 
+
+<label for="album_cover_input"> Album cover link:</label>
+
+<input type="text" id="album_cover_input" name="album_cover_input">
+
+<label for="album_name_input"> Album navn:</label>
+
+<input type="text" id="album_name_input" name="album_name_input">
+
+
+
+<button onclick="addNewRow()">Add New Album</button>
+
+<script type="module">
+
+var albums = {{ albums|tojson }};
+console.log(albums);
+
+function buildTable(data){
+		var table = document.getElementById('album_table')
+
+		for (var i = 0; i < data.length; i++){
+			var row = `<tr>
+                            <td style="text-align: center;"><img src="${data[i].album_link}" width="100" height="100"></td>
+
+							<td>${data[i].album_name}</td>
+
+							<td>${data[i].album_id}</td>
+					  </tr>`
+			table.innerHTML += row
+
+
+		}
+	}
+
+
+buildTable(albums)
+
+</script>
+
+</body>
+</html> 
