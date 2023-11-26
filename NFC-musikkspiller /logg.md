@@ -141,10 +141,12 @@ Det andre valget mitt er en Raspberry Pi 1b+ Dette er en veldig gammel generasjo
 
 ## Nettside
 
+Jeg bestemte meg for å prøve å lage en nettside til prosjektet som gjør det lett å legge til album. Det jeg ikke visste var at denne nettsiden ville bli et veldig mye mer komplisert prosjekt enn det jeg trodde. og det ville ta opp mange flere timer enn det jeg trodde.
+
 ### Struktur
 
-Jeg har personlig aldri kodet i HTML, CSS, Javascript, eller Flask som er alle de programmeringsspråkene man bruker til å lage en nettside så dette var helt nytt for meg. Målet med denne nettsiden er å gjøre det lett å legge til nye album i databasen til musikkspilleren. Dette betyr at nettsiden trenger en front end (det brukeren ser på skjermen) og en back end (det som skjer bak i serveren som å legge sangene til en database)
-Det første jeg satt ut på å lære var HTML, som er strukturen til nettsiden. I min mening virker ikke HTMl som en veldig vanskelig ting å bruke. Man kan jo selvfølgelig gjøre det mer vanskelig med å lage mere komplekse nettsider. Teknisk sett er heller ikke HTML et programmeringsspråk, men et markeringsspråk for å strukturere tekst.  
+Jeg har personlig aldri kodet i HTML, CSS, Javascript, eller Flask som er alle de programmeringsspråkene man bruker til å lage en nettside så dette var helt nytt for meg. Siden målet med denne nettsiden er å gjøre det lett å legge til nye album i databasen til musikkspilleren. Dette betyr at nettsiden trenger en front end (det brukeren ser på skjermen) og en back end (det som skjer bak i serveren som å legge sangene til en database)
+Det første jeg satt ut på å lære var HTML, som er strukturen til nettsiden. I min mening virker ikke HTMl som en veldig vanskelig ting å bruke. Man kan jo selvfølgelig gjøre det mer vanskelig med å lage mere komplekse nettsider. Teknisk sett er heller ikke HTML et programmeringsspråk, men et markeringsspråk for å strukturere tekst.
 Her er koden for titlen på nettsiden:  
 ```html
 <!DOCTYPE html>
@@ -171,13 +173,7 @@ Igjen så var ikke dette så veldig vanskelig:
         <th>Album ID</th>
     </tr>
     <tr>
-        <td>
-            <div style="text-align: center;">
-             <img src="https://upload.wikimedia.org/wikipedia/en/9/9c/Sports_Modern_Baseball_album.jpg" width="100" height="100">
-            </div>
-        </td>
-        <td>Sports Modern Baseball</td>
-        <td>0001</td>
+
     </tr>
 </table> 
 ```
@@ -188,8 +184,8 @@ Igjen så var ikke dette så veldig vanskelig:
 ### Input
 
 For at denne nettsiden skal gjøre det den skal trenger den en måte å ta input fra en bruker for å så putte det i en database.  
-Brukeren må putte inn to ting, et navn på albumet, en link til et album-cover, og en knapp for å legge til. Ne Det kan hende at jeg legger til mulighet for å laste opp bilder i framtiden.  
-Enkleste måten for å få input i HTML er å bruke `input` tagen med en `label for`over den:
+Brukeren må putte inn en spotidy URI (Spotify sin måte å identifisere albumer og sanger) og en knapp for å legge til.
+For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en funksjon som tar en input, og så sender informasjonen til serveren med en link. Dette kalles for en POST request, POST er måten en nettside kan sende ting til servere.
 ```html
 <label for="album_cover_input"> Album cover link:</label>
 
@@ -202,6 +198,11 @@ Enkleste måten for å få input i HTML er å bruke `input` tagen med en `label 
 <button onclick="addNewRow()">Add New Album</button>
 ```
 ### Igjen, ikke det fineste, men det funker
-![Nettside input](https://github.com/simen64/Design-og-redesign/blob/e9e177adc302d0795266fffd2479a5351e68fdb0/NFC-musikkspiller%20/Bilder/nettside_input.png)
+![Nettside input](https://github.com/simen64/Design-og-redesign/blob/2ae3e525a9f1c3b587786947fbb12024ea22d071/NFC-musikkspiller%20/Bilder/nettside-input.png)
 
 ### Funksjonalitet
+
+Så nå har vi sånn Ca. hvordan nettsiden skal se ut, men den vanskelige delen er å få den til å faktisk ha funksjonalitet.
+Jeg har laget et veldig simplifisert flowchart på hvordan nettsiden funker, men jeg skal gå mere inn i dybden.  
+
+![Nettside flowchart](https://github.com/simen64/Design-og-redesign/blob/5e27eaa167fa5a92ebe3d79af23bebaeb501e0a6/NFC-musikkspiller%20/Bilder/Nettside%20flowchart.jpg)
