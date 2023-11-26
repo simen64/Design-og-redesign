@@ -139,6 +139,10 @@ Første valg er en Raspberry Pi Pico W. Dette er en veldig billig og liten enhet
 
 Det andre valget mitt er en Raspberry Pi 1b+ Dette er en veldig gammel generasjon av hoved linjen til Raspberry Pi, men for et prosjekt som dette kan det funke. Denne raspberry PIen er egentlig en mini pc som kjører Linux, noe jeg er godt kjent med hvordan man setter opp og holder oppe. Dette gir en rekke med fordeler som at den kan kjøre flere ting samtidig, den kjører fortsatt python (eller alt annent jeg vil bruke), den har nok lagring, den har massevis av porter til å koble til komponenter. Eneste tingen med denne veldig gamle versjonen er at den ikke kommer med innebygd wifi, dette planlegger jeg å fikse med å koble til en wifi USB adapter. Som du kanskje har forstått er dette planen. Men hvor kom denne fra? Jeg har hatt denne liggende lenge siden jeg fikk den fra stefaren min siden han ikke brukte den lenger. Nylig har jeg brukt den til å hoste en discord bot, men den brukes nesten aldri lenger så det skal ikke ha noe å si.
 
+### Wifi adapter
+
+Stefaren min hadde også en gammel usb wifi adapter liggende som jeg kunne få. Problemet med de fleste wifi adaptere er at de ikke har drivere for Linux, heldigvis hadde den eldgamele D-Link adapteren en driver som het `carl9170` som jeg kunne laste ned med pakken `firmware-linux-free` Etter det var det bare å putte navnet og passordet på nettverket mitt i raspberry PIen sin `wpa-supplicant.txt` fil, og etter en restart hadde jeg Wifi!
+
 ## Nettside
 
 Jeg bestemte meg for å prøve å lage en nettside til prosjektet som gjør det lett å legge til album. Det jeg ikke visste var at denne nettsiden ville bli et veldig mye mer komplisert prosjekt enn det jeg trodde. og det ville ta opp mange flere timer enn det jeg trodde.
@@ -206,3 +210,29 @@ Så nå har vi sånn Ca. hvordan nettsiden skal se ut, men den vanskelige delen 
 Jeg har laget et veldig simplifisert flowchart på hvordan nettsiden funker, men jeg skal gå mere inn i dybden.  
 
 ![Nettside flowchart](https://github.com/simen64/Design-og-redesign/blob/5e27eaa167fa5a92ebe3d79af23bebaeb501e0a6/NFC-musikkspiller%20/Bilder/Nettside%20flowchart.jpg)
+
+### Prosessen i detaljer
+
+La oss gå gjennom hvordan nettsiden fungerer i mere detlaje. Vi kan starte med front enden, altså hvordan tabellen blir generert.
+For at tabellen skal bli generert ser den i databasen jeg har laget.
+
+### Databasen
+
+Som jeg viser i flowcharten har jeg bestemt meg for å bruke JSON som databsen min i en seperat fil som heter `albums.json`. JSON er et tekstformat som er laget for å gjøre det lett å lagre små mengder informasjon.  
+Det er bygget opp sånn her:
+```JSON
+{
+  "Album Navn":"Sports"
+  "Album ID":"0001"
+},
+{
+  "Album Navn":"Rose"
+  "Album ID":"0002"
+}
+```
+Måten den er strukturert gjør det lett for programmet mitt å lete gjennom alle albumene for å finne den som matcher tagen som ble scannet.
+
+### Webserveren
+
+Måten jeg har kodet webserveren er i Python med et tilegg som heter Flask, flask gjør det lett å sette opp nettsider med data som blir sendt ogsåvidere.
+
