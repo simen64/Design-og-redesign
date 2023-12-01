@@ -251,7 +251,15 @@ link = link.replace("https://open.spotify.com/album/", "")
 link = link.replace("https://open.spotify.com/track/", "")
 ```
 Bytter ut både `https://open.spotify.com/album/` og `https://open.spotify.com/track/` med tomrom, grunnen til at vi har begge er fordi `/album/`er for album, og `/track/` er for sanger.  
-I vårt eksempel er det en sang, så nå står vi igjen med `7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99` Det vi vil ha er IDen, som her er `7Grz4hgSBRdEPj6Vxm991i` Det betyr at vi må fjerne alt etter og inkludert spørsmålstegnet.  
+I vårt eksempel er det en sang, så nå står vi igjen med:
+```
+7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99
+```
+Det vi vil ha er IDen, som her er:
+```
+7Grz4hgSBRdEPj6Vxm991i
+```
+Det betyr at vi må fjerne alt etter og inkludert spørsmålstegnet.  
 ```python
 link = link.split("?")
 ``` 
