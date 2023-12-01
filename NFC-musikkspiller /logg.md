@@ -252,10 +252,26 @@ link = link.replace("https://open.spotify.com/track/", "")
 ```
 Bytter ut både `https://open.spotify.com/album/` og `https://open.spotify.com/track/` med tomrom, grunnen til at vi har begge er fordi `/album/`er for album, og `/track/` er for sanger.  
 I vårt eksempel er det en sang, så nå står vi igjen med `7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99` Det vi vil ha er IDen, som her er `7Grz4hgSBRdEPj6Vxm991i` Det betyr at vi må fjerne alt etter og inkludert spørsmålstegnet.  
-`link = link.split("?")` splitter opp linken vår i to. Nå står vi igjen med en liste som inneholder `7Grz4hgSBRdEPj6Vxm991i` og `?si=aeb28778c8f44a99` Dette betyr at vi bare trenger å fjerne element nummer 1 i listen (I python starter alt med 0, så liste element nummer 1 vil være `?si=aeb28778c8f44a99`)  
-Vi fjerner dette med `link.pop(1)`
-Så definerer vi id som liste element 0, med `id = link[0]`  
-Sist men ikke minst returner vi dette til det som opprinnelig tilkalte funksjonen. `return id`
+```python
+link = link.split("?")
+``` 
+Dette splitter opp linken vår i to. Nå står vi igjen med en liste som inneholder:
+```python
+["7Grz4hgSBRdEPj6Vxm991i", "?si=aeb28778c8f44a99"]
+```
+Dette betyr at vi bare trenger å fjerne element nummer 1 i listen (I python starter alt med 0, så liste element nummer 1 vil være `?si=aeb28778c8f44a99`)  
+Vi fjerner dette med:
+```python
+link.pop(1)
+```
+Så definerer vi id som liste element 0, med:
+```python
+id = link[0]
+```
+Sist men ikke minst returner vi dette til det som opprinnelig tilkalte funksjonen.
+```python
+return id
+```
 
 ### Igjen, ikke det fineste, men det funker
 ![Nettside input](https://github.com/simen64/Design-og-redesign/blob/2ae3e525a9f1c3b587786947fbb12024ea22d071/NFC-musikkspiller%20/Bilder/nettside-input.png)
