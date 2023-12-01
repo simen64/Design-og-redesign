@@ -192,7 +192,7 @@ Igjen så var ikke dette så veldig vanskelig:
 
 ![Nettside med tabell](https://github.com/simen64/Design-og-redesign/blob/efcd7c3f0cea810994046d6398d68d4006d614df/NFC-musikkspiller%20/Bilder/Nettside_tabell.png)
 
-Senere bestemte jeg meg for at nettsiden skulle støtte både album og sanger så jeg redigerte titlene litt. Den nye slett knappen kommer jeg tilbake til.
+Senere bestemte jeg meg for at nettsiden skulle støtte både album og sanger så jeg redigerte titlene litt. Den nye "Delete" knappen kommer jeg tilbake til.
 
 ![Nytt nettside design](https://github.com/simen64/Design-og-redesign/blob/d7908f4cdbdf0de4cb119cf444a9f5163ef35dfc/NFC-musikkspiller%20/Bilder/newest_website_design.png)
 
@@ -202,18 +202,64 @@ For at denne nettsiden skal gjøre det den skal trenger den en måte å ta input
 Brukeren må putte inn en spotidy URI (Spotify sin måte å identifisere albumer og sanger) og en knapp for å legge til.
 For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en funksjon som tar en input, og så sender informasjonen til serveren med en link. Dette kalles for en POST request, POST er måten en nettside kan sende ting til servere.
 ```html
-<label for="album_cover_input"> Album cover link:</label>
-
-<input type="text" id="album_cover_input" name="album_cover_input">
-
-<label for="album_name_input"> Album navn:</label>
-
-<input type="text" id="album_name_input" name="album_name_input">
-
-<button onclick="addNewRow()">Add New Album</button>
+<form id="Form" action="/send_data" method="post" onsubmit="return showAlert()">
+    <p>Enter Album / Song Link or URI</p>
+    <p><input type="text" name="raw-input" /></p>
+    <p><input type="submit" value="Add album or song" /></p>
+</form>
 ```
+Etter brukeren har klikket på "Add album or song" utføres javascript funksjonen `showAlert()` Denne funksjonen forteller brukeren at de skal plassere tagen som skal kobles til denne sangen eller albumet på scanneren. Etter at den har blitt scannet sendes dataen over til serveren. Hva som skjer med dataen kommer jeg tilbake til.
+```javascript
+function showAlert() {
+        // Show the alert
+        window.alert('Plasser NFC/RFID tag på skanneren, og vent til siden er ferdig med å laste');
+        
+        // Return true to allow the form submission
+        return true;
+    }
+```
+
+#### Link til URI
+Som jeg nevnte måtte man putte inn en Spotify URI, for å gjøre denne prosessen enklere har jeg kodet en funksjon som gjør linker om til URIer. Så nå kan man putte inn begge to i nettsiden.  
+Her er hvordan det funker.
+
+```python
+def link_to_id(link):
+   link = link.replace("https://open.spotify.com/album/", "")
+   link = link.replace("https://open.spotify.com/track/", "")
+   link = link.split("?")
+   print(link)
+   link.pop(1)
+   id = link[0]
+   return id
+
+if "https://" in raw_input:
+   
+   if "album" in raw_input:
+      id = link_to_id(raw_input)
+      raw_input = "spotify:album:" + id
+
+   elif "track" in raw_input:
+      id = link_to_id(raw_input)
+      raw_input = "spotify:track:" + id
+```
+La oss gå gjennom vær seksjon.  
+Vi starter med å definere en funskjon som heter `link_to_id` med `def link_to_id(link):` En funksjon er en blokk med kode som kan tilkalles andre steder i koden. Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut: `https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99`
+De to linjene:
+```python
+link = link.replace("https://open.spotify.com/album/", "")
+link = link.replace("https://open.spotify.com/track/", "")
+```
+Bytter ut både `https://open.spotify.com/album/` og `https://open.spotify.com/track/` med tomrom, grunnen til at vi har begge er fordi `/album/`er for album, og `/track/` er for sanger.  
+I vårt eksempel er det en sang, så nå står vi igjen med `7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99` Det vi vil ha er IDen, som her er `7Grz4hgSBRdEPj6Vxm991i` Det betyr at vi må fjerne alt etter og inkludert spørsmålstegnet.  
+`link = link.split("?")` splitter opp linken vår i to. Nå står vi igjen med en liste som inneholder `7Grz4hgSBRdEPj6Vxm991i` og `?si=aeb28778c8f44a99` Dette betyr at vi bare trenger å fjerne element nummer 1 i listen (I python starter alt med 0, så liste element nummer 1 vil være `?si=aeb28778c8f44a99`)  
+Vi fjerner dette med `link.pop(1)`
+Så definerer vi id som liste element 0, med `id = link[0]`  
+Sist men ikke minst returner vi dette til det som opprinnelig tilkalte funksjonen. `return id`
+
 ### Igjen, ikke det fineste, men det funker
 ![Nettside input](https://github.com/simen64/Design-og-redesign/blob/2ae3e525a9f1c3b587786947fbb12024ea22d071/NFC-musikkspiller%20/Bilder/nettside-input.png)
+(Dette skjermbildet ble tatt før jeg endret knappen til: "Add album or song")
 
 ### Funksjonalitet
 
@@ -224,8 +270,8 @@ Jeg har laget et veldig simplifisert flowchart på hvordan nettsiden funker, men
 
 ### Prosessen i detaljer
 
-La oss gå gjennom hvordan nettsiden fungerer i mere detlaje. Vi kan starte med front enden, altså hvordan tabellen blir generert.
-For at tabellen skal bli generert ser den i databasen jeg har laget.
+La oss gå gjennom hvordan nettsiden fungerer i mere detlaje. Vi kan starte med front enden, altså hvordan tabellen blir generert.  
+For at tabellen skal bli generert trenger den å se i databasen med alle albumene og sangene.
 
 ### Databasen
 
