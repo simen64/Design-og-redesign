@@ -218,6 +218,9 @@ function showAlert() {
         return true;
     }
 ```
+### Igjen, ikke det fineste, men det funker
+![Nettside input](https://github.com/simen64/Design-og-redesign/blob/2ae3e525a9f1c3b587786947fbb12024ea22d071/NFC-musikkspiller%20/Bilder/nettside-input.png)
+(Dette skjermbildet ble tatt før jeg endret knappen til: "Add album or song")
 
 #### Link til URI
 Som jeg nevnte måtte man putte inn en Spotify URI, for å gjøre denne prosessen enklere har jeg kodet en funksjon som gjør linker om til URIer. Så nå kan man putte inn begge to i nettsiden.  
@@ -280,10 +283,6 @@ Sist men ikke minst returner vi dette til det som opprinnelig tilkalte funksjone
 ```python
 return id
 ```
-
-### Igjen, ikke det fineste, men det funker
-![Nettside input](https://github.com/simen64/Design-og-redesign/blob/2ae3e525a9f1c3b587786947fbb12024ea22d071/NFC-musikkspiller%20/Bilder/nettside-input.png)
-(Dette skjermbildet ble tatt før jeg endret knappen til: "Add album or song")
 
 ### Funksjonalitet
 
