@@ -5,6 +5,13 @@
 
 Idden er å ha en boks hvor man kan scanne en eller annen form for fysisk ting for å spille av musikk. Denne fysiske tingen skal ha album coveret på seg så man kan se hvilke album man spiller av. Litt som en vinylspiller.
 
+Funksjoner jeg vil ha med:
+- Spille av musikk gjennom Home Assistant og Spotify
+- Lett måte å legge til ny musikk
+- fint utseende
+- lys ellerno
+- pause musikken når man tar av platen
+
 ## Planen
 
 ### Hjernen
@@ -141,7 +148,7 @@ Det andre valget mitt er en Raspberry Pi 1b+ Dette er en veldig gammel generasjo
 
 ### Wifi adapter
 
-Stefaren min hadde også en gammel usb wifi adapter liggende som jeg kunne få. Problemet med de fleste wifi adaptere er at de ikke har drivere for Linux, heldigvis hadde den eldgamele D-Link adapteren en driver som het `carl9170` som jeg kunne laste ned med pakken `firmware-linux-free` Etter det var det bare å putte navnet og passordet på nettverket mitt i raspberry PIen sin `wpa-supplicant.txt` fil, og etter en restart hadde jeg Wifi!
+Stefaren min hadde også en gammel usb wifi adapter liggende som jeg kunne få. Problemet med de fleste wifi adaptere er at de ikke har drivere for Linux, heldigvis hadde den eldgamele D-Link adapteren en driver som het `carl9170` som jeg kunne laste ned med pakken `firmware-linux-free` Etter det var det bare å putte navnet og passordet på nettverket mitt i raspberry PIen sin `wpa-supplicant.txt` fil, og etter en restart hadde jeg Wifi! Men det kan jo selvfølgelig ikke gå problemløst. Det viste seg at denne adapteren var veldig ustabil og SSH tilkoblingen min (En måte å kommunisere trådløst mellom to PCer) falt ut hele tiden. Jeg kom på at jeg hadde lånt en annen wifi adapter til Herman for en stund siden. Jeg spurte han om han fortsatt brukte den, noe han ikke gjorde. Etter å ha hentet den plugget jeg den inn og alt funket uton noe mere styr.
 
 ## Nettside
 
@@ -184,6 +191,10 @@ Igjen så var ikke dette så veldig vanskelig:
 ### Det er kanskje ikke den fineste nettsiden, men den får fram poenget.
 
 ![Nettside med tabell](https://github.com/simen64/Design-og-redesign/blob/efcd7c3f0cea810994046d6398d68d4006d614df/NFC-musikkspiller%20/Bilder/Nettside_tabell.png)
+
+Senere bestemte jeg meg for at nettsiden skulle støtte både album og sanger så jeg redigerte titlene litt. Den nye slett knappen kommer jeg tilbake til.
+
+![Nytt nettside design](https://github.com/simen64/Design-og-redesign/blob/d7908f4cdbdf0de4cb119cf444a9f5163ef35dfc/NFC-musikkspiller%20/Bilder/newest_website_design.png)
 
 ### Input
 
