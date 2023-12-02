@@ -196,121 +196,6 @@ Senere bestemte jeg meg for at nettsiden skulle støtte både album og sanger s�
 
 ![Nytt nettside design](https://github.com/simen64/Design-og-redesign/blob/d7908f4cdbdf0de4cb119cf444a9f5163ef35dfc/NFC-musikkspiller%20/Bilder/newest_website_design.png)
 
-### Input
-
-For at denne nettsiden skal gjøre det den skal, trenger den en måte å ta input fra en bruker for å så putte det i en database.  
-Brukeren må putte inn en spotidy URI (Spotify sin måte å identifisere albumer og sanger) og en knapp for å legge til.
-For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en funksjon som tar en input, og så sender informasjonen til serveren med en link. Dette kalles for en POST request. POST er måten en nettside kan sende ting til servere.
-
-```html
-<form id="Form" action="/send_data" method="post" onsubmit="return showAlert()">
-    <p>Enter Album / Song Link or URI</p>
-    <p><input type="text" name="raw-input" /></p>
-    <p><input type="submit" value="Add album or song" /></p>
-</form>
-```
-
-Etter brukeren har klikket på "Add album or song" utføres javascript funksjonen `showAlert()` Denne funksjonen forteller brukeren at de skal plassere "tagen" som skal kobles til denne sangen eller albumet på scanneren. Etter at den har blitt scannet sendes dataen over til serveren. Hva som skjer med dataen, kommer jeg tilbake til.
-
-```javascript
-function showAlert() {
-        // Show the alert
-        window.alert('Plasser NFC/RFID tag på skanneren, og vent til siden er ferdig med å laste');
-        
-        // Return true to allow the form submission
-        return true;
-    }
-```
-
-### Igjen, ikke det fineste, men det funker
-![Nettside input](https://github.com/simen64/Design-og-redesign/blob/2ae3e525a9f1c3b587786947fbb12024ea22d071/NFC-musikkspiller%20/Bilder/nettside-input.png)
-(Dette skjermbildet ble tatt før jeg endret knappen til: "Add album or song")
-
-#### Link til URI
-Som jeg nevnte måtte man putte inn en Spotify URI, for å gjøre denne prosessen enklere har jeg kodet en funksjon som gjør linker om til URIer. Så nå kan man putte inn begge to i nettsiden.  
-Her er hvordan det funker.
-
-```python
-def link_to_id(link):
-   link = link.replace("https://open.spotify.com/album/", "")
-   link = link.replace("https://open.spotify.com/track/", "")
-   link = link.split("?")
-   print(link)
-   link.pop(1)
-   id = link[0]
-   return id
-
-if "https://" in raw_input:
-   
-   if "album" in raw_input:
-      id = link_to_id(raw_input)
-      raw_input = "spotify:album:" + id
-
-   elif "track" in raw_input:
-      id = link_to_id(raw_input)
-      raw_input = "spotify:track:" + id
-```
-
-La oss gå gjennom hver seksjon.  
-Vi starter med å definere en funksjon som heter `link_to_id` med `def link_to_id(link):` En funksjon er en blokk med kode som kan tilkalles andre steder i koden. Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut: `https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99` Målet med denne funksjonen er å ta linken å gjøre den om til bare IDen som i dette eksemplet er `7Grz4hgSBRdEPj6Vxm991i`
-De to linjene:
-```python
-link = link.replace("https://open.spotify.com/album/", "")
-link = link.replace("https://open.spotify.com/track/", "")
-```
-Bytter ut både `https://open.spotify.com/album/` og `https://open.spotify.com/track/` med tomrom, grunnen til at vi har begge er fordi `/album/`er for album, og `/track/` er for sanger.  
-I vårt eksempel er det en sang, så nå står vi igjen med:
-```
-7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99
-```
-Det vi vil ha er IDen, som her er:
-```
-7Grz4hgSBRdEPj6Vxm991i
-```
-Det betyr at vi må fjerne alt etter og inkludert spørsmålstegnet.  
-```python
-link = link.split("?")
-``` 
-Dette splitter opp linken vår i to. Nå står vi igjen med en liste som inneholder:
-```python
-["7Grz4hgSBRdEPj6Vxm991i", "?si=aeb28778c8f44a99"]
-```
-Dette betyr at vi bare trenger å fjerne element nummer 1 i listen (I python starter alt med 0, så liste element nummer 1 vil være `?si=aeb28778c8f44a99`)  
-Vi fjerner dette med:
-```python
-link.pop(1)
-```
-Så definerer vi id som liste element 0, med:
-```python
-id = link[0]
-```
-Sist men ikke minst returner vi dette til det som opprinnelig tilkalte funksjonen.
-```python
-return id
-```
-
-Nå som vi vet hvordan denne funksjonen fungerer kan vi gå videre til resten av koden.  
-Etter at vi har fått inputet fra brukeren som her er linken, sjekker vi om det er en link eller en URI.  
-Dette gjør vi med:
-```python
-if "https://" in raw_input:
-```
-Det sjekker om `https://` er i det brukeren ga oss. Hvis det er det kan vi være ganske sikre på at det er en link.  
-Etter dette må vi sjekke om det er en album eller en sang.
-```python
-if "album" in raw_input:
-      id = link_to_id(raw_input)
-      raw_input = "spotify:album:" + id
-```
-Dette gjør vi med å sjekke om ordet `album` er i linken. Hvis det er et album tilkaller vi funksjonen vår som gjør linken om til en id, dette betyr at vi får tilbake: `7Grz4hgSBRdEPj6Vxm991i`  
-Så for å gjøre dette til en gyldig Spotify URI som kan sendes til spotify legger vi til `spotify:album:` Da står vi igjen med: `spotify:album:7Grz4hgSBRdEPj6Vxm991i` som er en gyldig spotify URI  
-Funksjonen for sanger er nesten det samme bare bytte ut `album` med `track`:
-```python
-elif "track" in raw_input:
-      id = link_to_id(raw_input)
-      raw_input = "spotify:track:" + id
-```
-
 ### Funksjonalitet
 
 Så nå har vi sånn Ca. hvordan nettsiden skal se ut, og hvordan den tar input, men den vanskelige delen er å få den til å faktisk ha funksjonalitet.
@@ -346,7 +231,7 @@ Måten den er strukturert gjør det lett for programmet mitt å lete gjennom all
 ### Flask
 
 Måten jeg har kodet webserveren er i Python med et tilegg som heter Flask, flask gjør det lett å sette opp nettsider med data som blir sendt ogsåvidere.
-Flask er delt opp i funksjoner for hver underlink.  
+Flask er delt opp i funksjoner for hver underlink. En funksjon er en blokk med kode som kan tilkalles andre steder i koden.
 I dette eksemplet sier vi at nettsiden vår har linken `nettside.no`  
 I flask kan vi definere en funksjon som det her:
 
@@ -548,3 +433,118 @@ Utafor funksjonen som bygger tabellen kjører vi det her:
 buildTable(data)
 ```
 Dette tilkaller funksjonen, og gjør at hver gang siden lastes inn på nytt oppdateres tabellen.
+
+### Input
+
+For at denne nettsiden skal gjøre det den skal, trenger den en måte å ta input fra en bruker for å så putte det i en database.  
+Brukeren må putte inn en spotidy URI (Spotify sin måte å identifisere albumer og sanger) og en knapp for å legge til.
+For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en funksjon som tar en input, og så sender informasjonen til serveren med en link. Dette kalles for en POST request. POST er måten en nettside kan sende ting til servere.
+
+```html
+<form id="Form" action="/send_data" method="post" onsubmit="return showAlert()">
+    <p>Enter Album / Song Link or URI</p>
+    <p><input type="text" name="raw-input" /></p>
+    <p><input type="submit" value="Add album or song" /></p>
+</form>
+```
+
+Etter brukeren har klikket på "Add album or song" utføres javascript funksjonen `showAlert()` Denne funksjonen forteller brukeren at de skal plassere "tagen" som skal kobles til denne sangen eller albumet på scanneren. Etter at den har blitt scannet sendes dataen over til serveren. Hva som skjer med dataen, kommer jeg tilbake til.
+
+```javascript
+function showAlert() {
+        // Show the alert
+        window.alert('Plasser NFC/RFID tag på skanneren, og vent til siden er ferdig med å laste');
+        
+        // Return true to allow the form submission
+        return true;
+    }
+```
+
+### Igjen, ikke det fineste, men det funker
+![Nettside input](https://github.com/simen64/Design-og-redesign/blob/2ae3e525a9f1c3b587786947fbb12024ea22d071/NFC-musikkspiller%20/Bilder/nettside-input.png)
+(Dette skjermbildet ble tatt før jeg endret knappen til: "Add album or song")
+
+#### Link til URI
+Som jeg nevnte måtte man putte inn en Spotify URI, for å gjøre denne prosessen enklere har jeg kodet en funksjon som gjør linker om til URIer. Så nå kan man putte inn begge to i nettsiden.  
+Her er hvordan det funker.
+
+```python
+def link_to_id(link):
+   link = link.replace("https://open.spotify.com/album/", "")
+   link = link.replace("https://open.spotify.com/track/", "")
+   link = link.split("?")
+   print(link)
+   link.pop(1)
+   id = link[0]
+   return id
+
+if "https://" in raw_input:
+   
+   if "album" in raw_input:
+      id = link_to_id(raw_input)
+      raw_input = "spotify:album:" + id
+
+   elif "track" in raw_input:
+      id = link_to_id(raw_input)
+      raw_input = "spotify:track:" + id
+```
+
+La oss gå gjennom hver seksjon.  
+Vi starter med å definere en funksjon som heter `link_to_id` med `def link_to_id(link):` Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut: `https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99` Målet med denne funksjonen er å ta linken å gjøre den om til bare IDen som i dette eksemplet er `7Grz4hgSBRdEPj6Vxm991i`
+De to linjene:
+```python
+link = link.replace("https://open.spotify.com/album/", "")
+link = link.replace("https://open.spotify.com/track/", "")
+```
+Bytter ut både `https://open.spotify.com/album/` og `https://open.spotify.com/track/` med tomrom, grunnen til at vi har begge er fordi `/album/`er for album, og `/track/` er for sanger.  
+I vårt eksempel er det en sang, så nå står vi igjen med:
+```
+7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99
+```
+Det vi vil ha er IDen, som her er:
+```
+7Grz4hgSBRdEPj6Vxm991i
+```
+Det betyr at vi må fjerne alt etter og inkludert spørsmålstegnet.  
+```python
+link = link.split("?")
+``` 
+Dette splitter opp linken vår i to. Nå står vi igjen med en liste som inneholder:
+```python
+["7Grz4hgSBRdEPj6Vxm991i", "?si=aeb28778c8f44a99"]
+```
+Dette betyr at vi bare trenger å fjerne element nummer 1 i listen (I python starter alt med 0, så liste element nummer 1 vil være `?si=aeb28778c8f44a99`)  
+Vi fjerner dette med:
+```python
+link.pop(1)
+```
+Så definerer vi id som liste element 0, med:
+```python
+id = link[0]
+```
+Sist men ikke minst returner vi dette til det som opprinnelig tilkalte funksjonen.
+```python
+return id
+```
+
+Nå som vi vet hvordan denne funksjonen fungerer kan vi gå videre til resten av koden.  
+Etter at vi har fått inputet fra brukeren som her er linken, sjekker vi om det er en link eller en URI.  
+Dette gjør vi med:
+```python
+if "https://" in raw_input:
+```
+Det sjekker om `https://` er i det brukeren ga oss. Hvis det er det kan vi være ganske sikre på at det er en link.  
+Etter dette må vi sjekke om det er en album eller en sang.
+```python
+if "album" in raw_input:
+      id = link_to_id(raw_input)
+      raw_input = "spotify:album:" + id
+```
+Dette gjør vi med å sjekke om ordet `album` er i linken. Hvis det er et album tilkaller vi funksjonen vår som gjør linken om til en id, dette betyr at vi får tilbake: `7Grz4hgSBRdEPj6Vxm991i`  
+Så for å gjøre dette til en gyldig Spotify URI som kan sendes til spotify legger vi til `spotify:album:` Da står vi igjen med: `spotify:album:7Grz4hgSBRdEPj6Vxm991i` som er en gyldig spotify URI  
+Funksjonen for sanger er nesten det samme bare bytte ut `album` med `track`:
+```python
+elif "track" in raw_input:
+      id = link_to_id(raw_input)
+      raw_input = "spotify:track:" + id
+```
