@@ -1,6 +1,8 @@
 
 # En moderne vinyl / musikk spiller
 
+AHAHAHAHA Mase eyttlle tresksts jeg ikke bil ha ehre fordi eg tuller rudnt hasuhfashfjhs
+
 ## Ideen
 
 Idden er å ha en boks hvor man kan scanne en eller annen form for fysisk ting for å spille av musikk. Denne fysiske tingen skal ha album coveret på seg så man kan se hvilke album man spiller av. Litt som en vinylspiller.
