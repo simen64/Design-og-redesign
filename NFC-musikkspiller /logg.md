@@ -201,6 +201,7 @@ Senere bestemte jeg meg for at nettsiden skulle støtte både album og sanger s�
 For at denne nettsiden skal gjøre det den skal, trenger den en måte å ta input fra en bruker for å så putte det i en database.  
 Brukeren må putte inn en spotidy URI (Spotify sin måte å identifisere albumer og sanger) og en knapp for å legge til.
 For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en funksjon som tar en input, og så sender informasjonen til serveren med en link. Dette kalles for en POST request. POST er måten en nettside kan sende ting til servere.
+
 ```html
 <form id="Form" action="/send_data" method="post" onsubmit="return showAlert()">
     <p>Enter Album / Song Link or URI</p>
@@ -208,7 +209,9 @@ For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en f
     <p><input type="submit" value="Add album or song" /></p>
 </form>
 ```
+
 Etter brukeren har klikket på "Add album or song" utføres javascript funksjonen `showAlert()` Denne funksjonen forteller brukeren at de skal plassere "tagen" som skal kobles til denne sangen eller albumet på scanneren. Etter at den har blitt scannet sendes dataen over til serveren. Hva som skjer med dataen, kommer jeg tilbake til.
+
 ```javascript
 function showAlert() {
         // Show the alert
@@ -218,6 +221,7 @@ function showAlert() {
         return true;
     }
 ```
+
 ### Igjen, ikke det fineste, men det funker
 ![Nettside input](https://github.com/simen64/Design-og-redesign/blob/2ae3e525a9f1c3b587786947fbb12024ea22d071/NFC-musikkspiller%20/Bilder/nettside-input.png)
 (Dette skjermbildet ble tatt før jeg endret knappen til: "Add album or song")
@@ -246,8 +250,9 @@ if "https://" in raw_input:
       id = link_to_id(raw_input)
       raw_input = "spotify:track:" + id
 ```
+
 La oss gå gjennom hver seksjon.  
-Vi starter med å definere en funksjon som heter `link_to_id` med `def link_to_id(link):` En funksjon er en blokk med kode som kan tilkalles andre steder i koden. Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut: `https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99`
+Vi starter med å definere en funksjon som heter `link_to_id` med `def link_to_id(link):` En funksjon er en blokk med kode som kan tilkalles andre steder i koden. Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut: `https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99` Målet med denne funksjonen er å ta linken å gjøre den om til bare IDen som i dette eksemplet er `7Grz4hgSBRdEPj6Vxm991i`
 De to linjene:
 ```python
 link = link.replace("https://open.spotify.com/album/", "")
