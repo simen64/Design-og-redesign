@@ -759,7 +759,7 @@ Hvis man ignorerer alt innenfor `<style>` tagene, ser man at dette egentlig bare
 
 Men hvis vår "if" funksjon ikke finner noen matchende IDer i databasen kan den gå videre.  
 Hvis du husker så puttet vi dataen vi fikk om albumet eller sangen fra spotify i en session cookie som så slik ut:
-```json
+```python
 data = {
    "cover":track_album_cover,
    "name":track_name,
@@ -775,7 +775,7 @@ Så med den here linjen legger vi til "id" til dataen som inneholder IDen vi fik
 data['id'] = id_from_scan
 ```
 Nå ser data variablen vår sånn her ut:
-```json
+```python
 data = {
    "cover":track_album_cover,
    "name":track_name,
