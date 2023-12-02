@@ -313,7 +313,7 @@ elif "track" in raw_input:
 
 ### Funksjonalitet
 
-Så nå har vi sånn Ca. hvordan nettsiden skal se ut, men den vanskelige delen er å få den til å faktisk ha funksjonalitet.
+Så nå har vi sånn Ca. hvordan nettsiden skal se ut, og hvordan den tar input, men den vanskelige delen er å få den til å faktisk ha funksjonalitet.
 Jeg har laget et veldig simplifisert flowchart på hvordan nettsiden funker, men jeg skal gå mere inn i dybden.  
 
 ![Nettside flowchart](https://github.com/simen64/Design-og-redesign/blob/5e27eaa167fa5a92ebe3d79af23bebaeb501e0a6/NFC-musikkspiller%20/Bilder/Nettside%20flowchart.jpg)
@@ -329,17 +329,66 @@ Som jeg viser i flowcharten har jeg bestemt meg for å bruke JSON som databsen m
 Det er bygget opp sånn her:
 ```JSON
 {
-  "Album Navn":"Sports"
-  "Album ID":"0001"
+    "cover": "https://news.artnet.com/app/news-upload/2023/06/HAPO7184_M_Pink_Floyd_DSOTM_Photo_Cover_RT_PF_GT-1024x1024.jpg",
+    "name": "Sample album",
+    "uri": "spotify:album:2WT1pbYjLJciAR26yMebkH",
+    "id": "5841841343875"
 },
 {
-  "Album Navn":"Rose"
-  "Album ID":"0002"
+    "cover": "https://i.scdn.co/image/ab67616d0000b27360a89b781c62ffe2136e4396",
+    "name": "Superache",
+    "uri": "spotify:album:5hIOd0FvjlgG4uLjXHkFWI",
+    "id": "13843847223479"
 }
 ```
-Måten den er strukturert gjør det lett for programmet mitt å lete gjennom alle albumene for å finne den som matcher tagen som ble scannet.
+Måten den er strukturert gjør det lett for programmet mitt å lete gjennom alle albumene for å finne den som matcher "tagen" som ble scannet.
 
-### Webserveren
+### Flask
 
 Måten jeg har kodet webserveren er i Python med et tilegg som heter Flask, flask gjør det lett å sette opp nettsider med data som blir sendt ogsåvidere.
+Flask er delt opp i funksjoner for hver underlink.  
+I dette eksemplet sier vi at nettsiden vår har linken `nettside.no`  
+I flask kan vi definere en funksjon som det her:
 
+```python
+@app.route('/')
+def home():
+   return "Hei nettside!"
+```
+
+Dette betyr at når brukeren går til `nettside.no/` vil de bli vist det her:
+![Hei nettside](https://github.com/simen64/Design-og-redesign/blob/be3dd6c51b5579e2808c9d8c2619789154e282b6/NFC-musikkspiller%20/Bilder/Hei_nettside.png)
+
+Definerer vi en funksjon som det her:
+
+```python
+@app.route('/kul_tekst')
+def home():
+   return "Kul tekst!"
+```
+
+Betyr det at hvis brukeren nå går til `nettside.no/kul_tekst` vil det her bli vist:
+![Kul tekst](https://github.com/simen64/Design-og-redesign/blob/ca2a529635c0485c5d01dc841723bdc2cac77889/NFC-musikkspiller%20/Bilder/kul_tekst.png)
+
+Så for hjemsiden til nettsiden må vi vise fram tabellen jeg har vist tidligere. Så vi definerer en funksjon for `/` her bruker vi `return render_template` for å laste inn filen som har nettsiden og tabellen jeg gikk over i struktur delen. Filen heter `index.html`
+
+```python
+@app.route('/')
+def home():
+   data = load()
+   return render_template("index.html", data=data)
+```
+Men for å skjønne hva `data = load()` og `data=data` gjør må vi først se på hva `load()` gjør.
+
+```python
+def load():
+   with open("database.json", 'r') as file:
+         return json.load(file)
+```
+
+Funksjonen er ganske lett. Den åpner opp filen `database.json` og leser den (derfor er "r" der) dette puttes i variablen `file`
+så returnerer vi inneholdet til databasen til det som opprinnelig tilkalte funksjonen. Denne funksjonen kommer til å bli brukt flere ganger i koden, så ha i bakhode hva den gjør.  
+Nå vet vi at i vår opprinnelige funksjon for hjemsiden til nettsiden blir inneholdet til databasen lagret i `data`  
+med `data=data` sender vi denne informasjonen over til `index.html` som inneholder strukturen til nettsiden, men også javacript funksjonen som genererer tabellen.
+
+### Generering av tabellen i Javascript
