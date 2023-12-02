@@ -156,7 +156,7 @@ Jeg bestemte meg for å prøve å lage en nettside til prosjektet som gjør det 
 
 ### Struktur
 
-Jeg har personlig aldri kodet i HTML, CSS, Javascript, eller Flask som er alle de programmeringsspråkene man bruker til å lage en nettside så dette var helt nytt for meg. Siden målet med denne nettsiden er å gjøre det lett å legge til nye album i databasen til musikkspilleren. Dette betyr at nettsiden trenger en front end (det brukeren ser på skjermen) og en back end (det som skjer bak i serveren som å legge sangene til en database)
+Jeg har personlig aldri kodet i HTML, CSS, Javascript, eller Flask, som er alle de programmeringsspråkene man bruker til å lage en nettside, så dette var helt nytt for meg. Målet med denne nettsiden er å gjøre det lett å legge til nye album i databasen til musikkspilleren. Dette betyr at nettsiden trenger en front end (det brukeren ser på skjermen) og en back end (det som skjer bak i serveren som å legge sangene til en database)
 Det første jeg satt ut på å lære var HTML, som er strukturen til nettsiden. I min mening virker ikke HTMl som en veldig vanskelig ting å bruke. Man kan jo selvfølgelig gjøre det mer vanskelig med å lage mere komplekse nettsider. Teknisk sett er heller ikke HTML et programmeringsspråk, men et markeringsspråk for å strukturere tekst.
 Her er koden for titlen på nettsiden:  
 ```html
@@ -198,9 +198,9 @@ Senere bestemte jeg meg for at nettsiden skulle støtte både album og sanger s�
 
 ### Input
 
-For at denne nettsiden skal gjøre det den skal trenger den en måte å ta input fra en bruker for å så putte det i en database.  
+For at denne nettsiden skal gjøre det den skal, trenger den en måte å ta input fra en bruker for å så putte det i en database.  
 Brukeren må putte inn en spotidy URI (Spotify sin måte å identifisere albumer og sanger) og en knapp for å legge til.
-For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en funksjon som tar en input, og så sender informasjonen til serveren med en link. Dette kalles for en POST request, POST er måten en nettside kan sende ting til servere.
+For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en funksjon som tar en input, og så sender informasjonen til serveren med en link. Dette kalles for en POST request. POST er måten en nettside kan sende ting til servere.
 ```html
 <form id="Form" action="/send_data" method="post" onsubmit="return showAlert()">
     <p>Enter Album / Song Link or URI</p>
@@ -208,7 +208,7 @@ For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en f
     <p><input type="submit" value="Add album or song" /></p>
 </form>
 ```
-Etter brukeren har klikket på "Add album or song" utføres javascript funksjonen `showAlert()` Denne funksjonen forteller brukeren at de skal plassere tagen som skal kobles til denne sangen eller albumet på scanneren. Etter at den har blitt scannet sendes dataen over til serveren. Hva som skjer med dataen kommer jeg tilbake til.
+Etter brukeren har klikket på "Add album or song" utføres javascript funksjonen `showAlert()` Denne funksjonen forteller brukeren at de skal plassere "tagen" som skal kobles til denne sangen eller albumet på scanneren. Etter at den har blitt scannet sendes dataen over til serveren. Hva som skjer med dataen, kommer jeg tilbake til.
 ```javascript
 function showAlert() {
         // Show the alert
@@ -246,8 +246,8 @@ if "https://" in raw_input:
       id = link_to_id(raw_input)
       raw_input = "spotify:track:" + id
 ```
-La oss gå gjennom vær seksjon.  
-Vi starter med å definere en funskjon som heter `link_to_id` med `def link_to_id(link):` En funksjon er en blokk med kode som kan tilkalles andre steder i koden. Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut: `https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99`
+La oss gå gjennom hver seksjon.  
+Vi starter med å definere en funksjon som heter `link_to_id` med `def link_to_id(link):` En funksjon er en blokk med kode som kan tilkalles andre steder i koden. Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut: `https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99`
 De to linjene:
 ```python
 link = link.replace("https://open.spotify.com/album/", "")
