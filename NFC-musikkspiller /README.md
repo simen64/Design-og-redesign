@@ -173,7 +173,7 @@ Her er koden for titlen på nettsiden:
 </body>
 </html> 
 ```
-Alt dette gjør er å vise en tittel som sier: Moderne Vinylspiller, Album database  
+Alt dette gjør, er å vise en tittel som sier: Moderne Vinylspiller, Album database  
 Neste jeg bestemte for å finne ut hvordan man gjorde var å legge til en tabell. Dette er hvor man skal kunne se alle albumene.  
 Igjen så var ikke dette så veldig vanskelig:
 ```html
@@ -198,19 +198,19 @@ Senere bestemte jeg meg for at nettsiden skulle støtte både album og sanger s�
 
 ### Funksjonalitet
 
-Så nå har vi sånn Ca. hvordan nettsiden skal se ut, og hvordan den tar input, men den vanskelige delen er å få den til å faktisk ha funksjonalitet.
+Så nå har vi sånn ca. hvordan nettsiden skal se ut, og hvordan den tar input, men den vanskelige delen er å få den til å faktisk ha funksjonalitet.
 Jeg har laget et veldig simplifisert flowchart på hvordan nettsiden funker, men jeg skal gå mere inn i dybden.  
 
 ![Nettside flowchart](https://github.com/simen64/Design-og-redesign/blob/5e27eaa167fa5a92ebe3d79af23bebaeb501e0a6/NFC-musikkspiller%20/Bilder/Nettside%20flowchart.jpg)
 
 ### Prosessen i detaljer
 
-La oss gå gjennom hvordan nettsiden fungerer i mere detlaje. Vi kan starte med front enden, altså hvordan tabellen blir generert.  
-For at tabellen skal bli generert trenger den å se i databasen med alle albumene og sangene.
+La oss gå gjennom hvordan nettsiden fungerer i mere detalje. Vi kan starte med front enden, altså hvordan tabellen blir generert.  
+For at tabellen skal bli generert, trenger den å se i databasen med alle albumene og sangene.
 
 ### Databasen
 
-Som jeg viser i flowcharten har jeg bestemt meg for å bruke JSON som databsen min i en seperat fil som heter `albums.json`. JSON er et tekstformat som er laget for å gjøre det lett å lagre små mengder informasjon.  
+Som jeg viser i flowcharten, har jeg bestemt meg for å bruke JSON som databasen min i en seperat fil som heter `albums.json`. JSON er et tekstformat som er laget for å gjøre det lett å lagre små mengder informasjon.  
 Det er bygget opp sånn her:
 ```JSON
 {
@@ -230,7 +230,7 @@ Måten den er strukturert gjør det lett for programmet mitt å lete gjennom all
 
 ### Flask
 
-Måten jeg har kodet webserveren er i Python med et tilegg som heter Flask, flask gjør det lett å sette opp nettsider med data som blir sendt ogsåvidere.
+Måten jeg har kodet webserveren er i Python med et tilegg som heter Flask. Flask gjør det lett å sette opp nettsider med data som blir sendt også videre.
 Flask er delt opp i funksjoner for hver underlink. En funksjon er en blokk med kode som kan tilkalles andre steder i koden.
 I dette eksemplet sier vi at nettsiden vår har linken `nettside.no`  
 I flask kan vi definere en funksjon som det her:
@@ -255,7 +255,7 @@ def home():
 Betyr det at hvis brukeren nå går til `nettside.no/kul_tekst` vil det her bli vist:  
 ![Kul tekst](https://github.com/simen64/Design-og-redesign/blob/ca2a529635c0485c5d01dc841723bdc2cac77889/NFC-musikkspiller%20/Bilder/kul_tekst.png)
 
-Så for hjemsiden til nettsiden må vi vise fram tabellen jeg har vist tidligere. Så vi definerer en funksjon for `/` her bruker vi `return render_template` for å laste inn filen som har nettsiden og tabellen jeg gikk over i [struktur](#struktur) delen. Filen heter `index.html`
+Så for hjemsiden til nettsiden, må vi vise fram tabellen jeg har vist tidligere. Så vi definerer en funksjon for `/` Her bruker vi `return render_template` for å laste inn filen som har nettsiden og tabellen jeg gikk over i [struktur](#struktur) delen. Filen heter `index.html`
 
 ```python
 @app.route('/')
@@ -274,11 +274,11 @@ def load():
 Funksjonen er ganske lett. Den åpner opp filen `database.json` og leser den (derfor er "r" der) dette puttes i variablen `file`
 så returnerer vi inneholdet til databasen til det som opprinnelig tilkalte funksjonen. Denne funksjonen kommer til å bli brukt flere ganger i koden, så ha i bakhode hva den gjør.  
 Nå vet vi at i vår opprinnelige funksjon for hjemsiden til nettsiden blir inneholdet til databasen lagret i `data`  
-med `data=data` sender vi denne informasjonen over til `index.html` som inneholder strukturen til nettsiden, men også javacript funksjonen som genererer tabellen. Det å sende over denne informasjonen heter "Jinja"
+Med `data=data` sender vi denne informasjonen over til `index.html` som inneholder strukturen til nettsiden, men også javacript funksjonen som genererer tabellen. Det å sende over denne informasjonen heter "Jinja".
 
 ### Generering av tabellen i Javascript
 
-Javascript er et annent programmeringsspråk som brukes for laging av nettsider. I mitt tilfelle er det det som genererer tabellen med sangene og albumene fra databasen.  
+Javascript er et annet programmeringsspråk som brukes for laging av nettsider. I mitt tilfelle er det det som genererer tabellen med sangene og albumene fra databasen.  
 
 Så for å motta dataen fra Jinja må vi definere en variabel som vi kaller `data` og putte dataen i JSON format fra Jinja der.
 
@@ -286,7 +286,7 @@ Så for å motta dataen fra Jinja må vi definere en variabel som vi kaller `dat
 var data = {{ data|tojson }};
 ```
 
-Etter dette på samme måte som vi definerte en funksjon i python, definerer vi en funksjon i javascript med dataen fra Jinja
+Etter dette, på samme måte som vi definerte en funksjon i python, definerer vi en funksjon i javascript med dataen fra Jinja
 
 ```js
 function buildTable(data){}
@@ -323,7 +323,7 @@ var row = `<tr>
 			table.innerHTML += row
 ```
 
-Vi skal gå gjennom vær linje.  
+Vi skal gå gjennom hver linje.  
 
 ```js
 var row =
@@ -334,7 +334,7 @@ Betyr rett å slett at alt inni dette er en rad i tabellen. Og alle de bokstaven
 <td style="text-align: center;"><img src="${data[i].cover}" width="100" height="100"></td>
 ```
 
-`<td>` betyr "table data" og dette er for album eller sang coveret. Vi starter med å gi bruke `style=` for å si at bildet skal være i midten med `text-align: center;` HTML sin innebygde `<img src= >` funksjon viser et bilde fra linken spesifisert fra `src=` Den litt kompliserte `${data[i].cover}` delen kort forklart henter verdien `cover` fra `data` variablen. Som hvis vi ser på databasen igjen ser at `cover` inneholder en link til cover bildet.
+`<td>` betyr "table data" og dette er for album eller sang coveret. Vi starter med å bruke `style=` for å si at bildet skal være i midten med `text-align: center;` HTML sin innebygde `<img src= >` funksjon viser et bilde fra linken spesifisert fra `src=` Den litt kompliserte `${data[i].cover}` delen kort forklart henter verdien `cover` fra `data` variablen. Som hvis vi ser på databasen igjen ser at `cover` inneholder en link til cover bildet.
 
 ```json
 {
@@ -360,17 +360,17 @@ For både navnet og IDen til sangen eller albumet bruker vi samme måte til å h
    </form>
 </td>
 ```
-Dette er den mest kompliserte av alle dataene i tabellen, her lager vi en "Delete" knapp for hvert album eller sang. Vi starter med å putte alt i en `<form action>` tag igjen, på samme måte som vi brukte når vi tok input fra brukeren for spotify linken. Her derimot er det bare en "submit" knapp hvor det står "Delete" Linken jeg har spesifisert denne til å sende til er `/delete` Jeg skal om litt forklare hvordan dette funker i Flask. Vi ser også at det er en `onsubmit` funksjon her, dette her gjør at når du klikker på "Delete" kommer det opp et vindu som spør om du er sikker på at du vil slette det, og du kan velge "Ok" eller "Cancel" Dette er for å forhidre at man med uhell sletter album eller sanger.
+Dette er den mest kompliserte av alle dataene i tabellen. Her lager vi en "Delete"-knapp for hvert album eller sang. Vi starter med å putte alt i en `<form action>` Dette er en måte å sende data over til webserveren ved hjelp av POST request (en link som kan inneholde data) Her er det bare en "submit" knapp, hvor det står "Delete". Linken jeg har spesifisert denne til å sende til er `/delete` Jeg skal om litt forklare hvordan dette funker i på server-siden. Vi ser også at det er en `onsubmit` funksjon her, dette her gjør at når du klikker på "Delete" kommer det opp et vindu som spør om du er sikker på at du vil slette det, og du kan velge "Ok" eller "Cancel". Dette er for å forhidre at man med uhell sletter album eller sanger.
 På `<button>` tagen spesifiserer vi en value, dette er det som blir sendt til serveren. I denne valuen henter vi ut IDen til albumet eller sangen på samme måte vi har gjort på de andre radene. Dette brukes så webserveren vet hva som skal slettes.
 
-#### Server siden
-For at albumet eller sangen skal slettes må det gjennom webserveren. I form actionen over har vi allerede bestemt at IDen til det som skal slettes må sendes til `/delete` Derfor definerer vi dette i Flask:
+#### Server-siden
+For at albumet eller sangen skal slettes, må det gjennom webserveren. I form-actionen over har vi allerede bestemt at IDen til det som skal slettes må sendes til `/delete` Derfor definerer vi dette i Flask:
 
 ```python
 @app.route("/delete",methods = ["POST", "GET"])
 def delete():
 ```
-Her er en ny ting, `methods` dette sier at vi kan motta både POST og GEt requests. Når man klikker på "Delete" knappen er den en POST request som inneholder IDen til albumet eller sangen.
+Her er en ny ting, `methods` Dette sier at vi kan motta både POST og GET (det man vanligvis bruker for å se en nettside) -requests. Når man klikker på "Delete" knappen, er den en POST request som inneholder IDen til albumet eller sangen.
 
 ```python
 if request.method == "POST":
@@ -399,7 +399,7 @@ for item in temp:
    else:
       pass
 ```
-Dette er algoritmen som sletter albumet eller sangen, la oss gåp gjennom det.  
+Dette er algoritmen som sletter albumet eller sangen, la oss gå gjennom det.  
 ```python
 for item in temp:
 ```
@@ -414,7 +414,7 @@ temp.remove(item)
 with open("database.json", "w") as file:
    json.dump(temp, file, indent=4)
 ```
-Så hvis IDene matcher sletter vi den sangen eller albumet fra databasen. Etter det bruker vi `with open` på samme måte som i `load()` funksjonen bare at nå bruker vi "w" for å indikere at vi skal skrive til filen. Så skriver vi den oppdaterte informasjonen uten den slettete elementet til databasen igjen.
+Så hvis IDene matcher sletter vi den sangen eller albumet fra databasen. Etter det bruker vi `with open` på samme måte som i `load()` funksjonen, bare at nå bruker vi "w" for å indikere at vi skal skrive til filen. Så skriver vi den oppdaterte informasjonen uten den slettede elementet til databasen igjen.
 ```python
 return redirect(url_for("home"))
 ```
@@ -426,7 +426,7 @@ Siste del av funksjonen vår for å bygge ut tabellen er det her:
 ```js
 table.innerHTML += row
 ```
-Dette er det som faktisk setter sammen tabllen.
+Dette er det som faktisk setter sammen tabellen.
 
 Utafor funksjonen som bygger tabellen kjører vi det her:
 ```js
@@ -437,7 +437,7 @@ Dette tilkaller funksjonen, og gjør at hver gang siden lastes inn på nytt oppd
 ### Input
 
 For at denne nettsiden skal gjøre det den skal, trenger den en måte å ta input fra en bruker for å så putte det i en database.  
-Brukeren må putte inn en spotidy URI (Spotify sin måte å identifisere albumer og sanger) og en knapp for å legge til.
+Brukeren må putte inn en spotify URI (Spotify sin måte å identifisere albumer og sanger) og en knapp for å legge til.
 For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en funksjon som tar en input, og så sender informasjonen til serveren med en link. Dette kalles for en POST request. POST er måten en nettside kan sende ting til servere.
 
 ```html
@@ -460,9 +460,19 @@ function showAlert() {
     }
 ```
 
-### Igjen, ikke det fineste, men det funker
-![Nettside input](https://github.com/simen64/Design-og-redesign/blob/2ae3e525a9f1c3b587786947fbb12024ea22d071/NFC-musikkspiller%20/Bilder/nettside-input.png)
+#### Igjen, ikke det fineste, men det funker
+![Nettside input](https://github.com/simen64/Design-og-redesign/blob/2ae3e525a9f1c3b587786947fbb12024ea22d071/NFC-musikkspiller%20/Bilder/nettside-input.png)  
 (Dette skjermbildet ble tatt før jeg endret knappen til: "Add album or song")
+
+#### Motta input i Flask
+
+For å motta dataen i webserveren, så den kan bli puttet i databasen må vi definere en funksjon for linken der dataen sendes. Som her er til `/send_data`
+
+```python
+@app.route('/send_data',methods = ['POST', 'GET'])
+def album_data():
+   if request.method == 'POST':
+```
 
 #### Link til URI
 Som jeg nevnte måtte man putte inn en Spotify URI, for å gjøre denne prosessen enklere har jeg kodet en funksjon som gjør linker om til URIer. Så nå kan man putte inn begge to i nettsiden.  
@@ -490,7 +500,7 @@ if "https://" in raw_input:
 ```
 
 La oss gå gjennom hver seksjon.  
-Vi starter med å definere en funksjon som heter `link_to_id` med `def link_to_id(link):` Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut: `https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99` Målet med denne funksjonen er å ta linken å gjøre den om til bare IDen som i dette eksemplet er `7Grz4hgSBRdEPj6Vxm991i`
+Vi starter med å definere en funksjon som heter `link_to_id` med `def link_to_id(link):` Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut: `https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99` Målet med denne funksjonen er å ta linken, og gjøre den om til bare IDen som i dette eksemplet er `7Grz4hgSBRdEPj6Vxm991i`
 De to linjene:
 ```python
 link = link.replace("https://open.spotify.com/album/", "")
