@@ -1,8 +1,6 @@
 
 # En moderne vinyl / musikk spiller
 
-AHAHAHAHA Mase eyttlle tresksts jeg ikke bil ha ehre fordi eg tuller rudnt hasuhfashfjhs
-
 ## Ideen
 
 Idden er å ha en boks hvor man kan scanne en eller annen form for fysisk ting for å spille av musikk. Denne fysiske tingen skal ha album coveret på seg så man kan se hvilke album man spiller av. Litt som en vinylspiller.
@@ -289,6 +287,28 @@ id = link[0]
 Sist men ikke minst returner vi dette til det som opprinnelig tilkalte funksjonen.
 ```python
 return id
+```
+
+Nå som vi vet hvordan denne funksjonen fungerer kan vi gå videre til resten av koden.  
+Etter at vi har fått inputet fra brukeren som her er linken, sjekker vi om det er en link eller en URI.  
+Dette gjør vi med:
+```python
+if "https://" in raw_input:
+```
+Det sjekker om `https://` er i det brukeren ga oss. Hvis det er det kan vi være ganske sikre på at det er en link.  
+Etter dette må vi sjekke om det er en album eller en sang.
+```python
+if "album" in raw_input:
+      id = link_to_id(raw_input)
+      raw_input = "spotify:album:" + id
+```
+Dette gjør vi med å sjekke om ordet `album` er i linken. Hvis det er et album tilkaller vi funksjonen vår som gjør linken om til en id, dette betyr at vi får tilbake: `7Grz4hgSBRdEPj6Vxm991i`  
+Så for å gjøre dette til en gyldig Spotify URI som kan sendes til spotify legger vi til `spotify:album:` Da står vi igjen med: `spotify:album:7Grz4hgSBRdEPj6Vxm991i` som er en gyldig spotify URI  
+Funksjonen for sanger er nesten det samme bare bytte ut `album` med `track`:
+```python
+elif "track" in raw_input:
+      id = link_to_id(raw_input)
+      raw_input = "spotify:track:" + id
 ```
 
 ### Funksjonalitet
