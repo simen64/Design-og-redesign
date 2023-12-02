@@ -756,3 +756,44 @@ Koden for denne nettsiden er veldig simpel og ser sånn her ut:
 ```
 Hvis man ignorerer alt innenfor `<style>` tagene, ser man at dette egentlig bare er en error melding og en knapp for å gå tilbake  
 ![ID conflict](https://github.com/simen64/Design-og-redesign/blob/6948e8086821f71447895406d89acf95056f7057/NFC-musikkspiller%20/Bilder/Id_conflict.png)
+
+Men hvis vår "if" funksjon ikke finner noen matchende IDer i databasen kan den gå videre.  
+Hvis du husker så puttet vi dataen vi fikk om albumet eller sangen fra spotify i en session cookie som så slik ut:
+```json
+data = {
+   "cover":track_album_cover,
+   "name":track_name,
+   "uri": raw_input
+}
+```
+Denne dataen henter vi inn igjen til en variabel vi kaller `data`
+```python
+data = session.get('data')
+```
+Så med den here linjen legger vi til "id" til dataen som inneholder IDen vi fikk fra scanneren:
+```python
+data['id'] = id_from_scan
+```
+Nå ser data variablen vår sånn her ut:
+```json
+data = {
+   "cover":track_album_cover,
+   "name":track_name,
+   "uri": raw_input,
+   "id": id_from_scan
+}
+```
+Siden vi har lastet databasen vår inn i variablen `temp` kan vi "appende" (legge til) denne nye dataen til datbasen:
+```python
+temp.append(data)
+```
+Når dette er gjort kan vi skrive den nye dataen til database filen:
+```python
+with open("database.json", "w") as file:
+   json.dump(temp, file, indent=4)
+```
+Sist men ikke minst sender vi brukeren tilbake hjem:
+```python
+return redirect(url_for("home"))
+```
+Og når brukeren laster inn hjem siden bygger javascript tabellen på nytt som nå har med den nylige lagt til sangen eller albumet.
