@@ -152,7 +152,7 @@ Stefaren min hadde også en gammel usb wifi adapter liggende som jeg kunne få. 
 
 ## Nettside
 
-Jeg bestemte meg for å prøve å lage en nettside til prosjektet som gjør det lett å legge til album. Det jeg ikke visste var at denne nettsiden ville bli et veldig mye mer komplisert prosjekt enn det jeg trodde. og det ville ta opp mange flere timer enn det jeg trodde.
+Jeg bestemte meg for å prøve å lage en nettside til prosjektet som gjør det lett å legge til album og sanger. Det jeg ikke visste var at denne nettsiden ville bli et veldig mye mer komplisert prosjekt enn det jeg trodde. og det ville ta opp mange flere timer enn det jeg trodde.
 
 ### Struktur
 
@@ -370,7 +370,7 @@ def home():
 Betyr det at hvis brukeren nå går til `nettside.no/kul_tekst` vil det her bli vist:  
 ![Kul tekst](https://github.com/simen64/Design-og-redesign/blob/ca2a529635c0485c5d01dc841723bdc2cac77889/NFC-musikkspiller%20/Bilder/kul_tekst.png)
 
-Så for hjemsiden til nettsiden må vi vise fram tabellen jeg har vist tidligere. Så vi definerer en funksjon for `/` her bruker vi `return render_template` for å laste inn filen som har nettsiden og tabellen jeg gikk over i struktur delen. Filen heter `index.html`
+Så for hjemsiden til nettsiden må vi vise fram tabellen jeg har vist tidligere. Så vi definerer en funksjon for `/` her bruker vi `return render_template` for å laste inn filen som har nettsiden og tabellen jeg gikk over i [struktur](#struktur) delen. Filen heter `index.html`
 
 ```python
 @app.route('/')
@@ -389,6 +389,162 @@ def load():
 Funksjonen er ganske lett. Den åpner opp filen `database.json` og leser den (derfor er "r" der) dette puttes i variablen `file`
 så returnerer vi inneholdet til databasen til det som opprinnelig tilkalte funksjonen. Denne funksjonen kommer til å bli brukt flere ganger i koden, så ha i bakhode hva den gjør.  
 Nå vet vi at i vår opprinnelige funksjon for hjemsiden til nettsiden blir inneholdet til databasen lagret i `data`  
-med `data=data` sender vi denne informasjonen over til `index.html` som inneholder strukturen til nettsiden, men også javacript funksjonen som genererer tabellen.
+med `data=data` sender vi denne informasjonen over til `index.html` som inneholder strukturen til nettsiden, men også javacript funksjonen som genererer tabellen. Det å sende over denne informasjonen heter "Jinja"
 
 ### Generering av tabellen i Javascript
+
+Javascript er et annent programmeringsspråk som brukes for laging av nettsider. I mitt tilfelle er det det som genererer tabellen med sangene og albumene fra databasen.  
+
+Så for å motta dataen fra Jinja må vi definere en variabel som vi kaller `data` og putte dataen i JSON format fra Jinja der.
+
+```js
+var data = {{ data|tojson }};
+```
+
+Etter dette på samme måte som vi definerte en funksjon i python, definerer vi en funksjon i javascript med dataen fra Jinja
+
+```js
+function buildTable(data){}
+```
+
+For at Javascript skal vite at vi snakker om tabellen vi lagde i [struktur](#struktur) delen, har vi gitt tabellen IDen: `table`
+Derfor kan vi bruke denne linjen med kode for å si til Javascript at det er denne tabellen vi snakker om. Dette blir puttet i variablen `table`
+
+```js
+var table = document.getElementById('table')
+```
+
+Denne delen ser veldig komplisert ut, men enkelt forklart gjør den det neste vi skal gå gjennom for hvert element i databasen.
+```js
+for (var i = 0; i < data.length; i++){}
+```
+
+Dette er kodeblokken som blir gjentatt for hvert element i databasen:
+```js
+var row = `<tr>
+               <td style="text-align: center;"><img src="${data[i].cover}" width="100" height="100"></td>
+
+                  <td>${data[i].name}</td>
+
+                  <td>${data[i].id}</td>
+
+                  <td>
+                     <form action="/delete" method="post" onsubmit="return confirm('Are you sure you want to delete that album?')";>
+                        <button type="submit" name="delete" value="${data[i].id}">Delete</button>
+                     </form>
+               </td>
+
+            </tr>`
+			table.innerHTML += row
+```
+
+Vi skal gå gjennom vær linje.  
+
+```js
+var row =
+```
+Betyr rett å slett at alt inni dette er en rad i tabellen. Og alle de bokstavene du ser i krokodilletegn som `<tr>` forteller HTML (det vi bruker til å kode strukturen til nettsiden) hvordan den skal vise dataen vi gir den. `<tr>` betyr at dette er en "tabel row"
+
+```js
+<td style="text-align: center;"><img src="${data[i].cover}" width="100" height="100"></td>
+```
+
+`<td>` betyr "table data" og dette er for album eller sang coveret. Vi starter med å gi bruke `style=` for å si at bildet skal være i midten med `text-align: center;` HTML sin innebygde `<img src= >` funksjon viser et bilde fra linken spesifisert fra `src=` Den litt kompliserte `${data[i].cover}` delen kort forklart henter verdien `cover` fra `data` variablen. Som hvis vi ser på databasen igjen ser at `cover` inneholder en link til cover bildet.
+
+```json
+{
+   "cover": "https://news.artnet.com/app/news-upload/2023/06/HAPO7184_M_Pink_Floyd_DSOTM_Photo_Cover_RT_PF_GT-1024x1024.jpg",
+   "name": "Sample album",
+   "uri": "spotify:album:2WT1pbYjLJciAR26yMebkH",
+   "id": "5841841343875"
+}
+```
+`Width` og `height` sier seg selv og bestemmer at bilde skal være 100x100 piksler stort.
+
+```js
+<td>${data[i].name}</td>
+
+<td>${data[i].id}</td>
+```
+For både navnet og IDen til sangen eller albumet bruker vi samme måte til å hente informasjonen fra `data variablen`
+
+```js
+<td>
+   <form action="/delete" method="post" onsubmit="return confirm('Are you sure you want to delete that album?')";>
+      <button type="submit" name="delete" value="${data[i].id}">Delete</button>
+   </form>
+</td>
+```
+Dette er den mest kompliserte av alle dataene i tabellen, her lager vi en "Delete" knapp for hvert album eller sang. Vi starter med å putte alt i en `<form action>` tag igjen, på samme måte som vi brukte når vi tok input fra brukeren for spotify linken. Her derimot er det bare en "submit" knapp hvor det står "Delete" Linken jeg har spesifisert denne til å sende til er `/delete` Jeg skal om litt forklare hvordan dette funker i Flask. Vi ser også at det er en `onsubmit` funksjon her, dette her gjør at når du klikker på "Delete" kommer det opp et vindu som spør om du er sikker på at du vil slette det, og du kan velge "Ok" eller "Cancel" Dette er for å forhidre at man med uhell sletter album eller sanger.
+På `<button>` tagen spesifiserer vi en value, dette er det som blir sendt til serveren. I denne valuen henter vi ut IDen til albumet eller sangen på samme måte vi har gjort på de andre radene. Dette brukes så webserveren vet hva som skal slettes.
+
+#### Server siden
+For at albumet eller sangen skal slettes må det gjennom webserveren. I form actionen over har vi allerede bestemt at IDen til det som skal slettes må sendes til `/delete` Derfor definerer vi dette i Flask:
+
+```python
+@app.route("/delete",methods = ["POST", "GET"])
+def delete():
+```
+Her er en ny ting, `methods` dette sier at vi kan motta både POST og GEt requests. Når man klikker på "Delete" knappen er den en POST request som inneholder IDen til albumet eller sangen.
+
+```python
+if request.method == "POST":
+```
+Vi startet med å sjekke om det er en POST request for å vite om vi faktisk skal slette et album.
+
+```python
+id = request.form["delete"]
+```
+Så bruker vi `request.form` for å hente informasjonen fra POST requesten, og putte den i variablen `id`
+
+```python
+temp = load()
+```
+Etter vi har IDen bruker vi `load()` funksjonen igjen for å laste databasen inn i variablen `temp`
+
+```python
+for item in temp:
+   if 'id' in item and item['id'] == id:
+
+      temp.remove(item)
+
+      with open("database.json", "w") as file:
+         json.dump(temp, file, indent=4)
+
+   else:
+      pass
+```
+Dette er algoritmen som sletter albumet eller sangen, la oss gåp gjennom det.  
+```python
+for item in temp:
+```
+Det betyr at vi gjør det her for hvert element i databasen, samme konsept som i Javascript.
+```python
+if 'id' in item and item['id'] == id:
+```
+Her bruker vi en `if` funksjon for å sjekke om IDen til albumen eller sangen matcher med IDen vi har fått beskjed om å slette.
+```python
+temp.remove(item)
+
+with open("database.json", "w") as file:
+   json.dump(temp, file, indent=4)
+```
+Så hvis IDene matcher sletter vi den sangen eller albumet fra databasen. Etter det bruker vi `with open` på samme måte som i `load()` funksjonen bare at nå bruker vi "w" for å indikere at vi skal skrive til filen. Så skriver vi den oppdaterte informasjonen uten den slettete elementet til databasen igjen.
+```python
+return redirect(url_for("home"))
+```
+Etter alt dette bruker vi dette for å sende brukeren tilbake til hjemsiden.
+
+#### Tilbake til Javascript
+
+Siste del av funksjonen vår for å bygge ut tabellen er det her:
+```js
+table.innerHTML += row
+```
+Dette er det som faktisk setter sammen tabllen.
+
+Utafor funksjonen som bygger tabellen kjører vi det her:
+```js
+buildTable(data)
+```
+Dette tilkaller funksjonen, og gjør at hver gang siden lastes inn på nytt oppdateres tabellen.
