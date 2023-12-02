@@ -473,6 +473,11 @@ For å motta dataen i webserveren, så den kan bli puttet i databasen må vi def
 def album_data():
    if request.method == 'POST':
 ```
+På lik måte som når vi lagde funksjonen for "Delete-knappen" sjekker vi først om det er en POST request (altså at linken inneholder data)
+```python
+raw_input = request.form["raw-input"]
+```
+Dette er også veldig likt som "Delete" funksjonen, hvor vi putter Spotify URIen i variablen `raw_input`
 
 #### Link til URI
 Som jeg nevnte måtte man putte inn en Spotify URI, for å gjøre denne prosessen enklere har jeg kodet en funksjon som gjør linker om til URIer. Så nå kan man putte inn begge to i nettsiden.  
@@ -558,3 +563,196 @@ elif "track" in raw_input:
       id = link_to_id(raw_input)
       raw_input = "spotify:track:" + id
 ```
+
+#### Lagre dataen
+
+Nå står vi igjen med en Spotify URI som i dette eksemplet ser sånn her ut: `spotify:album:7Grz4hgSBRdEPj6Vxm991i`  
+Her er den fulle koden (Uten delen for sanger):  
+
+```python
+if "album" in raw_input:
+
+         album_spotify_id = raw_input.replace("spotify:album:", "")
+         print(album_spotify_id)
+
+         #Use spotifys api to get info about the album
+         album_info = sp.album(album_spotify_id)
+
+         #Get the album name and cover
+         album_link = album_info['images'][0]['url']
+         album_name = album_info["name"]
+
+         #Structure the new data
+         data = {
+            "cover": album_link,
+            "name": album_name,
+            "uri" : raw_input,
+         }
+
+      session['data'] = data
+
+      return redirect(url_for("scan"))
+```
+
+Vi skal jo selvfølgelig gå gjennom hver del.  
+Som du kanskje ser sjekker vi igjen om det er et album eller en sang. Jeg kommer bare til å gå over album funksjonen, fordi begge er ganske like.
+```python
+if "album" in raw_input:
+```
+Dette er måten jeg sjekker om det er et album eller ikke, og siden vår URI inneholder "album" vet vi at det er et album.  
+Nå skal vi gjøre noe som kanskje virker litt idiotisk med tanke på det vi akkuratt gjorde i `link_to_id` funksjonen. Men vi lager en ny variabel hvor vi fjerner `spotify:album:` fra URIen så vi bare står igjen med IDen som ser slik ut: `7Grz4hgSBRdEPj6Vxm991i`  
+Med det her henter vi informasjon om albumet med hjelp fra Spotify, og lagrer det i variablen `album_indo`
+```python
+album_info = sp.album(album_spotify_id)
+```
+Ut fra vår nyinnhentet data om albumet kan vi splitte dataen opp til informasjonen vi faktisk trenger:
+```python
+album_link = album_info['images'][0]['url']
+album_name = album_info["name"]
+```
+`album_link` for linker til album coveret, og `album_name` for navnet til albumet.  
+Etter dette strukturer vi dataen i formatet som brukes i databasen:
+```python
+data = {
+   "cover": album_link,
+   "name": album_name,
+   "uri" : raw_input,
+}
+```
+Men istedenfor å skrive dette rett til databasen lagrer vi det i en session:
+```python
+session['data'] = data
+```
+Noe som er lagret i en session er det samme som det "cookies" er, som man må akseptere for å bruke nettsiden.
+Grunnen til at vi ikke skriver det rett til databasen er fordi det er en ting vi mangler, derfor sender vi brukeren til en annen link:
+```python
+return redirect(url_for("scan"))
+```
+Det vi mangler er IDen til "tagen" som skal scannes for å spille musikken. Som du kanskje husker, når man legger til et nytt album eller en ny sang, ber den deg scanne NFC-tagen din. Det er det vi skal gjøre nå.
+```python
+@app.route("/scan")
+def scan():
+```
+Som vi har gjort for alle andre linker definerer vi dem først i Flask.  
+Dette er koden som scanner NFC-tagen:
+```python
+id = reader.read()
+
+id_from_scan = id[0]
+id_from_scan = str(id_from_scan)
+
+GPIO.cleanup()
+```
+`id = reader.read()` ber scanneren om å lete etter en tag, når en tag har blitt scannet lagres dataen den finner i variablen `id` og koden fortsetter.
+
+#### Scanner problemet
+
+Planen vår originalt å skrive et tall til "tagene" som leseren skal kunne lese. Når jeg først skrev et program for å lese en tag gjorde jeg det sånn her:
+```python
+id, text = reader.read()
+print(id)
+print(text)
+```
+Dette skal i teorien printe IDen til tagen (Alle NFC-tager har en ID som blir gitt under produksjon som ikke kan endres) og teksten skrevet på tagen. Resultatet jeg fikk av dette var:
+```
+58274839234
+"AUTH ERROR!!
+AUTH ERROR(status2reg & 0x08) != 0"
+```
+Som man ser først fungerer det å printe IDen, men teksten ikke så bra. "AUTH ERROR" betyr at noe har gått galt under en autentikasjon med tagen, selvom tagen ikke har noe passord eller enkrypsjon. På linje 3 ser vi `0x08` dette er en referanse til et sted i minne til tagen. Etter litt googling fant jeg ut at ikke bare det var jeg som hadde dette problemet. Det som gjør at det feiler er at programmet som kjører på scanneren ble sist oppdatert for 7 år siden, og tagene jeg har er nyere enn det. Så autentikasjonen dems fungerer ikke. Men hvordan skulle jeg nå gjøre prosjektet mitt? Jo siden IDen fortsatt fungerer kan jeg bruke den til å forbinde dem med album. Dette gjør også at man slipper å skrive en ID til en tag. Derfor scanner man tagen når man legger den til i nettsiden.
+
+#### Tilbake til input
+
+```python
+id = reader.read()
+
+id_from_scan = id[0]
+id_from_scan = str(id_from_scan)
+
+GPIO.cleanup()
+```
+Som sagt er dette koden jeg bruker nå.  
+IDen man får fra scanneren er formatert i det som kalles for en "tuple" som er slik ut:
+```python
+("519383492", " ")
+```
+Det vi vil ha er bare det tallet, som en string (strings er tekstformat i programmering)  
+Derfor setter vi `id_from_scan` til element nummer 0 i tuplen som gir oss dette:
+```
+519383492
+```
+Problemet her er at dette er en integer og ikke en string (Integers er tall i programmering)  
+Så vi bruker dette for å gjøre det om til en string:
+```
+id_from_scan = str(id_from_scan)
+```
+Nå står vi igjen med det vi trenger, IDen i en string:
+```python
+"519383492"
+```
+
+Etter vi har fått IDen bruker vi `load()` funksjonen igjen for å laste databasen av album til variablen temp.
+```python
+temp = load()
+```
+Så kjører vi det som virker som en ganske komplisert funksjon:
+```python
+for item in temp:
+   if 'id' in item and item['id'] == id_from_scan:
+      print("Error, cant have two albums / songs with the same ID")
+      return redirect(url_for("ID_conflict"))
+```
+I "menneske språk" betyr dette: for hvert element i databasen, sjekk om IDen matcher med IDen fra scannen, hvis den gjør det si ERROR  
+Dette er for å forhindre at to album har samme tag forbundet med seg. På samme måte som på hjem funksjonen bruker vi `return redirect` for å sende brukeren til en annen link. Funksjonen for denne linken ser sånn her ut:
+```python
+@app.route("/ID_conflict")
+def ID_conflict():
+   return render_template("ID_conflict.html")
+```
+Den ligner veldig på hjem funksjonen, og det er fordi den gjør nesten det samme. Denne viser fram HTML filen `ID_conflict.html`  
+Koden for denne nettsiden er veldig simpel og ser sånn her ut:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error ID conflict</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .error-message {
+            font-size: 24px;
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        .home-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #c1c1c1;
+            color: #000000;
+            font-size: x-large;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-message">
+        <p>Error, you cant have two albums bound to the same NFC/RFID tag</p>
+    </div>
+
+    <button class="home-button" onclick="window.location.href = '/'">Go back home</button>
+</body>
+</html>
+
+```
+Hvis man ignorerer alt innenfor `<style>` tagene, ser man at dette egentlig bare er en error melding og en knapp for å gå tilbake  
+![ID conflict](https://github.com/simen64/Design-og-redesign/blob/6948e8086821f71447895406d89acf95056f7057/NFC-musikkspiller%20/Bilder/Id_conflict.png)
