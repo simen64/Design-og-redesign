@@ -356,7 +356,7 @@ def home():
    return "Hei nettside!"
 ```
 
-Dette betyr at når brukeren går til `nettside.no/` vil de bli vist det her:
+Dette betyr at når brukeren går til `nettside.no/` vil de bli vist det her:  
 ![Hei nettside](https://github.com/simen64/Design-og-redesign/blob/be3dd6c51b5579e2808c9d8c2619789154e282b6/NFC-musikkspiller%20/Bilder/Hei_nettside.png)
 
 Definerer vi en funksjon som det her:
@@ -367,7 +367,7 @@ def home():
    return "Kul tekst!"
 ```
 
-Betyr det at hvis brukeren nå går til `nettside.no/kul_tekst` vil det her bli vist:
+Betyr det at hvis brukeren nå går til `nettside.no/kul_tekst` vil det her bli vist:  
 ![Kul tekst](https://github.com/simen64/Design-og-redesign/blob/ca2a529635c0485c5d01dc841723bdc2cac77889/NFC-musikkspiller%20/Bilder/kul_tekst.png)
 
 Så for hjemsiden til nettsiden må vi vise fram tabellen jeg har vist tidligere. Så vi definerer en funksjon for `/` her bruker vi `return render_template` for å laste inn filen som har nettsiden og tabellen jeg gikk over i struktur delen. Filen heter `index.html`
