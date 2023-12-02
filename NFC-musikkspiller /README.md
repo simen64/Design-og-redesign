@@ -146,9 +146,72 @@ Første valg er en Raspberry Pi Pico W. Dette er en veldig billig og liten enhet
 
 Det andre valget mitt er en Raspberry Pi 1b+ Dette er en veldig gammel generasjon av hoved linjen til Raspberry Pi, men for et prosjekt som dette kan det funke. Denne raspberry PIen er egentlig en mini pc som kjører Linux, noe jeg er godt kjent med hvordan man setter opp og holder oppe. Dette gir en rekke med fordeler som at den kan kjøre flere ting samtidig, den kjører fortsatt python (eller alt annent jeg vil bruke), den har nok lagring, den har massevis av porter til å koble til komponenter. Eneste tingen med denne veldig gamle versjonen er at den ikke kommer med innebygd wifi, dette planlegger jeg å fikse med å koble til en wifi USB adapter. Som du kanskje har forstått er dette planen. Men hvor kom denne fra? Jeg har hatt denne liggende lenge siden jeg fikk den fra stefaren min siden han ikke brukte den lenger. Nylig har jeg brukt den til å hoste en discord bot, men den brukes nesten aldri lenger så det skal ikke ha noe å si.
 
+## Raspberry pi
+
+### Linux
+
+Operativsystemet jeg har tenkt til å kjøre er Raspbian lite, dette er en versjon av Debian linux som er det jeg bruker på PCen min hjemme. Keg valgte å bruke linux fordi det er et veldgi bra operativ-system for servere fordi det tar lite ressurser, er åpen kildekode, lett å sette opp, og jeg er godt kjent med det.
+
+Første steg for å installere Linux på en raspberry pi er å laste Linux ned på et SD-kort. Dette gjør man med "Raspberry Pi imager" som er et rpogram som automatiserer nedlastingen av Linux til SD-kort som kan brukes på Raspberry Pi. Etter jeg hadde SD-kortet mitt med Linux på kunne jeg koble opp Raspberry Pien til ruteren min med en ethernet kabel, og sette SD-kortet inn. Når jeg hadde koblet til strømmen og ventet litt sjekket jeg ruteren sitt kontrollpanel. Her kunne jeg se at den koblet til nettverket og fått IP adressen `192.168.24.24` (Dette er ikke den faktiske IP adressen, som jeg har valgt å hjemme for sikkerhets grunner)
+
+#### SSH
+
+SSH er et åpent kildekode prosjekt som gjør det mulig å koble seg til servere over netttet med terminalen. Fordelen med SSH overfor eldre programmer som Telnet er at SSH er enkryptert så ingen på nettet kan "hack" seg inn å se kommandoene som sendes. For å koble til Raspberry PIen med SSH kjørte jeg denne kommandoen:
+```
+ssh 192.168.24.24
+```
+Tilbake fikk jeg feilmeldingen:
+```
+ssh: connect to host 192.168.24.24 port 22: Connection refused
+```
+Dette betyr at jeg får kommunikasjon med Raspberry PIen, den vil bare ikke la meg komme inn. Jeg vet at passordet er riktig fordi SSH passordet til raspberry pi er alltid `raspberry` når Linux er nyinstallert.  
+Det som var problemet var at SSH var der og serveren var tilkoblet, men SSH hadde ikke blitt aktivert. For å fikse dette måtte jeg ta SD-kortet ut igjen og åpne det på PCen min. I `/boot` mappen plasserte jeg en tom fil kalt `ssh` Dette signaliserer til Linux på startup at den skal aktivere SSH.  
+Boom, jeg var tilkoblet.
+
+Første man gjør når man har koblet til med SSH til en ny server er å endre passordet:
+```
+passwd
+(Her skrev jeg passordet mitt)
+```
+Etter det starter den evig lange prosessen som er å oppdatere systemet. Dette er for å passse på at alt funker, og at serveren er sikker.
+```
+sudo apt update -y
+```
+Dette oppdaterer stedene de nye oppdateringene hentes fra.
+```
+sudo apt upgrade -y
+```
+Og dette er det som faktisk oppdaterer systemet.  
+Denne prosessen tok over en halvtime for meg.
+
+Neste ting jeg satt opp er det som heter "SSH key based authentication" for å styrke sikkerheten. "Key based authentication" er at istedenfor at du bruker et passord for å logge inn til serveren bruker man et sett med en "public key" og en "private key". Dette heter "asymmetric cryptography". Jeg skal prøve å forklare det så lett som mulig.
+
+Når du bruker "asymmetric cryptography" lager man to nøkler, en privat nøkkel, og en offentlig nøkkel. Tenk på den offentlig nøklen din som postkassen din. Alle kan få vite hvor postkassen din er, og alle kan putte beskjeder i postkassen din. Så når noen skal sende deg en melding enkrypterer de den med din offentlige nøkkel. Men bare du kan åpne postkassen din, fordi for å åpne den trenger du den private nøklen din. Denne er viktig å holde sikker. Så fort noen har enkryptert meldingen sin med din offentlige nøkkel kan bare du se den, selv ikke de som sender den kan se hva som er inni. Hvis noen prøver å åpne den enkrypterte meldingen vil de se det som heter "cipher text" som ser litt sånn her ut: iahef89aus9f8us89fmuaruq8urmcd. Umulig å lese. Når du mottar meldingen i postkassen din kan du bruke den private nøklen din til å åpne postkassen og dekryptere / se meldingen. Når du går inn på en nettside og det står at nettsiden er sikker, da bruker du "asymmetric cryptography". Nettsiden gir deg sin offentlige nøkkel som du krypterer dataen din med, og nettsiden bruker sin private nøkkel for å dekrypgtere dataen din. Her er et fint diagram for å visualisere det litt bedre:
+![asymmetric cryptography visualisert](https://bitpanda-academy.imgix.net/450037a5-144d-44ef-9db1-7fe7ce1f433d/bitpanda-academy-expert-20-what-is-asymmetric-encryption-infographic.png?auto=compress%2Cformat&fit=min&fm=jpg&q=80&w=2100)
+
+Å sette opp dette for SSH gjør at det bare er min PC som kan koble seg til serveren. Dette forhindrer mange hacke forsøk som "brute force" hvor en hacker prøver alle passord mulig for å komme seg inn i serveren. 
+```
+ssh-keygen
+```
+Dette genererer den offentlige og private nøklen din for SSH, og den larger det på PCen din. Så sender vi den offentlige nøklen til serveren:
+```
+ssh-copy-id 192.168.24.24
+```
+Sist men ikke minst må vi skru av passord autentikasjon for serveren. Vi starter med å åpne ssh konfigurasjons filen med:
+```
+sudo nano /etc/ssh/sshd_config
+```
+Så skrur vi at passord autentikasjon:
+```
+PasswordAuthentication no
+```
+Til slutt restarter vi SSH:
+```
+sudo systemctl restart ssh
+```
 ### Wifi adapter
 
-Stefaren min hadde også en gammel usb wifi adapter liggende som jeg kunne få. Problemet med de fleste wifi adaptere er at de ikke har drivere for Linux, heldigvis hadde den eldgamele D-Link adapteren en driver som het `carl9170` som jeg kunne laste ned med pakken `firmware-linux-free` Etter det var det bare å putte navnet og passordet på nettverket mitt i raspberry PIen sin `wpa-supplicant.txt` fil, og etter en restart hadde jeg Wifi! Men det kan jo selvfølgelig ikke gå problemløst. Det viste seg at denne adapteren var veldig ustabil og SSH tilkoblingen min (En måte å kommunisere trådløst mellom to PCer) falt ut hele tiden. Jeg kom på at jeg hadde lånt en annen wifi adapter til Herman for en stund siden. Jeg spurte han om han fortsatt brukte den, noe han ikke gjorde. Etter å ha hentet den plugget jeg den inn og alt funket uton noe mere styr.
+Siden ikke jeg vil at musikkspilleren min må være koblet til ruteren hele tiden trenger den wifi, noe ikke Raspberry Pien jeg bruker har. Derfor trenger jeg en USB wifi adapter. Stefaren min hadde en gammel usb wifi adapter liggende som jeg kunne få. Problemet med de fleste wifi adaptere er at de ikke har drivere for Linux, heldigvis hadde den eldgamele D-Link adapteren en driver som het `carl9170` som jeg kunne laste ned med pakken `firmware-linux-free` Etter det var det bare å putte navnet og passordet på nettverket mitt i raspberry PIen sin `wpa-supplicant.txt` fil, og etter en restart hadde jeg Wifi! Men det kan jo selvfølgelig ikke gå problemløst. Det viste seg at denne adapteren var veldig ustabil og SSH tilkoblingen min (En måte å kommunisere trådløst mellom to PCer) falt ut hele tiden. Jeg kom på at jeg hadde lånt en annen wifi adapter til Herman for en stund siden. Jeg spurte han om han fortsatt brukte den, noe han ikke gjorde. Etter å ha hentet den plugget jeg den inn og alt funket uton noe mere styr.
 
 ## Nettside
 
