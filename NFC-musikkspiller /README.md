@@ -860,3 +860,46 @@ Sist men ikke minst sender vi brukeren tilbake hjem:
 return redirect(url_for("home"))
 ```
 Og når brukeren laster inn hjem siden bygger javascript tabellen på nytt som nå har med den nylige lagt til sangen eller albumet.
+
+## Systemd
+
+Hvis du noen gang har lurt på hva i operativsystemet ditt det er som starter alle prosessene som det som styrer wifi, antivirus, brannmur, oppstartsprogrammer etc? Vel i tilfelle til de fleste Linux distrubisjoner er dette systemd. Det er ofte hatet ettersom at det ikke følger Unix filososifen som sier: "Skriv programmer som gjør én ting, og én ting godt. Systemd gjør mange ting, middels godt, men det har blitt tatt i bruk fordi det er universalt og lett. Det systemd er er et "init system". I windows når du skal få et program som nettsiden eller programmet for å spille musikk til å starte når systemet starter kan du bare putte det i en mappe, på Linux er det ikke fullt så lett. For at systemd skal vite hvordan programmet skal startes må vi skrive en konfigurasjonsfil til systemd.
+
+### Webserveren
+
+Som jeg har gått over er nettsiden skrevet med Flask. Når man kjører et python program med Flask starter den en "devolpment server" dette er veldig bra når man designer nettsiden, men det er tregt og ustabilt for produksjon. Derfor bruker vi "Gunicorn" som er en python web server gateway. Å bruke gunicorn er overraskende lett, man starter med å skrive en gunicorn konfigurasjonsfil:
+```python
+bind = "0.0.0.0:8000"
+workers = 1
+worker_class = "sync"
+```
+Bind setter vi først til `0.0.0.0` dette betyr at den kommer til å "lytte" for tilkoblinger fra alle IP adresser, `:8000` betyr at vi setter porten til 8000. Vanligvis kjører web på port 80 og 443, men vi bruker 8000 for to grunner. En er at da slipper vi konflikt med andre nettsider. Den mere viktige delen er at porter under 1024 er "priviligerte" porter som betyr at man trenger adminstartor for å bruke dem. Vi vil slippe dette for å øke sikkerheten i systemet vårt.
+
+`Workers = 1` betyr at vi skal bruke 1 CPU core, kort fortalt er workers hvor mye kraft webserveren får av raspberry pien. Vi trenger absolutt ikke mye og setter den til 1. `worker_class = "sync"` forteller gunicorn hvordan flere workers skal kommunisere, noe som ikke bryr oss siden vi bare har 1 worker.
+
+Nå som vi har satt opp gunicorn kan vi starte det med kommandoen:
+```
+gunicorn -b 0.0.0.0:8000 -c gunicorn_config.py webserver:app
+```
+Ettersom at dette nå funker må vi nå lage konfigurasjonsfilen for systemd, så webserveren kan starte når musikkspilleren blir plugget inn.
+Vi starter med å lage en fil som heter `flaskserver.service` i `/etc/systemd/system` I denne filen skriver vi dette:
+```bash
+[Unit]
+Description=Flask server for NFC music player
+After=network.target
+
+[Service]
+User=simen
+WorkingDirectory=/home/simen/musikkspiller/
+ExecStart=/home/simen/musikkspiller/env/bin/gunicorn -c /home/simen/musikkspiller/gunicorn_config.py webserver:app
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+I [Unit] seksjonen legger vi til en beskrivelse, men også `After=network.target` dette sier til systemd at webserveren må vente med å starte til prosessen som driver nettverket har startet
+
+[Service] sekjsonen er der det morsomme skjer. Først sier vi at webserveren skal kjøres med min bruker. Så forteller vi hvor dette er lagret med `WorkingDirectory`. Hvis du husker kommandoen vi gjørte for å starte gunicorn, er det denne vi forteller at skal kjøres når den starter, dette putter vi under `ExecStart`. Hvis prosessen kræsjer setter vi `Restart` til `always` så den kan restarte serveren.
+
+[Install] seksjonen har bare en faktor som er `WantedBy`, dette er en ganske komplisert Linux funksjon, men lett forklart er det en måte å fortelle systemd når prosessen skal starte basert på en rekke med faktorer.
