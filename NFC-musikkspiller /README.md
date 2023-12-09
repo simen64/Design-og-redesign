@@ -226,20 +226,23 @@ sudo systemctl restart ssh
 ## Boksen
 
 Som jeg nevnte helt i starten vil jeg holde alle disse elektroniske komponentene i en boks. Jeg valgte en boks laget av tre for flere grunner. Det er et materiale som tåler en god del, nå har jeg ikke tenkt til å kaste musikkspilleren min i veggen så ofte, men det er fint om den ikke faller sammen. Treverk er også noe som ser litt "klassisk" ut ettersom at dette skal etterligne en vinylspiller som er et klassisk / vintage produkt. Denne treboksen var før der vi hadde batterier i huste før, men i sommer 3D printet jeg noen nye holdere for batterier som gjorde denne boksen fritt for meg til å bruke.  
-Her er boksen, på toppen ser du markeringer med blyant. Dette er hvor jeg skulle borre for å trekke ledninger til lyset som skal på toppen.  
-![Boksen med markering på toppen](https://github.com/simen64/Design-og-redesign/blob/1a213cbadf311c9393cd7bb952f35feb4e7ce7c3/NFC-musikkspiller%20/Bilder/Boks%20med%20markeringer.jpg)
 
-<img src="https://github.com/simen64/Design-og-redesign/blob/1a213cbadf311c9393cd7bb952f35feb4e7ce7c3/NFC-musikkspiller%20/Bilder/Boks%20med%20markeringer.jpg" width="200">
+Her er boksen, på toppen ser du markeringer med blyant. Dette er hvor jeg skulle borre for å trekke ledninger til lyset som skal på toppen.  
+
+<img src="https://github.com/simen64/Design-og-redesign/blob/1a213cbadf311c9393cd7bb952f35feb4e7ce7c3/NFC-musikkspiller%20/Bilder/Boks%20med%20markeringer.jpg" width="450">
 
 Her har jeg borret hullene og trukket ledningene gjennom hullene. Ledningene loddet jeg på neopixel ringen selv.  
 
-![trekke ledninger fra neopixel](https://github.com/simen64/Design-og-redesign/blob/965f95672e6ce744a616d5b506f4f2a4b86eb31a/NFC-musikkspiller%20/Bilder/trekke%20ledninger%20fra%20neopixel.jpg)
+<img src="https://github.com/simen64/Design-og-redesign/blob/965f95672e6ce744a616d5b506f4f2a4b86eb31a/NFC-musikkspiller%20/Bilder/trekke%20ledninger%20fra%20neopixel.jpg" width="450">
 
 For at raspberry pien skal få strøm trenger den å bli tilkoblet med en mikro usb ledning. Derfor borret jeg et hull bak boksen til å plugge den inn. Å lage dette hullet var litt krevende ettersom at jeg måtte borre to hull ved siden av hverandre og fjerne midten for å få en avlang form for USB porten.    
-![Hull til ledning](https://github.com/simen64/Design-og-redesign/blob/534500b9ce91cd26394f5a717da05a3c1ab8d751/NFC-musikkspiller%20/Bilder/Hull%20til%20ledning.jpg)
+
+<img src="https://github.com/simen64/Design-og-redesign/blob/534500b9ce91cd26394f5a717da05a3c1ab8d751/NFC-musikkspiller%20/Bilder/Hull%20til%20ledning.jpg" width="450">
 
 Boksen ferdig: 
-![Boksen ferdig](https://github.com/simen64/Design-og-redesign/blob/a218101a42c0d3fd5787c3c56f63503c5e8253c7/NFC-musikkspiller%20/Bilder/boksen_ferdig.jpg)  
+
+<img src="https://github.com/simen64/Design-og-redesign/blob/a218101a42c0d3fd5787c3c56f63503c5e8253c7/NFC-musikkspiller%20/Bilder/boksen_ferdig.jpg" width="450">
+
 Jeg vurderte å fjerne den metall tingen foran, men jeg synes den legger til en god detalje som kontraster den simple tre boksen.
 
 ## Nettside
