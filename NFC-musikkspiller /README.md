@@ -246,6 +246,12 @@ Boksen ferdig:
 
 Jeg vurderte å fjerne den metall tingen foran, men jeg synes den legger til en god detalje som kontraster den simple tre boksen.
 
+## Platene
+
+Som den fysiske mediaen hvor jeg skal feste NFC klistremerkene lagde jeg "plater". Dette gjorde jeg ved å 3d modellere en sylinder som passer akkuratt inn i ringen med lys. På bunnen av disse platene puttet jeg NFC klistremerket. På skolen printet jeg ut noen album-cover som jeg brukte RX lim til å lime på toppen av platen.
+
+<img src="https://github.com/simen64/Design-og-redesign/blob/883c6257e839b03e27752e1c5ca066b44942c955/NFC-musikkspiller%20/Bilder/platene.jpg" width="300">
+
 ## Nettside
 
 Jeg bestemte meg for å prøve å lage en nettside til prosjektet som gjør det lett å legge til album og sanger. Det jeg ikke visste var at denne nettsiden ville bli et veldig mye mer komplisert prosjekt enn det jeg trodde. og det ville ta opp mange flere timer enn det jeg trodde.
