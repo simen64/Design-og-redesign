@@ -903,3 +903,41 @@ I [Unit] seksjonen legger vi til en beskrivelse, men også `After=network.target
 [Service] sekjsonen er der det morsomme skjer. Først sier vi at webserveren skal kjøres med min bruker. Så forteller vi hvor dette er lagret med `WorkingDirectory`. Hvis du husker kommandoen vi gjørte for å starte gunicorn, er det denne vi forteller at skal kjøres når den starter, dette putter vi under `ExecStart`. Hvis prosessen kræsjer setter vi `Restart` til `always` så den kan restarte serveren.
 
 [Install] seksjonen har bare en faktor som er `WantedBy`, dette er en ganske komplisert Linux funksjon, men lett forklart er det en måte å fortelle systemd når prosessen skal starte basert på en rekke med faktorer.
+
+### Spilleren
+
+Konfigurasjonen for å starte python scriptet som spiller av sanger og albumer er nesten helt likt som for webserveren bare at isteder for å kjøre med gunicorn kjører vi rett med python. Og fordi det krever root setter vi brukeren til root.
+```bash
+[Unit]
+Description=Core functions of playing music with the music player
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/home/simen/musikkspiller/
+ExecStart=/home/simen/musikkspiller/env/bin/python /home/simen/musikkspiller/play_album.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+### Oppdateringer
+
+Som alle burde vite er det ekstremt viktig å holde systemet sitt oppdatert for å passe på at det er sikkert mot nye trusler. For å slippe å måtte SSH inn i musikkspilleren min hver dag for å oppdatere den lagde jeg en service her også for å oppdatere systemt. En ekstremt nyttig ting med Linux er at du har noe som heter en "package manager" som handler alle programmene dine. Dette gjør at du kan oppdatere alt samtid. `apt update` oppdaterer hvor package manageren laster ned pakkene, og `apt upgrade` er det som faktisk oppdaterer systemet og alle programmene. Her er systemd serviceen for å oppdatere systemet når musikkspilleren starter:
+```bash
+[Unit]
+Description=Update System on Boot
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/apt update
+ExecStartPost=/usr/bin/apt upgrade -y
+
+[Install]
+WantedBy=default.target
+
+```
