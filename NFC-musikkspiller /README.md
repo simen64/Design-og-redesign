@@ -148,6 +148,19 @@ Det andre valget mitt er en Raspberry Pi 1b+ Dette er en veldig gammel generasjo
 
 ## Raspberry pi
 
+### Lys
+
+NFC leseren fortalte jeg om i introen, men ikke noe om lyset fordi det kom jeg ikke til før jeg hadde betsemt meg for å bruke en raspberry pi. Lyset er en neopixel ring som er en ring med i mitt tilfelle 24 forskjellige og individuelle kontrollerbare led lys. Under i diagrammet er det bilde av den. Dette lyset skal jeg bruke som en visuell indikator for når musikken blir spilt, pauset, etc. 
+
+### Oppkobling
+
+Dette er hvordan jeg koblet til komponentene til Raspberry PIen. To ting her er at breadboardet (det hvite brettet med masse hull i) fjernet jeg på slutten av prosjektet, fordi det er der bare for å gjøre det lettere å prototype. Og at ringen med lys her har bare 12 lys mens min har 24, dette endrer derimot ingenting med oppkoblingen.  
+![Raspberry pi wire diagram](https://github.com/simen64/Design-og-redesign/blob/7829068d9117b87b6acd530d20255a5e9d8b8f63/NFC-musikkspiller%20/Bilder/Raspberry%20pi%20diagram.png)
+
+### Wifi adapter
+
+Siden ikke jeg vil at musikkspilleren min må være koblet til ruteren hele tiden trenger den wifi, noe ikke Raspberry Pien jeg bruker har. Derfor trenger jeg en USB wifi adapter. Stefaren min hadde en gammel usb wifi adapter liggende som jeg kunne få. Problemet med de fleste wifi adaptere er at de ikke har drivere for Linux, heldigvis hadde den eldgamele D-Link adapteren en driver som het `carl9170` som jeg kunne laste ned med pakken `firmware-linux-free` Etter det var det bare å putte navnet og passordet på nettverket mitt i raspberry PIen sin `wpa-supplicant.txt` fil, og etter en restart hadde jeg Wifi! Men det kan jo selvfølgelig ikke gå problemløst. Det viste seg at denne adapteren var veldig ustabil og SSH tilkoblingen min (En måte å kommunisere trådløst mellom to PCer) falt ut hele tiden. Jeg kom på at jeg hadde lånt en annen wifi adapter til Herman for en stund siden. Jeg spurte han om han fortsatt brukte den, noe han ikke gjorde. Etter å ha hentet den plugget jeg den inn og alt funket uten noe mere styr.
+
 ### Linux
 
 Operativsystemet jeg har tenkt til å kjøre er Raspbian lite, dette er en versjon av Debian linux som er det jeg bruker på PCen min hjemme. Keg valgte å bruke linux fordi det er et veldgi bra operativ-system for servere fordi det tar lite ressurser, er åpen kildekode, lett å sette opp, og jeg er godt kjent med det.
@@ -209,9 +222,23 @@ Til slutt restarter vi SSH:
 ```
 sudo systemctl restart ssh
 ```
-### Wifi adapter
 
-Siden ikke jeg vil at musikkspilleren min må være koblet til ruteren hele tiden trenger den wifi, noe ikke Raspberry Pien jeg bruker har. Derfor trenger jeg en USB wifi adapter. Stefaren min hadde en gammel usb wifi adapter liggende som jeg kunne få. Problemet med de fleste wifi adaptere er at de ikke har drivere for Linux, heldigvis hadde den eldgamele D-Link adapteren en driver som het `carl9170` som jeg kunne laste ned med pakken `firmware-linux-free` Etter det var det bare å putte navnet og passordet på nettverket mitt i raspberry PIen sin `wpa-supplicant.txt` fil, og etter en restart hadde jeg Wifi! Men det kan jo selvfølgelig ikke gå problemløst. Det viste seg at denne adapteren var veldig ustabil og SSH tilkoblingen min (En måte å kommunisere trådløst mellom to PCer) falt ut hele tiden. Jeg kom på at jeg hadde lånt en annen wifi adapter til Herman for en stund siden. Jeg spurte han om han fortsatt brukte den, noe han ikke gjorde. Etter å ha hentet den plugget jeg den inn og alt funket uton noe mere styr.
+## Boksen
+
+Som jeg nevnte helt i starten vil jeg holde alle disse elektroniske komponentene i en boks. Jeg valgte en boks laget av tre for flere grunner. Det er et materiale som tåler en god del, nå har jeg ikke tenkt til å kaste musikkspilleren min i veggen så ofte, men det er fint om den ikke faller sammen. Treverk er også noe som ser litt "klassisk" ut ettersom at dette skal etterligne en vinylspiller som er et klassisk / vintage produkt. Denne treboksen var før der vi hadde batterier i huste før, men i sommer 3D printet jeg noen nye holdere for batterier som gjorde denne boksen fritt for meg til å bruke.  
+Her er boksen, på toppen ser du markeringer med blyant. Dette er hvor jeg skulle borre for å trekke ledninger til lyset som skal på toppen.  
+![Boksen med markering på toppen](https://github.com/simen64/Design-og-redesign/blob/1a213cbadf311c9393cd7bb952f35feb4e7ce7c3/NFC-musikkspiller%20/Bilder/Boks%20med%20markeringer.jpg)  
+
+Her har jeg borret hullene og trukket ledningene gjennom hullene. Ledningene loddet jeg på neopixel ringen selv.  
+
+![trekke ledninger fra neopixel](https://github.com/simen64/Design-og-redesign/blob/965f95672e6ce744a616d5b506f4f2a4b86eb31a/NFC-musikkspiller%20/Bilder/trekke%20ledninger%20fra%20neopixel.jpg)
+
+For at raspberry pien skal få strøm trenger den å bli tilkoblet med en mikro usb ledning. Derfor borret jeg et hull bak boksen til å plugge den inn.  
+![Hull til ledning](https://github.com/simen64/Design-og-redesign/blob/534500b9ce91cd26394f5a717da05a3c1ab8d751/NFC-musikkspiller%20/Bilder/Hull%20til%20ledning.jpg)
+
+Boksen ferdig: 
+![Boksen ferdig](https://github.com/simen64/Design-og-redesign/blob/a218101a42c0d3fd5787c3c56f63503c5e8253c7/NFC-musikkspiller%20/Bilder/boksen_ferdig.jpg)  
+Jeg vurderte å fjerne den metall tingen foran, men jeg synes den legger til en god detalje som kontraster den simple tre boksen.
 
 ## Nettside
 
