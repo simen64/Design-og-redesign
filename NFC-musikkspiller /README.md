@@ -26,7 +26,7 @@ Scanneren jeg har tenkt til å bruke er en RC5200 RFID scanner. Selvom denen sca
 
 ### Å spille av musikk
 
-For å spill av musikk har jeg tenkt til å gå gjennom Home assistant. Home assistant er et self hosted smarthus kontrollsenter, her har jeg tilkoblet høytalerne jeg tenker å bruke. Home assistant støøter webhooks som er en måte for enheter å sende data en vei til en server ved hjelp av http (web linker) Når et album er scannet skal SBCen finne ut hvilke album det er, sende dette med en webhook over til homeassistant, som gjennom Spotify sin API spiller det av på høytaleren jeg har bestemt.
+For å spill av musikk har jeg tenkt til å gå gjennom Home assistant. Home assistant er et self hosted smarthus kontrollsenter, her har jeg tilkoblet høytalerne jeg tenker å bruke. Home assistant støtter webhooks som er en måte for enheter å sende data en vei til en server ved hjelp av http (web linker) Når et album er scannet skal SBCen finne ut hvilke album det er, sende dette med en webhook over til homeassistant, som gjennom Spotify sin API spiller det av på høytaleren jeg har bestemt.
 
 ## Flowchart
 ![Musikkspiller_flowchart](https://github.com/simen64/Design-og-redesign/blob/b5c3e3b5bfac3fbb8e957e4738b0917208530f8e/NFC-musikkspiller%20/Bilder/Musikkspiller_flowchart.jpg)
@@ -120,8 +120,8 @@ Hver av disse linjene er det som kalles en packet.
 Packet nummer 344 er en broadcast for å koble seg til nettet  
 Nummer 345 Ser etter DHCP servere på nettet  
 Nummer 346 Spør om en IP fra DHCP serveren  
-Nummer 347 Sjekker om noen enheter har IPen 192.168.x.x, nummer 348 gjentar dette for å dobbeltsjekke  
-Nummer 348 annonserer at den har tatt IPen 192.168.x.x
+Nummer 349 Sjekker om noen enheter har IPen 192.168.x.x, nummer 354 gjentar dette for å dobbeltsjekke  
+Nummer 368 annonserer at den har tatt IPen 192.168.x.x
 
 Mens når jeg sendte kommandoen som skulle sende webhooken, skjedde ingenting i Wireshark.  
 For å verifisere at ESP8266 modulen faktisk kunne kommunisere med Home Assistant pinget (En måte å sjekke om man har kommunikasjon til en server eller klient) jeg den med kommandoen `AT+PING="192.168.125.77"`
@@ -144,7 +144,7 @@ Av elektroniske komponenter som jeg har hjemme som ikke er i bruk var det to jeg
 
 Første valg er en Raspberry Pi Pico W. Dette er en veldig billig og liten enhet med en mikroprosessor, og den har innebygd wifi! Jeg kjøpte en mengde av disse for eksperimentering for en god stund siden så jeg har en god del liggende. Dette høres bra ut ettersom at det er egentlig alt jeg har bedt om og en annen pluss side er at den kan kodes med python som jeg skjenner bedre enn c++ som arduinoer bruker. Men det er en ting som gjør disse enhetene nesten ubrukelig til alle sånne her litt større prosjekter, lagring. Lagringsplassen på en Pico W er bare 2 MB! Dette kan kanskje være nok for den rene koden pluss firmwaret (det som gjør at koden kjører på enheten) Men det det ikke er plass til er en mengde med pakker for å styre komponenter, wifi etc.
 
-Det andre valget mitt er en Raspberry Pi 1b+ Dette er en veldig gammel generasjon av hoved linjen til Raspberry Pi, men for et prosjekt som dette kan det funke. Denne raspberry PIen er egentlig en mini pc som kjører Linux, noe jeg er godt kjent med hvordan man setter opp og holder oppe. Dette gir en rekke med fordeler som at den kan kjøre flere ting samtidig, den kjører fortsatt python (eller alt annent jeg vil bruke), den har nok lagring, den har massevis av porter til å koble til komponenter. Eneste tingen med denne veldig gamle versjonen er at den ikke kommer med innebygd wifi, dette planlegger jeg å fikse med å koble til en wifi USB adapter. Som du kanskje har forstått er dette planen. Men hvor kom denne fra? Jeg har hatt denne liggende lenge siden jeg fikk den fra stefaren min siden han ikke brukte den lenger. Nylig har jeg brukt den til å hoste en discord bot, men den brukes nesten aldri lenger så det skal ikke ha noe å si.
+Det andre valget mitt er en Raspberry Pi 1b+ Dette er en veldig gammel generasjon av hoved linjen til Raspberry Pi, men for et prosjekt som dette kan det funke. Denne raspberry PIen er egentlig en mini pc som kjører Linux, noe jeg er godt kjent med hvordan man setter opp og holder oppe. Dette gir en rekke med fordeler som at den kan kjøre flere ting samtidig, den kjører fortsatt python (eller alt annent jeg vil bruke), den har nok lagring, og den har massevis av porter til å koble til komponenter. Eneste tingen med denne veldig gamle versjonen er at den ikke kommer med innebygd wifi, dette planlegger jeg å fikse med å koble til en wifi USB adapter. Som du kanskje har forstått er dette planen. Men hvor kom denne fra? Jeg har hatt denne liggende lenge siden jeg fikk den fra stefaren min siden han ikke brukte den lenger. Nylig har jeg brukt den til å hoste en discord bot, men den brukes nesten aldri lenger så det skal ikke ha noe å si om jeg bytter ut det med dette prosjektet.
 
 ## Raspberry pi
 
