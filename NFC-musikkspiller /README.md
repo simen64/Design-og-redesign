@@ -902,7 +902,34 @@ return redirect(url_for("home"))
 ```
 Og når brukeren laster inn hjem siden bygger javascript tabellen på nytt som nå har med den nylige lagt til sangen eller albumet.
 
-## Systemd
+# Å spille av musikk
+
+Helt i starten viste jeg et veldig simpelt diagram på hvordan musikken skal spilles av, men nå skal vi se på det i detalje. Jeg skrev dette programmet i python fordi det er det språket jeg kan. Før vi starter å gå gjennom koden er det noen ting som må nevnes. Denne koden er funksjons basert som betyr at nesten all koden er inni forksjellige funksjoner som blir tilkalt. Dette kan gjøre det litt vanskeligere å forstå sammenhengen mellom forksjellige deler av koden, men heng med.
+
+Vi starter med å gå gjennom musikk faktisk blir spilt. Det første du må vite er hva en API er. En API er en måte vi i koden vår kan si til spotify eller home assistant, gjør det her. Så når jeg refererer til en "API request" snakker jeg om å be noe som Spotify eller Home Assistant om å gjøre noe.
+
+### Home Assistant
+
+Home Assistant er det som styrer alle smarthus enhetene i huset mitt inkludert høytalere. I Home Assistant har vi et script, dette er litt some et program som kan utføre en rekke med hendelser i huset. I vårt tilfelle skal scriptet spille av musikk gjennom Spotify. Dette gjør vi med en utivdelse som heter "Spotcast" denne lar oss velge en høytaler og en sende en Spotify URI for å spille av musikk. Sånn her ser Home Assistant scriptet ut:
+```yaml
+service: spotcast.start
+data:
+  limit: 20
+  force_playback: true
+  random_song: false
+  repeat: "off"
+  shuffle: false
+  offset: 0
+  ignore_fully_played: false
+  device_name: Simens Rom Høytaler
+  uri: "{{ states('input_text.spotify_uri') }}"
+```
+De to viktigste tingene her er `device name` som spesifiserer hvilke høytaler som skal brukes og `uri`. URI delen derimot som du kanskje ser inneholder ikke en URI, men statusen til det som heter en "hjelper". En hjelper er en variabel i Home Assistant som kan holde data. Her inneholder variablen en Spotify URI, hvorfor vi gjør det sånn her kommer vi tilbake til. Så når dette scriptet kjøres spilles det av musikk på høytaleren.
+
+#### Aktivere scriptet fra Python
+
+
+# Systemd
 
 Hvis du noen gang har lurt på hva i operativsystemet ditt det er som starter alle prosessene som det som styrer wifi, antivirus, brannmur, oppstartsprogrammer etc? Vel i tilfelle til de fleste Linux distrubisjoner er dette systemd. Det er ofte hatet ettersom at det ikke følger Unix filososifen som sier: "Skriv programmer som gjør én ting, og én ting godt. Systemd gjør mange ting, middels godt, men det har blitt tatt i bruk fordi det er universalt og lett. Det systemd er er et "init system". I windows når du skal få et program som nettsiden eller programmet for å spille musikk til å starte når systemet starter kan du bare putte det i en mappe, på Linux er det ikke fullt så lett. For at systemd skal vite hvordan programmet skal startes må vi skrive en konfigurasjonsfil til systemd.
 
