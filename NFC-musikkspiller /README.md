@@ -155,7 +155,8 @@ NFC leseren fortalte jeg om i introen, men ikke noe om lyset fordi det kom jeg i
 ### Oppkobling
 
 Dette er hvordan jeg koblet til komponentene til Raspberry PIen. To ting her er at breadboardet (det hvite brettet med masse hull i) fjernet jeg på slutten av prosjektet, fordi det er der bare for å gjøre det lettere å prototype. Og at ringen med lys her har bare 12 lys mens min har 24, dette endrer derimot ingenting med oppkoblingen.  
-![Raspberry pi wire diagram](https://github.com/simen64/Design-og-redesign/blob/7829068d9117b87b6acd530d20255a5e9d8b8f63/NFC-musikkspiller%20/Bilder/Raspberry%20pi%20diagram.png)
+
+<img src="https://github.com/simen64/Design-og-redesign/blob/7829068d9117b87b6acd530d20255a5e9d8b8f63/NFC-musikkspiller%20/Bilder/Raspberry%20pi%20diagram.png" width="550">
 
 ### Wifi adapter
 
