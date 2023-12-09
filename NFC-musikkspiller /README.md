@@ -908,7 +908,7 @@ Helt i starten viste jeg et veldig simpelt diagram på hvordan musikken skal spi
 
 Vi starter med å gå gjennom musikk faktisk blir spilt. Det første du må vite er hva en API er. En API er en måte vi i koden vår kan si til spotify eller home assistant, gjør det her. Så når jeg refererer til en "API request" snakker jeg om å be noe som Spotify eller Home Assistant om å gjøre noe.
 
-### Home Assistant
+## Home Assistant
 
 Home Assistant er det som styrer alle smarthus enhetene i huset mitt inkludert høytalere. I Home Assistant har vi et script, dette er litt some et program som kan utføre en rekke med hendelser i huset. I vårt tilfelle skal scriptet spille av musikk gjennom Spotify. Dette gjør vi med en utivdelse som heter "Spotcast" denne lar oss velge en høytaler og en sende en Spotify URI for å spille av musikk. Sånn her ser Home Assistant scriptet ut:
 ```yaml
@@ -926,7 +926,8 @@ data:
 ```
 De to viktigste tingene her er `device name` som spesifiserer hvilke høytaler som skal brukes og `uri`. URI delen derimot som du kanskje ser inneholder ikke en URI, men statusen til det som heter en "hjelper". En hjelper er en variabel i Home Assistant som kan holde data. Her inneholder variablen en Spotify URI, hvorfor vi gjør det sånn her kommer vi tilbake til. Så når dette scriptet kjøres spilles det av musikk på høytaleren.
 
-#### Aktivere scriptet fra Python
+### Aktivere scriptet fra Python
+tekst her og der
 
 
 # Systemd
