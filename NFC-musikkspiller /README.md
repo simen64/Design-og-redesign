@@ -31,7 +31,7 @@ For å spill av musikk har jeg tenkt til å gå gjennom Home assistant. Home ass
 ## Flowchart
 ![Musikkspiller_flowchart](https://github.com/simen64/Design-og-redesign/blob/b5c3e3b5bfac3fbb8e957e4738b0917208530f8e/NFC-musikkspiller%20/Bilder/Musikkspiller_flowchart.jpg)
 
-## Arduino
+# Arduino
 
 Planen først var å bruke en Arduino som hjernen. Arduinoer er et elektronikk-brett med en mikroprosessor. De er veldig kjent for å brukes i elektronikk prosjekter som det her. Arduinoen har strøm, og data utganger som gjør den bra til å koble til komponenter. Jeg har hatt noen Arduinoer av forrige generajon liggende siden 2019, og har ikke egentlig brukt dem sins. Jeg fikk de til julegave sammen med masse andre elektroniske komponenter, som endte opp med å komme til nytte nå 4 år senere.
 
@@ -138,7 +138,7 @@ Jo hva var problemet? Når jeg først leste meg opp på hvordan jeg skulle koble
 For å fikse dette problemet må man bruke det som heter en biodirectional logic level shift converter, dette er bare et fancy ord for et elektronisk komponent som gjør 5v til 3,3v for data.
 Ettersom at dette ikke er noe jeg har liggende, og jeg har ikke materialene til å bygge min egen, må jeg enten kjøpe en eller finne en annen for for hjerne. Siden denne komponenten kostet rundt 150kr bestemte jeg meg for å heller se om jeg kunne finne en annen elektronisk komponent som en hjerne.
 
-## En annen hjerne
+# En annen hjerne
 
 Av elektroniske komponenter som jeg har hjemme som ikke er i bruk var det to jeg kunne bruke.  
 
@@ -146,7 +146,7 @@ Første valg er en Raspberry Pi Pico W. Dette er en veldig billig og liten enhet
 
 Det andre valget mitt er en Raspberry Pi 1b+ Dette er en veldig gammel generasjon av hoved linjen til Raspberry Pi, men for et prosjekt som dette kan det funke. Denne raspberry PIen er egentlig en mini pc som kjører Linux, noe jeg er godt kjent med hvordan man setter opp og holder oppe. Dette gir en rekke med fordeler som at den kan kjøre flere ting samtidig, den kjører fortsatt python (eller alt annent jeg vil bruke), den har nok lagring, og den har massevis av porter til å koble til komponenter. Eneste tingen med denne veldig gamle versjonen er at den ikke kommer med innebygd wifi, dette planlegger jeg å fikse med å koble til en wifi USB adapter. Som du kanskje har forstått er dette planen. Men hvor kom denne fra? Jeg har hatt denne liggende lenge siden jeg fikk den fra stefaren min siden han ikke brukte den lenger. Nylig har jeg brukt den til å hoste en discord bot, men den brukes nesten aldri lenger så det skal ikke ha noe å si om jeg bytter ut det med dette prosjektet.
 
-## Raspberry pi
+# Raspberry pi
 
 ### Lys
 
@@ -215,7 +215,7 @@ Sist men ikke minst må vi skru av passord autentikasjon for serveren. Vi starte
 ```
 sudo nano /etc/ssh/sshd_config
 ```
-Så skrur vi at passord autentikasjon:
+Så skrur vi av passord autentikasjon:
 ```
 PasswordAuthentication no
 ```
@@ -224,9 +224,11 @@ Til slutt restarter vi SSH:
 sudo systemctl restart ssh
 ```
 
-## Boksen
+Nå har vi en sikker tilkobling som vi kan bruke til å sette opp musikkspilleren med.
 
-Som jeg nevnte helt i starten vil jeg holde alle disse elektroniske komponentene i en boks. Jeg valgte en boks laget av tre for flere grunner. Det er et materiale som tåler en god del, nå har jeg ikke tenkt til å kaste musikkspilleren min i veggen så ofte, men det er fint om den ikke faller sammen. Treverk er også noe som ser litt "klassisk" ut ettersom at dette skal etterligne en vinylspiller som er et klassisk / vintage produkt. Denne treboksen var før der vi hadde batterier i huste før, men i sommer 3D printet jeg noen nye holdere for batterier som gjorde denne boksen fritt for meg til å bruke.  
+# Boksen
+
+Som jeg nevnte helt i starten vil jeg holde alle disse elektroniske komponentene i en boks. Jeg valgte en boks laget av tre for flere grunner. Det er et materiale som tåler en god del, nå har jeg ikke tenkt til å kaste musikkspilleren min i veggen så ofte, men det er fint om den ikke faller sammen. Treverk er også noe som ser litt "klassisk" ut ettersom at dette skal etterligne en vinylspiller som er et klassisk / vintage produkt. Denne treboksen startet med å være en boks for dagbøker som morfaren min laget til moren min. Det er derfor den har en låse-mekanisme foran. Så ble det til boksen vi hadde batterier i i huset før, men i sommer 3D printet jeg noen nye holdere for batterier som gjorde denne boksen fri for meg å bruke.  
 
 Her er boksen, på toppen ser du markeringer med blyant. Dette er hvor jeg skulle borre for å trekke ledninger til lyset som skal på toppen.  
 
@@ -252,7 +254,7 @@ Som den fysiske mediaen hvor jeg skal feste NFC klistremerkene lagde jeg "plater
 
 <img src="https://github.com/simen64/Design-og-redesign/blob/883c6257e839b03e27752e1c5ca066b44942c955/NFC-musikkspiller%20/Bilder/platene.jpg" width="300">
 
-## Nettside
+# Nettside
 
 Jeg bestemte meg for å prøve å lage en nettside til prosjektet som gjør det lett å legge til album og sanger. Det jeg ikke visste var at denne nettsiden ville bli et veldig mye mer komplisert prosjekt enn det jeg trodde. og det ville ta opp mange flere timer enn det jeg trodde.
 
