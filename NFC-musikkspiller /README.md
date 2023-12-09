@@ -40,7 +40,7 @@ For at prosjektet skal fungere trenger den å ha tilgang til Wifi, noe min ardui
 ## Oppkobling
 ![Arduino oppkobling](https://github.com/simen64/Design-og-redesign/blob/86e651944495e410128a51a4ffa52c13428fa7e2/NFC-musikkspiller%20/Bilder/Arduino%20oppkobling.png)
 
-### Serie kommunikasjon
+## Serie kommunikasjon
 
 For å kommunisere med ESP8266 modulen kan jeg bruke en serie monitor for å sende kommandoer til prosessoren, en sånn serie monitor er bygd inn i programvaren Arduino IDE, som er programmet jeg bruker til å kode til arduinoen.
 Et problem jeg endte opp med å ha var at siden jeg hadde koblet ESP8266 modulen til Arduinoen sine serie porter, ble det konflikt med USBen som lastet koden over. Derfor måtte jeg plugge ut modulen vær gang jeg lastet opp ny kode, for å så plugge den inn igjen. Koden jeg lastet opp til Arduinoen inneholdte ikke noe, fordi jeg for nå bare trengte å bruke serie kommandoer for å kommunisere med ESP8266 modulen.
@@ -61,7 +61,7 @@ OK
 ```
 I innstillingene til ruteren min kunne jeg verifisere at den var tilkoblet.
 
-### Programmering
+## Programmering
 
 Jeg måtte kode et program til Arduinoen som automatiserte å putte inn disse kommandoene, siden det er variasjoner av de som skal brukes til å forespørre en webhook.  
 `SoftwareSerial` er en pakke for Arduino som gjør det lett å sende kommandoer til moduler som er oppkoblet med serie porter.    
@@ -89,7 +89,7 @@ Men når jeg prøvde dette endte det opp med å funke så jeg bare holdt meg til
 Koden jeg hadde lagde fungerte, og alt jeg puttet inn i `ESP8266.println("")` ble kjørt som om jeg sendte kommandoen gjennom Serie monitor.  
 Jeg skulle nå begynne på å få webhooks til å fungere.
 
-### Webhooks og HTTP requests
+## Webhooks og HTTP requests
 
 Ifølge Espressif (De som lager ESP modulene) er dette kommandoene jeg skal putte inn for å sende en webhook (I dette eksemplet bruker jeg // for kommentarer disse hadde ikke funket om man hadde inkludert dem i kommandoene)
 
@@ -129,11 +129,11 @@ Og hva skjedde? Jo den kom fram.
 
 ![Wireshark capture av ping til HA](https://github.com/simen64/Design-og-redesign/blob/95fce086cf4167f07ed15089a7fa0fab81d15931/NFC-musikkspiller%20/Bilder/ESP8266_Ping.png)
 
-### Problemet
+## Problemet
 
 Jo hva var problemet? Når jeg først leste meg opp på hvordan jeg skulle koble opp ESP8266 modulen til arduinoen sto det at jeg måtte passe på fordi ESP modulen tar 3,3V og arduinoen sender ut 5V. Jeg trodde dette bare var for tilkoblingen som gir strøm til modulen, derfor koblet jeg den inn i 3,3V porten til arduinoen. Det jeg glemte å ta inn i konsiderasjon var at de også mente serie portene. Alle arduino portene man bruker til å koble komponenter til sender ut 5V med strøm, mens portene på ESP modulen bare skal ha 3,3V. Jeg tror ikke at jeg har ødelagt modulen, men denne forskjellen i volt kan gjøre at signalet blir korrupt som gjør at det ikke kommer fram, at virtuelle porter ikke funker med `SoftwareSerial`, og det kan ødelegge modulen etterhvert.
 
-### Løsningen
+## Løsningen
 
 For å fikse dette problemet må man bruke det som heter en biodirectional logic level shift converter, dette er bare et fancy ord for et elektronisk komponent som gjør 5v til 3,3v for data.
 Ettersom at dette ikke er noe jeg har liggende, og jeg har ikke materialene til å bygge min egen, må jeg enten kjøpe en eller finne en annen for for hjerne. Siden denne komponenten kostet rundt 150kr bestemte jeg meg for å heller se om jeg kunne finne en annen elektronisk komponent som en hjerne.
@@ -148,27 +148,27 @@ Det andre valget mitt er en Raspberry Pi 1b+ Dette er en veldig gammel generasjo
 
 # Raspberry pi
 
-### Lys
+## Lys
 
 NFC leseren fortalte jeg om i introen, men ikke noe om lyset fordi det kom jeg ikke til før jeg hadde betsemt meg for å bruke en raspberry pi. Lyset er en neopixel ring som er en ring med i mitt tilfelle 24 forskjellige og individuelle kontrollerbare led lys. Under i diagrammet er det bilde av den. Dette lyset skal jeg bruke som en visuell indikator for når musikken blir spilt, pauset, etc. 
 
-### Oppkobling
+## Oppkobling
 
 Dette er hvordan jeg koblet til komponentene til Raspberry PIen. To ting her er at breadboardet (det hvite brettet med masse hull i) fjernet jeg på slutten av prosjektet, fordi det er der bare for å gjøre det lettere å prototype. Og at ringen med lys her har bare 12 lys mens min har 24, dette endrer derimot ingenting med oppkoblingen.  
 
 <img src="https://github.com/simen64/Design-og-redesign/blob/7829068d9117b87b6acd530d20255a5e9d8b8f63/NFC-musikkspiller%20/Bilder/Raspberry%20pi%20diagram.png" width="550">
 
-### Wifi adapter
+## Wifi adapter
 
 Siden ikke jeg vil at musikkspilleren min må være koblet til ruteren hele tiden trenger den wifi, noe ikke Raspberry Pien jeg bruker har. Derfor trenger jeg en USB wifi adapter. Stefaren min hadde en gammel usb wifi adapter liggende som jeg kunne få. Problemet med de fleste wifi adaptere er at de ikke har drivere for Linux, heldigvis hadde den eldgamele D-Link adapteren en driver som het `carl9170` som jeg kunne laste ned med pakken `firmware-linux-free` Etter det var det bare å putte navnet og passordet på nettverket mitt i raspberry PIen sin `wpa-supplicant.txt` fil, og etter en restart hadde jeg Wifi! Men det kan jo selvfølgelig ikke gå problemløst. Det viste seg at denne adapteren var veldig ustabil og SSH tilkoblingen min (En måte å kommunisere trådløst mellom to PCer) falt ut hele tiden. Jeg kom på at jeg hadde lånt en annen wifi adapter til Herman for en stund siden. Jeg spurte han om han fortsatt brukte den, noe han ikke gjorde. Etter å ha hentet den plugget jeg den inn og alt funket uten noe mere styr.
 
-### Linux
+## Linux
 
 Operativsystemet jeg har tenkt til å kjøre er Raspbian lite, dette er en versjon av Debian linux som er det jeg bruker på PCen min hjemme. Keg valgte å bruke linux fordi det er et veldgi bra operativ-system for servere fordi det tar lite ressurser, er åpen kildekode, lett å sette opp, og jeg er godt kjent med det.
 
 Første steg for å installere Linux på en raspberry pi er å laste Linux ned på et SD-kort. Dette gjør man med "Raspberry Pi imager" som er et rpogram som automatiserer nedlastingen av Linux til SD-kort som kan brukes på Raspberry Pi. Etter jeg hadde SD-kortet mitt med Linux på kunne jeg koble opp Raspberry Pien til ruteren min med en ethernet kabel, og sette SD-kortet inn. Når jeg hadde koblet til strømmen og ventet litt sjekket jeg ruteren sitt kontrollpanel. Her kunne jeg se at den koblet til nettverket og fått IP adressen `192.168.24.24` (Dette er ikke den faktiske IP adressen, som jeg har valgt å hjemme for sikkerhets grunner)
 
-#### SSH
+### SSH
 
 SSH er et åpent kildekode prosjekt som gjør det mulig å koble seg til servere over netttet med terminalen. Fordelen med SSH overfor eldre programmer som Telnet er at SSH er enkryptert så ingen på nettet kan "hack" seg inn å se kommandoene som sendes. For å koble til Raspberry PIen med SSH kjørte jeg denne kommandoen:
 ```
@@ -258,7 +258,7 @@ Som den fysiske mediaen hvor jeg skal feste NFC klistremerkene lagde jeg "plater
 
 Jeg bestemte meg for å prøve å lage en nettside til prosjektet som gjør det lett å legge til album og sanger. Det jeg ikke visste var at denne nettsiden ville bli et veldig mye mer komplisert prosjekt enn det jeg trodde. og det ville ta opp mange flere timer enn det jeg trodde.
 
-### Struktur
+## Struktur
 
 Jeg har personlig aldri kodet i HTML, CSS, Javascript, eller Flask, som er alle de programmeringsspråkene man bruker til å lage en nettside, så dette var helt nytt for meg. Målet med denne nettsiden er å gjøre det lett å legge til nye album i databasen til musikkspilleren. Dette betyr at nettsiden trenger en front end (det brukeren ser på skjermen) og en back end (det som skjer bak i serveren som å legge sangene til en database)
 Det første jeg satt ut på å lære var HTML, som er strukturen til nettsiden. I min mening virker ikke HTMl som en veldig vanskelig ting å bruke. Man kan jo selvfølgelig gjøre det mer vanskelig med å lage mere komplekse nettsider. Teknisk sett er heller ikke HTML et programmeringsspråk, men et markeringsspråk for å strukturere tekst.
@@ -300,7 +300,7 @@ Senere bestemte jeg meg for at nettsiden skulle støtte både album og sanger s�
 
 ![Nytt nettside design](https://github.com/simen64/Design-og-redesign/blob/d7908f4cdbdf0de4cb119cf444a9f5163ef35dfc/NFC-musikkspiller%20/Bilder/newest_website_design.png)
 
-### Funksjonalitet
+## Funksjonalitet
 
 Så nå har vi sånn ca. hvordan nettsiden skal se ut, og hvordan den tar input, men den vanskelige delen er å få den til å faktisk ha funksjonalitet.
 Jeg har laget et veldig simplifisert flowchart på hvordan nettsiden funker, men jeg skal gå mere inn i dybden.  
@@ -749,7 +749,7 @@ GPIO.cleanup()
 ```
 `id = reader.read()` ber scanneren om å lete etter en tag, når en tag har blitt scannet lagres dataen den finner i variablen `id` og koden fortsetter.
 
-#### Scanner problemet
+### Scanner problemet
 
 Planen vår originalt å skrive et tall til "tagene" som leseren skal kunne lese. Når jeg først skrev et program for å lese en tag gjorde jeg det sånn her:
 ```python
@@ -765,7 +765,7 @@ AUTH ERROR(status2reg & 0x08) != 0"
 ```
 Som man ser først fungerer det å printe IDen, men teksten ikke så bra. "AUTH ERROR" betyr at noe har gått galt under en autentikasjon med tagen, selvom tagen ikke har noe passord eller enkrypsjon. På linje 3 ser vi `0x08` dette er en referanse til et sted i minne til tagen. Etter litt googling fant jeg ut at ikke bare det var jeg som hadde dette problemet. Det som gjør at det feiler er at programmet som kjører på scanneren ble sist oppdatert for 7 år siden, og tagene jeg har er nyere enn det. Så autentikasjonen dems fungerer ikke. Men hvordan skulle jeg nå gjøre prosjektet mitt? Jo siden IDen fortsatt fungerer kan jeg bruke den til å forbinde dem med album. Dette gjør også at man slipper å skrive en ID til en tag. Derfor scanner man tagen når man legger den til i nettsiden.
 
-#### Tilbake til input
+### Tilbake til input
 
 ```python
 id = reader.read()
@@ -927,9 +927,86 @@ data:
 De to viktigste tingene her er `device name` som spesifiserer hvilke høytaler som skal brukes og `uri`. URI delen derimot som du kanskje ser inneholder ikke en URI, men statusen til det som heter en "hjelper". En hjelper er en variabel i Home Assistant som kan holde data. Her inneholder variablen en Spotify URI, hvorfor vi gjør det sånn her kommer vi tilbake til. Så når dette scriptet kjøres spilles det av musikk på høytaleren.
 
 ### Aktivere scriptet fra Python
-tekst her og der
 
+Naturligvis siden scriptet er det som spiller av musikken trenger vi å aktivere dette fra Python programmet vårt. Home Assistant har en API som vi kan bruke.
 
+Helt øverst i programmet vårt setter vi noen variabler, disse kommer du til å se senere. Du trenger ikke huske dem bare vit at de er der.
+```python
+Token = os.getenv("HA_TOKEN")
+
+headers = {
+    "Authorization": str("Bearer " + Token),
+    "content-type": "application/json",
+}
+
+HA_URL = "http://192.168.58.178:8123 #Fake IP adresse for min sikkerhet"
+```
+En Token er litt som et passord, og gir oss tilgang til å styre Home Assistant fra Python.
+
+Jeg snakket om hvordan scriptet bruker en hjelper for å vite hva den skal spille av. Grunnen til dette er så vi kan endre hva som skal spilles med Python scriptet. Det gjør vi med denne funksjonen her:
+```python
+def update_helper(Spotify_URI):
+    global helper_id, HA_URL, headers
+    print("updating helper")
+
+    data = {
+    'state': Spotify_URI,
+    }
+
+    response = requests.post(f'{HA_URL}/api/states/{helper_id}', headers=headers, json=data)
+
+    if response.status_code == 200:
+        print(f'Successfully updated the value of {helper_id}')
+    else:
+        print(f'Failed to update the value. Status code: {response.status_code}, Response: {response.text}')
+```
+Vi ser at det er en funksjon med at den starter med `def`. Det vi også kan legge merge til er at i parantesene på første linje står det `Spotify_URI`. Dette betyr at når noe tilkaller denne funksjonen gir de også funksjonen data som her er en Spotify URI (Hvis du har glemt det så er en Spotify URI en måte for Spotify å identifisere en sang) Så variablen `Spotify URI` inneholder en sang.
+
+Det som står etter `global` er variabler vi trekker inn i funksjonen. `HA_URL` og `headers` viste jeg ista og er bare der for å få det til å funke. Men `helper_id` er Home Assistant IDen til hjelperen vi skal oppdatere og den ser slik ut:
+```
+helper_id = "input_text.spotify_uri"
+```
+Grunnen til at vi putter dette i en variabel er for å gjøre det lettere å bytte IDen hvis man trenger det i framtiden, eller hvis jeg skal gjøre dette prosjektet offentlig må det være lett å putte inn sin egen data.
+```python
+data = {
+    'state': Spotify_URI,
+    }
+```
+Denne dataen her er i JSON format og er det som sier til Home Assistant hva hjelperen skal oppdateres til. Og vi vil at den skal oppdateres til å inneholde Spotify URIen vi fikk når noe tilkalte funkjsonen.
+```python
+    response = requests.post(f'{HA_URL}/api/states/{helper_id}', headers=headers, json=data)
+
+    if response.status_code == 200:
+        print(f'Successfully updated the value of {helper_id}')
+    else:
+        print(f'Failed to update the value. Status code: {response.status_code}, Response: {response.text}')
+```
+Den siste delen her setter alt sammen og sender det til Home Assistant. Hvis vi får tilbake koden `200` vet vi at det gikk gjennom, derimot hvis ikke så gikk noe galt. Dette er hele funksjonen for å oppdatere hjelperen
+
+Neste funksjon vi trenger er å faktisk aktivere scriptet.  
+```python
+def run_script():
+    global script_id, HA_URL
+    print("running script")
+
+    data = {
+    'entity_id': script_id,
+    }
+
+    url = f'{HA_URL}/api/services/script/turn_on'
+
+    response = requests.post(url, headers=headers, json=data)
+
+    if response.status_code == 200:
+        print(f'Successfully activated the script: {script_id}')
+    else:
+        print(f'Failed to activate the script. Status code: {response.status_code}, Response: {response.text}')
+```
+Vi ser at denne funksjonen er veldig lik. Men her tar vi ikke inn noe ekstra data. Men vi trekker inn `script_id` som er Home Assistant IDen til scriptet som ser sånn her ut:
+```
+script_id = "script.nfc_musikkspiller"
+```
+I data seksjonen har vi nå en `entity_id` som er det som forteller Home Assistant hvilke script som skal aktiveres. Resten er likt som den andre funksjonen hvor den setter alt sammen og sender det ut.
 # Systemd
 
 Hvis du noen gang har lurt på hva i operativsystemet ditt det er som starter alle prosessene som det som styrer wifi, antivirus, brannmur, oppstartsprogrammer etc? Vel i tilfelle til de fleste Linux distrubisjoner er dette systemd. Det er ofte hatet ettersom at det ikke følger Unix filososifen som sier: "Skriv programmer som gjør én ting, og én ting godt. Systemd gjør mange ting, middels godt, men det har blitt tatt i bruk fordi det er universalt og lett. Det systemd er er et "init system". I windows når du skal få et program som nettsiden eller programmet for å spille musikk til å starte når systemet starter kan du bare putte det i en mappe, på Linux er det ikke fullt så lett. For at systemd skal vite hvordan programmet skal startes må vi skrive en konfigurasjonsfil til systemd.
