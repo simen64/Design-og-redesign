@@ -924,11 +924,11 @@ data:
   device_name: Simens Rom Høytaler
   uri: "{{ states('input_text.spotify_uri') }}"
 ```
-De to viktigste tingene her er `device name` som spesifiserer hvilke høytaler som skal brukes og `uri`. URI delen derimot som du kanskje ser inneholder ikke en URI, men statusen til det som heter en "hjelper". En hjelper er en variabel i Home Assistant som kan holde data. Her inneholder variablen en Spotify URI, hvorfor vi gjør det sånn her kommer vi tilbake til. Så når dette scriptet kjøres spilles det av musikk på høytaleren.
+De to viktigste tingene her er `device name` som spesifiserer hvilke høytaler som skal brukes og `uri`. URI delen derimot som du kanskje ser inneholder ikke en URI, men statusen til det som heter en "hjelper". En hjelper er en variabel i Home Assistant som kan holde data. Her inneholder variablen en Spotify URI, hvorfor vi gjør det sånn her kommer vi tilbake til. Konklusjonen er at når dette scriptet kjøres spilles det av musikk på høytaleren.
 
 ### Aktivere scriptet fra Python
 
-Naturligvis siden scriptet er det som spiller av musikken trenger vi å aktivere dette fra Python programmet vårt. Home Assistant har en API som vi kan bruke.
+Naturligvis siden scriptet er det som spiller av musikken trenger vi å aktivere dette fra Python programmet vårt. Heldigvis har Home Assistant har en API som vi kan bruke.
 
 Helt øverst i programmet vårt setter vi noen variabler, disse kommer du til å se senere. Du trenger ikke huske dem bare vit at de er der.
 ```python
@@ -941,7 +941,7 @@ headers = {
 
 HA_URL = "http://192.168.58.178:8123 #Fake IP adresse for min sikkerhet"
 ```
-En Token er litt som et passord, og gir oss tilgang til å styre Home Assistant fra Python.
+En Token er litt som et passord, og gir oss tilgang til å styre Home Assistant fra Python, denne Tokenen er lagret i en .env fil som blir hentet av `os.getenv`.
 
 Jeg snakket om hvordan scriptet bruker en hjelper for å vite hva den skal spille av. Grunnen til dette er så vi kan endre hva som skal spilles med Python scriptet. Det gjør vi med denne funksjonen her:
 ```python
@@ -960,7 +960,7 @@ def update_helper(Spotify_URI):
     else:
         print(f'Failed to update the value. Status code: {response.status_code}, Response: {response.text}')
 ```
-Vi ser at det er en funksjon med at den starter med `def`. Det vi også kan legge merge til er at i parantesene på første linje står det `Spotify_URI`. Dette betyr at når noe tilkaller denne funksjonen gir de også funksjonen data som her er en Spotify URI (Hvis du har glemt det så er en Spotify URI en måte for Spotify å identifisere en sang) Så variablen `Spotify URI` inneholder en sang.
+Vi ser at det er en funksjon med at den starter med `def`. Det vi også kan legge merge til er at i parantesene på første linje står det `Spotify_URI`. Dette betyr at når noe tilkaller denne funksjonen gir de også funksjonen data som for denne funksjonen er en Spotify URI (Hvis du har glemt det så er en Spotify URI en måte for Spotify å identifisere en sang) Variablen `Spotify URI` inneholder en identifikasjonen til en sang eller et album.
 
 Det som står etter `global` er variabler vi trekker inn i funksjonen. `HA_URL` og `headers` viste jeg ista og er bare der for å få det til å funke. Men `helper_id` er Home Assistant IDen til hjelperen vi skal oppdatere og den ser slik ut:
 ```
@@ -983,7 +983,7 @@ Denne dataen her er i JSON format og er det som sier til Home Assistant hva hjel
 ```
 Den siste delen her setter alt sammen og sender det til Home Assistant. Hvis vi får tilbake koden `200` vet vi at det gikk gjennom, derimot hvis ikke så gikk noe galt. Dette er hele funksjonen for å oppdatere hjelperen
 
-Neste funksjon vi trenger er å faktisk aktivere scriptet.  
+Neste funksjon vi trenger er for å faktisk aktivere scriptet.  
 ```python
 def run_script():
     global script_id, HA_URL
