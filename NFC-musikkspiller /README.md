@@ -3,14 +3,14 @@
 
 ## Ideen
 
-Idden er å ha en boks hvor man kan scanne en eller annen form for fysisk ting for å spille av musikk. Denne fysiske tingen skal ha album coveret på seg så man kan se hvilke album man spiller av. Litt som en vinylspiller.
+Ideen er å ha en boks hvor man kan scanne en eller annen form for fysisk ting for å spille av musikk. Denne fysiske tingen skal ha albumcoveret på seg så man kan se hvilke album man spiller av. Litt som en vinylspiller.
 
 Funksjoner jeg vil ha med:
 - Spille av musikk gjennom Home Assistant og Spotify
 - Lett måte å legge til ny musikk
 - fint utseende
-- lys ellerno
-- pause musikken når man tar av platen
+- lys 
+- kunne pause musikken når man tar av platen
 
 ## Planen
 
@@ -22,18 +22,18 @@ Hjernen til prosjektet skal være en SBC (single board computer) eller en mikrop
 
 For å scanne albumet skal jeg feste NFC-klistremerker på det som skal være den fysiske tingen. Et NFC-klistremerke / NFC-tag er et lite klistremerke med en veldig liten databrikke som kan holde små mengder med data, som en ID til et album. Disse NFC-klistremerkene har jeg hatt en bunke av liggende å støve, ettersom jeg kjøpte masse av dem for å bruke rundt i huset til automasjoner.
 NFC-klistremerkene oppererer med teknologien NfcA, Mifare Ultralight, og Ndef.
-Scanneren jeg har tenkt til å bruke er en RC5200 RFID scanner. Selvom denen scanneren egentlig er laget for en annen teknologi (RFID istedenfor NFC) støtter den mifare ultralight, som skal gjøre det mulig å scanne mine NFC klistremerker. Når NFC-klistremerket har blitt scannet finner den IDen til albumet, og sender det til hjernen.
+For å lese av NFC-klistremerket, har tenkt til å bruke en RC5200 RFID scanner. Selvom denne scanneren egentlig er laget for en annen teknologi (RFID istedenfor NFC) støtter den Mifare ultralight, som skal gjøre det mulig å scanne mine NFC klistremerker. Når NFC-klistremerket har blitt scannet finner den IDen til albumet, og sender det til hjernen.
 
 ### Å spille av musikk
 
-For å spill av musikk har jeg tenkt til å gå gjennom Home assistant. Home assistant er et self hosted smarthus kontrollsenter, her har jeg tilkoblet høytalerne jeg tenker å bruke. Home assistant støtter webhooks som er en måte for enheter å sende data en vei til en server ved hjelp av http (web linker) Når et album er scannet skal SBCen finne ut hvilke album det er, sende dette med en webhook over til homeassistant, som gjennom Spotify sin API spiller det av på høytaleren jeg har bestemt.
+For å spille av musikk har jeg tenkt til å gå gjennom Home assistant. Home assistant er et self hosted smarthus kontrollsenter, her har jeg tilkoblet høytalerne jeg tenker å bruke. Home assistant støtter webhooks, som er en måte for enheter å sende data en vei til en server ved hjelp av http (web linker) Når et album er scannet skal SBCen finne ut hvilke album det er, sende dette med en webhook over til Homeassistant, som gjennom Spotify sin API spiller det av på høytaleren jeg har bestemt.
 
 ## Flowchart
 ![Musikkspiller_flowchart](https://github.com/simen64/Design-og-redesign/blob/b5c3e3b5bfac3fbb8e957e4738b0917208530f8e/NFC-musikkspiller%20/Bilder/Musikkspiller_flowchart.jpg)
 
 # Arduino
 
-Planen først var å bruke en Arduino som hjernen. Arduinoer er et elektronikk-brett med en mikroprosessor. De er veldig kjent for å brukes i elektronikk prosjekter som det her. Arduinoen har strøm, og data utganger som gjør den bra til å koble til komponenter. Jeg har hatt noen Arduinoer av forrige generajon liggende siden 2019, og har ikke egentlig brukt dem sins. Jeg fikk de til julegave sammen med masse andre elektroniske komponenter, som endte opp med å komme til nytte nå 4 år senere.
+Planen først var å bruke en Arduino som hjernen. Arduinoer er elektronikk-brett med en mikroprosessor. De er veldig kjent for å brukes i elektronikk prosjekter som det her. Arduinoen har strøm, og datautganger som gjør den bra til å koble til komponenter. Jeg har hatt noen Arduinoer av forrige generajon liggende siden 2019, og har ikke egentlig brukt dem siden. Jeg fikk de til julegave sammen med masse andre elektroniske komponenter, som endte opp med å komme til nytte nå 4 år senere.
 
 For at prosjektet skal fungere trenger den å ha tilgang til Wifi, noe min arduino ikke har. Heldigvis har jeg også en ESP8266 modul som jeg også fikk sammen med Arduinoen. En esp8266 er også en mikroprosessor, bare at den har innebygd wifi. Det som er med den modulen jeg har er at den ikke har en USB til å programmere den, heller ikke nok GPIO porter (Porter for å koble til komponenter) Fordi den mangler dette koblet jeg den opp til Arduinoen min gjennom serie kommunikasjon (en måte å sende data på gjennom ledninger)
 
@@ -86,12 +86,12 @@ void loop() {
 En annen kul ting SoftwareSerial kan gjøre er å bruke virtuelle porter som pin 2, og 3 for å kommunisere gjennom serie. Dette hadde fikset konflikten med USB-kablen.
 Men når jeg prøvde dette endte det opp med å funke så jeg bare holdt meg til pin 0, og 1 selvom det skapte konflikter. Hva problemet var kommer jeg tilbake til senere.
 
-Koden jeg hadde lagde fungerte, og alt jeg puttet inn i `ESP8266.println("")` ble kjørt som om jeg sendte kommandoen gjennom Serie monitor.  
+Koden jeg hadde laget fungerte, og alt jeg puttet inn i `ESP8266.println("")` ble kjørt som om jeg sendte kommandoen gjennom Serie monitor.  
 Jeg skulle nå begynne på å få webhooks til å fungere.
 
 ## Webhooks og HTTP requests
 
-Ifølge Espressif (De som lager ESP modulene) er dette kommandoene jeg skal putte inn for å sende en webhook (I dette eksemplet bruker jeg // for kommentarer disse hadde ikke funket om man hadde inkludert dem i kommandoene)
+Ifølge Espressif (De som lager ESP modulene) er dette kommandoene jeg skal putte inn for å sende en webhook (I dette eksemplet bruker jeg // for kommentarer, disse hadde ikke funket om man hadde inkludert dem i kommandoene)
 
 ```
 AT+CIPSTART="TCP","192.168.125.77",8123 // her starter vi kommunikasjonen med Home Assistant serveren. For IP adressen har jeg valgt tilfeldige tall for tredde og fjere oktett. Men porten 8123 er ekte.
@@ -115,13 +115,7 @@ Når jeg plugget inn og ut Arduinoen kunne jeg se at den koblet seg opp mot nett
 
 ![Wireshark capture av at ESP8266 kobler til Wifi](https://github.com/simen64/Design-og-redesign/blob/22ef5045d6702a6e93ce154a2b9e5bc327a0faa5/NFC-musikkspiller%20/Bilder/Wireshark_ESP8266_connect.png)
 
-Jeg har strøket over all personlig informasjon som IP adresser og MAC adresser  
-Hver av disse linjene er det som kalles en packet.  
-Packet nummer 344 er en broadcast for å koble seg til nettet  
-Nummer 345 Ser etter DHCP servere på nettet  
-Nummer 346 Spør om en IP fra DHCP serveren  
-Nummer 349 Sjekker om noen enheter har IPen 192.168.x.x, nummer 354 gjentar dette for å dobbeltsjekke  
-Nummer 368 annonserer at den har tatt IPen 192.168.x.x
+Jeg har strøket over all personlig informasjon som IP adresser og MAC adresser. Hver av disse linjene er hvordan den kobler seg til nettet.
 
 Mens når jeg sendte kommandoen som skulle sende webhooken, skjedde ingenting i Wireshark.  
 For å verifisere at ESP8266 modulen faktisk kunne kommunisere med Home Assistant pinget (En måte å sjekke om man har kommunikasjon til en server eller klient) jeg den med kommandoen `AT+PING="192.168.125.77"`
@@ -142,7 +136,7 @@ Ettersom at dette ikke er noe jeg har liggende, og jeg har ikke materialene til 
 
 Av elektroniske komponenter som jeg har hjemme som ikke er i bruk var det to jeg kunne bruke.  
 
-Første valg er en Raspberry Pi Pico W. Dette er en veldig billig og liten enhet med en mikroprosessor, og den har innebygd wifi! Jeg kjøpte en mengde av disse for eksperimentering for en god stund siden så jeg har en god del liggende. Dette høres bra ut ettersom at det er egentlig alt jeg har bedt om og en annen pluss side er at den kan kodes med python som jeg skjenner bedre enn c++ som arduinoer bruker. Men det er en ting som gjør disse enhetene nesten ubrukelig til alle sånne her litt større prosjekter, lagring. Lagringsplassen på en Pico W er bare 2 MB! Dette kan kanskje være nok for den rene koden pluss firmwaret (det som gjør at koden kjører på enheten) Men det det ikke er plass til er en mengde med pakker for å styre komponenter, wifi etc.
+Første valg er en Raspberry Pi Pico W. Dette er en veldig billig og liten enhet med en mikroprosessor, og den har innebygd wifi! Jeg kjøpte en mengde av disse for eksperimentering for en god stund siden så jeg har en god del liggende. Dette høres bra ut ettersom at det er egentlig alt jeg har bedt om, og en annen pluss side er at den kan kodes med python som jeg kjenner bedre enn c++ som arduinoer bruker. Men det er en ting som gjør disse enhetene nesten ubrukelig til alle sånne her litt større prosjekter; lagring. Lagringsplassen på en Pico W er bare 2 MB! Dette kan kanskje være nok for den rene koden pluss firmwaret (det som gjør at koden kjører på enheten) Men det det ikke er plass til er en mengde med pakker for å styre komponenter, wifi etc.
 
 Det andre valget mitt er en Raspberry Pi 1b+ Dette er en veldig gammel generasjon av hoved linjen til Raspberry Pi, men for et prosjekt som dette kan det funke. Denne raspberry PIen er egentlig en mini pc som kjører Linux, noe jeg er godt kjent med hvordan man setter opp og holder oppe. Dette gir en rekke med fordeler som at den kan kjøre flere ting samtidig, den kjører fortsatt python (eller alt annent jeg vil bruke), den har nok lagring, og den har massevis av porter til å koble til komponenter. Eneste tingen med denne veldig gamle versjonen er at den ikke kommer med innebygd wifi, dette planlegger jeg å fikse med å koble til en wifi USB adapter. Som du kanskje har forstått er dette planen. Men hvor kom denne fra? Jeg har hatt denne liggende lenge siden jeg fikk den fra stefaren min siden han ikke brukte den lenger. Nylig har jeg brukt den til å hoste en discord bot, men den brukes nesten aldri lenger så det skal ikke ha noe å si om jeg bytter ut det med dette prosjektet.
 
@@ -160,13 +154,13 @@ Dette er hvordan jeg koblet til komponentene til Raspberry PIen. To ting her er 
 
 ## Wifi adapter
 
-Siden ikke jeg vil at musikkspilleren min må være koblet til ruteren hele tiden trenger den wifi, noe ikke Raspberry Pien jeg bruker har. Derfor trenger jeg en USB wifi adapter. Stefaren min hadde en gammel usb wifi adapter liggende som jeg kunne få. Problemet med de fleste wifi adaptere er at de ikke har drivere for Linux, heldigvis hadde den eldgamele D-Link adapteren en driver som het `carl9170` som jeg kunne laste ned med pakken `firmware-linux-free` Etter det var det bare å putte navnet og passordet på nettverket mitt i raspberry PIen sin `wpa-supplicant.txt` fil, og etter en restart hadde jeg Wifi! Men det kan jo selvfølgelig ikke gå problemløst. Det viste seg at denne adapteren var veldig ustabil og SSH tilkoblingen min (En måte å kommunisere trådløst mellom to PCer) falt ut hele tiden. Jeg kom på at jeg hadde lånt en annen wifi adapter til Herman for en stund siden. Jeg spurte han om han fortsatt brukte den, noe han ikke gjorde. Etter å ha hentet den plugget jeg den inn og alt funket uten noe mere styr.
+Siden ikke jeg vil at musikkspilleren min må være koblet til ruteren hele tiden trenger den wifi, noe ikke Raspberry Pien jeg bruker har. Derfor trenger jeg en USB wifi adapter. Stefaren min hadde en gammel usb wifi adapter liggende som jeg kunne få. Problemet med de fleste wifi adaptere er at de ikke har drivere for Linux, heldigvis hadde den eldgamle D-Link adapteren en driver som het `carl9170` som jeg kunne laste ned med pakken `firmware-linux-free` Etter det var det bare å putte navnet og passordet på nettverket mitt i raspberry PIen sin `wpa-supplicant.txt` fil, og etter en restart hadde jeg Wifi! Men det kan jo selvfølgelig ikke gå problemløst. Det viste seg at denne adapteren var veldig ustabil og SSH tilkoblingen min (En måte å kommunisere trådløst mellom to PCer) falt ut hele tiden. Jeg kom på at jeg hadde lånt en annen wifi adapter til Herman for en stund siden. Jeg spurte han om han fortsatt brukte den, noe han ikke gjorde. Etter å ha hentet den plugget jeg den inn og alt funket uten noe mere styr.
 
 ## Linux
 
-Operativsystemet jeg har tenkt til å kjøre er Raspbian lite, dette er en versjon av Debian linux som er det jeg bruker på PCen min hjemme. Keg valgte å bruke linux fordi det er et veldgi bra operativ-system for servere fordi det tar lite ressurser, er åpen kildekode, lett å sette opp, og jeg er godt kjent med det.
+Operativsystemet jeg har tenkt til å kjøre er Raspbian lite, dette er en versjon av Debian linux som er det jeg bruker på PCen min hjemme. Jeg valgte å bruke linux fordi det er et veldgi bra operativ-system for servere fordi det tar lite ressurser, er åpen kildekode, lett å sette opp, og jeg er godt kjent med det.
 
-Første steg for å installere Linux på en raspberry pi er å laste Linux ned på et SD-kort. Dette gjør man med "Raspberry Pi imager" som er et rpogram som automatiserer nedlastingen av Linux til SD-kort som kan brukes på Raspberry Pi. Etter jeg hadde SD-kortet mitt med Linux på kunne jeg koble opp Raspberry Pien til ruteren min med en ethernet kabel, og sette SD-kortet inn. Når jeg hadde koblet til strømmen og ventet litt sjekket jeg ruteren sitt kontrollpanel. Her kunne jeg se at den koblet til nettverket og fått IP adressen `192.168.24.24` (Dette er ikke den faktiske IP adressen, som jeg har valgt å hjemme for sikkerhets grunner)
+Første steg for å installere Linux på en raspberry pi er å laste Linux ned på et SD-kort. Dette gjør man med "Raspberry Pi imager" som er et program som automatiserer nedlastingen av Linux til SD-kort som kan brukes på Raspberry Pi. Etter jeg hadde SD-kortet mitt med Linux på kunne jeg koble opp Raspberry Pien til ruteren min med en ethernet kabel, og sette SD-kortet inn. Når jeg hadde koblet til strømmen og ventet litt sjekket jeg ruteren sitt kontrollpanel. Her kunne jeg se at den koblet til nettverket og fått IP adressen `192.168.24.24` (Dette er ikke den faktiske IP adressen, som jeg har valgt å gjemme for sikkerhets grunner)
 
 ### SSH
 
@@ -348,18 +342,9 @@ def home():
 Dette betyr at når brukeren går til `nettside.no/` vil de bli vist det her:  
 ![Hei nettside](https://github.com/simen64/Design-og-redesign/blob/be3dd6c51b5579e2808c9d8c2619789154e282b6/NFC-musikkspiller%20/Bilder/Hei_nettside.png)
 
-Definerer vi en funksjon som det her:
+Og sånn kan vi fortsette å bygge ut nettsiden vår.
 
-```python
-@app.route('/kul_tekst')
-def home():
-   return "Kul tekst!"
-```
-
-Betyr det at hvis brukeren nå går til `nettside.no/kul_tekst` vil det her bli vist:  
-![Kul tekst](https://github.com/simen64/Design-og-redesign/blob/ca2a529635c0485c5d01dc841723bdc2cac77889/NFC-musikkspiller%20/Bilder/kul_tekst.png)
-
-Så for hjemsiden til nettsiden, må vi vise fram tabellen jeg har vist tidligere. Så vi definerer en funksjon for `/` Her bruker vi `return render_template` for å laste inn filen som har nettsiden og tabellen jeg gikk over i [struktur](#struktur) delen. Filen heter `index.html`
+Så for hjemmesiden til nettsiden, må vi vise fram tabellen jeg har vist tidligere. Så vi definerer en funksjon for `/` Her bruker vi `return render_template` for å laste inn filen som har nettsiden og tabellen jeg gikk over i [struktur](#struktur) delen. Filen heter `index.html`
 
 ```python
 @app.route('/')
@@ -375,10 +360,10 @@ def load():
          return json.load(file)
 ```
 
-Funksjonen er ganske lett. Den åpner opp filen `database.json` og leser den (derfor er "r" der) dette puttes i variablen `file`
-så returnerer vi inneholdet til databasen til det som opprinnelig tilkalte funksjonen. Denne funksjonen kommer til å bli brukt flere ganger i koden, så ha i bakhode hva den gjør.  
+Funksjonen `load()` åpner opp databasefilen vår og returnerer inneholdet som en variabel til det som tilkalte funksjonen.
+
 Nå vet vi at i vår opprinnelige funksjon for hjemsiden til nettsiden blir inneholdet til databasen lagret i `data`  
-Med `data=data` sender vi denne informasjonen over til `index.html` som inneholder strukturen til nettsiden, men også javacript funksjonen som genererer tabellen. Det å sende over denne informasjonen heter "Jinja".
+Med `data=data` sender vi denne informasjonen over til `index.html` som er filen med strukturen til nettsiden, men også javacript funksjonen som genererer tabellen. Det å sende over denne informasjonen heter "Jinja".
 
 ### Generering av tabellen i Javascript
 
@@ -389,30 +374,15 @@ Så for å motta dataen fra Jinja må vi definere en variabel som vi kaller `dat
 ```js
 var data = {{ data|tojson }};
 ```
-
-Etter dette, på samme måte som vi definerte en funksjon i python, definerer vi en funksjon i javascript med dataen fra Jinja:
-
-```js
-function buildTable(data){}
-```
-
-For at Javascript skal vite at vi snakker om tabellen vi lagde i [struktur](#struktur) delen, har vi gitt tabellen IDen: `table`
-
-Derfor kan vi bruke denne linjen med kode for å si til Javascript at det er denne tabellen vi snakker om. Dette blir puttet i variablen `table`:
+Vi lager en funksjon for å bygge opp tabellen vår i javascript som ser sånn her ut:
 
 ```js
-var table = document.getElementById('table')
-```
+function buildTable(data){
+   var table = document.getElementById('table')
 
-Denne delen ser veldig komplisert ut, men enkelt forklart utfører den det neste vi skal gå gjennom en gang for hvert element i databasen.
-```js
-for (var i = 0; i < data.length; i++){}
-```
-
-Dette er kodeblokken som blir gjentatt for hvert element i databasen:
-```js
-var row = `<tr>
-               <td style="text-align: center;"><img src="${data[i].cover}" width="100" height="100"></td>
+   for (var i = 0; i < data.length; i++){
+      var row = `<tr>
+                  <td style="text-align: center;"><img src="${data[i].cover}" width="100" height="100"></td>
 
                   <td>${data[i].name}</td>
 
@@ -422,40 +392,16 @@ var row = `<tr>
                      <form action="/delete" method="post" onsubmit="return confirm('Are you sure you want to delete that album?')";>
                         <button type="submit" name="delete" value="${data[i].id}">Delete</button>
                      </form>
-               </td>
+                  </td>
 
-            </tr>`
-			table.innerHTML += row
-```
+               </tr>`
+      table.innerHTML += row
 
-Vi skal gå gjennom hver linje.  
-
-```js
-var row =
-```
-Betyr rett å slett at alt inni dette er en rad i tabellen. Og alle de bokstavene du ser i krokodilletegn som `<tr>` forteller HTML (det vi bruker til å kode strukturen til nettsiden) hvordan den skal vise dataen vi gir den. `<tr>` betyr at dette er en "tabel row"
-
-```js
-<td style="text-align: center;"><img src="${data[i].cover}" width="100" height="100"></td>
-```
-
-`<td>` betyr "table data" og dette er for album eller sang coveret. Vi starter med å bruke `style=` for å si at bildet skal være i midten med `text-align: center;` HTML sin innebygde `<img src= >` funksjon viser et bilde fra linken spesifisert fra `src=` Den litt kompliserte `${data[i].cover}` delen kort forklart henter verdien `cover` fra `data` variablen. Som hvis vi ser på databasen igjen ser at `cover` inneholder en link til cover bildet. `Width` og `height` sier seg selv og bestemmer at bilde skal være 100x100 piksler stort. Hvordan elementet fra databsaen ser ut:
-
-```json
-{
-   "cover": "https://news.artnet.com/app/news-upload/2023/06/HAPO7184_M_Pink_Floyd_DSOTM_Photo_Cover_RT_PF_GT-1024x1024.jpg",
-   "name": "Sample album",
-   "uri": "spotify:album:2WT1pbYjLJciAR26yMebkH",
-   "id": "5841841343875"
+   }
 }
 ```
-
-```js
-<td>${data[i].name}</td>
-
-<td>${data[i].id}</td>
-```
-For både navnet og IDen til sangen eller albumet bruker vi samme måte til å hente informasjonen fra `data variablen`
+Det denne funksjonen gjør er å hente ut dataen vi har i databasen vår, og strukturere den med html.
+På slutten er det en til funksjon som lager en slett knapp:
 
 ```js
 <td>
@@ -464,83 +410,43 @@ For både navnet og IDen til sangen eller albumet bruker vi samme måte til å h
    </form>
 </td>
 ```
-Dette er den mest kompliserte av alle dataene i tabellen. Her lager vi en "Delete"-knapp for hvert album eller sang. Vi starter med å putte alt i en `<form action>` Dette er en måte å sende data over til webserveren ved hjelp av POST request (en link som kan inneholde data) Her er det bare en "submit" knapp, hvor det står "Delete". Linken jeg har spesifisert denne til å sende til er `/delete` Jeg skal om litt forklare hvordan dette funker i på server-siden. Vi ser også at det er en `onsubmit` funksjon her, dette her gjør at når du klikker på "Delete" kommer det opp et vindu som spør om du er sikker på at du vil slette det, og du kan velge "Ok" eller "Cancel". Dette er for å forhidre at man med uhell sletter album eller sanger.
-På `<button>` tagen spesifiserer vi en value, dette er det som blir sendt til serveren. I denne valuen henter vi ut IDen til albumet eller sangen på samme måte vi har gjort på de andre radene. Dette brukes så webserveren vet hva som skal slettes.
-
-#### Server-siden
-For at albumet eller sangen skal slettes, må det gjennom webserveren. I form-actionen over har vi allerede bestemt at IDen til det som skal slettes må sendes til `/delete` Derfor definerer vi dette i Flask:
+Dette lager en "Delete" knapp for å fjerne albumer og sanger, når den er klikket kommer det opp en boks som spør om du er sikker på at du vil slette den. Dataen som blir sendt til serveren når denne trykkes er IDen til albumet. Dette er koden på server siden:
 
 ```python
+#Define the URL for deleting an album
 @app.route("/delete",methods = ["POST", "GET"])
 def delete():
+   if request.method == "POST":
+      id = request.form["delete"]
+
+      print(id)
+
+      temp = load()
+
+      for item in temp:
+         if 'id' in item and item['id'] == id:
+            print(f"Found album / song with ID {item['id']}")
+
+            temp.remove(item)
+
+            with open("database.json", "w") as file:
+               json.dump(temp, file, indent=4)
+
+         else:
+            pass
+
+      return redirect(url_for("home"))
 ```
-Her er en ny ting, `methods` Dette sier at vi kan motta både POST og GET (det man vanligvis bruker for å se en nettside) -requests. Når man klikker på "Delete" knappen, er den en POST request som inneholder IDen til albumet eller sangen.
 
-Vi starter med å sjekke om det er en POST request for å vite om vi faktisk skal slette et album:
-
-```python
-if request.method == "POST":
-```
-
-Så bruker vi `request.form` for å hente informasjonen fra POST requesten, og putte den i variablen `id`:
-
-```python
-id = request.form["delete"]
-```
-Etter vi har IDen bruker vi `load()` funksjonen igjen for å laste databasen inn i variablen `temp`:
-
-```python
-temp = load()
-```
-Dette er algoritmen som sletter albumet eller sangen:
-
-```python
-for item in temp:
-   if 'id' in item and item['id'] == id:
-
-      temp.remove(item)
-
-      with open("database.json", "w") as file:
-         json.dump(temp, file, indent=4)
-
-   else:
-      pass
-```
-La oss gå gjennom det.
-
-```python
-for item in temp:
-```
-Det betyr at vi gjør det her for hvert element i databasen, samme konsept som i Javascript.
-```python
-if 'id' in item and item['id'] == id:
-```
-Her bruker vi en `if` funksjon for å sjekke om IDen til albumen eller sangen matcher med IDen vi har fått beskjed om å slette.
-```python
-temp.remove(item)
-
-with open("database.json", "w") as file:
-   json.dump(temp, file, indent=4)
-```
-Så hvis IDene matcher sletter vi den sangen eller albumet fra databasen. Etter det bruker vi `with open` på samme måte som i `load()` funksjonen, bare at nå bruker vi "w" for å indikere at vi skal skrive til filen. Så skriver vi den oppdaterte informasjonen uten det slettede elementet til databasen igjen.
-```python
-return redirect(url_for("home"))
-```
-Etter alt dette bruker vi dette for å sende brukeren tilbake til hjemsiden.
+Dette er en funksjon i Flask som tar IDen sendt av javascript, sjekker om det er en som matcher i databasen, hvis det er det så sletter den den og sender brukeren tilbake til hjemsiden.
 
 #### Tilbake til Javascript
 
-Siste del av funksjonen vår for å bygge ut tabellen er det her:
-```js
-table.innerHTML += row
-```
-Dette er det som faktisk setter sammen tabellen.
-
-Utafor funksjonen som bygger tabellen kjører vi det her:
+Helt på slutten bruker vi dette:
 ```js
 buildTable(data)
 ```
-Dette tilkaller funksjonen, og gjør at hver gang siden lastes inn på nytt oppdateres tabellen.
+Det tilkaller funksjonen, og gjør at hver gang siden lastes inn på nytt oppdateres tabellen.
 
 ### Input
 
@@ -577,16 +483,14 @@ function showAlert() {
 
 #### Motta input i Flask
 
-For å motta dataen i webserveren, så den kan bli puttet i databasen må vi definere en funksjon for linken der dataen sendes. Som her er `/send_data` dette gjør vi i Flask:
+For å motta dataen i webserveren, så den kan bli puttet i databasen, må vi definere en funksjon for linken der dataen sendes. Som her er `/send_data` - dette gjør vi i Flask:
 
 ```python
 @app.route('/send_data',methods = ['POST', 'GET'])
 def album_data():
    if request.method == 'POST':
 ```
-På lik måte som når vi lagde funksjonen for "Delete-knappen" sjekker vi først om det er en POST request (altså at linken inneholder data)
-
-På lik måte som vi gjorde i Delte funksjonen, putter vi dataen fra POST linken i en variabel vi kaller `raw_input`:
+Dataen brukeren sendte til oss blir lagret i en variabel kalt `raw_input`:
 
 ```python
 raw_input = request.form["raw-input"]
@@ -594,8 +498,17 @@ raw_input = request.form["raw-input"]
 
 #### Link til URI
 Som jeg nevnte måtte man putte inn en Spotify URI, for å gjøre denne prosessen enklere har jeg kodet en funksjon som gjør spotify linker om til URIer. Så nå kan man putte inn begge to i nettsiden.  
-Her er hvordan det funker.
 
+La oss si at brukeren puttet inn dette i nettsiden:
+```
+https://open.spotify.com/track/0V5cvmTKsYmF5FmGGEAfmS?si=724171a1adb949e6
+```
+Funksjonen jeg skrev omgjør denne linken til det her som kan brukes av koden min:
+```
+spotify:track:0V5cvmTKsYmF5FmGGEAfmS
+```
+
+Her er koden for den funksjonen:
 ```python
 def link_to_id(link):
    link = link.replace("https://open.spotify.com/album/", "")
@@ -607,152 +520,70 @@ def link_to_id(link):
    return id
 
 if "https://" in raw_input:
-   
-   if "album" in raw_input:
-      id = link_to_id(raw_input)
-      raw_input = "spotify:album:" + id
+      
+      if "album" in raw_input:
+         id = link_to_id(raw_input)
+         raw_input = "spotify:album:" + id
 
-   elif "track" in raw_input:
-      id = link_to_id(raw_input)
-      raw_input = "spotify:track:" + id
-```
-
-La oss gå gjennom hver seksjon.  
-Vi starter med å definere en funksjon som heter `link_to_id` med `def link_to_id(link):` Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut:
-```
-https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99
-```
-Målet med denne funksjonen er å ta linken, og gjøre den om til bare IDen som i dette eksemplet er `7Grz4hgSBRdEPj6Vxm991i`,
-De to linjene her bytter ut både `https://open.spotify.com/album/` og `https://open.spotify.com/track/` med tomrom, grunnen til at vi har begge er fordi `/album/`er for album, og `/track/` er for sanger:  
-
-```python
-link = link.replace("https://open.spotify.com/album/", "")
-link = link.replace("https://open.spotify.com/track/", "")
-```
- 
-I vårt eksempel er det en sang, så nå står vi igjen med:
-```
-7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99
-```
-Det vi vil ha er IDen, som her er:
-```
-7Grz4hgSBRdEPj6Vxm991i
-```
-Det betyr at vi må fjerne alt etter og inkludert spørsmålstegnet.  
-
-Dette splitter opp linken vår i to:
-```python
-link = link.split("?")
-``` 
-Nå står vi igjen med en liste som inneholder:
-```python
-["7Grz4hgSBRdEPj6Vxm991i", "?si=aeb28778c8f44a99"]
-```
-Dette betyr at vi bare trenger å fjerne element nummer 1 i listen (I python starter alt med 0, så liste element nummer 1 vil være `?si=aeb28778c8f44a99`)  
-Vi fjerner dette med:
-```python
-link.pop(1)
-```
-Så definerer vi id som liste element 0, med:
-```python
-id = link[0]
-```
-Sist men ikke minst returner vi dette til det som opprinnelig tilkalte funksjonen.
-```python
-return id
-```
-
-Nå som vi vet hvordan denne funksjonen fungerer kan vi gå tilbake til koden som mottar dataen fra koden.
-
-Etter at vi har fått inputet fra brukeren som her er linken, sjekker vi om det er en link eller en URI.  
-Dette gjør vi med:
-
-```python
-if "https://" in raw_input:
-```
-Det sjekker om `https://` er i det brukeren ga oss. Hvis det er det kan vi være ganske sikre på at det er en link.  
-Etter dette må vi sjekke om det er en album eller en sang:
-
-```python
-if "album" in raw_input:
-      id = link_to_id(raw_input)
-      raw_input = "spotify:album:" + id
-```
-Dette gjør vi med å sjekke om ordet `album` er i linken. Hvis det er et album tilkaller vi funksjonen vi nylig gikk gjennom som gjør linken om til en id, dette betyr at vi får tilbake: `7Grz4hgSBRdEPj6Vxm991i`  
-Så for å gjøre dette til en gyldig Spotify URI som kan sendes til spotify legger vi til `spotify:album:` Da står vi igjen med: `spotify:album:7Grz4hgSBRdEPj6Vxm991i` som er en gyldig spotify URI  
-
-Funksjonen for sanger er nesten det samme bare bytte ut `album` med `track`:
-```python
-elif "track" in raw_input:
-      id = link_to_id(raw_input)
-      raw_input = "spotify:track:" + id
+      elif "track" in raw_input:
+         id = link_to_id(raw_input)
+         raw_input = "spotify:track:" + id
 ```
 
 #### Lagre dataen
 
 Nå står vi igjen med en Spotify URI som i dette eksemplet ser sånn her ut: `spotify:album:7Grz4hgSBRdEPj6Vxm991i`  
-Her er den fulle koden (Uten delen for sanger):  
-
+Vi vil lagre denne i databasen vår sammen med noe annen info om albumet / sangen.  
+Derfor kan vi bruke spotify sin API som lar oss sende inn en spotify id, og så få tilbake blant annet album-coveret og titlen.  
+Sånn her ser koden for det ut:
 ```python
 if "album" in raw_input:
 
-         album_spotify_id = raw_input.replace("spotify:album:", "")
-         print(album_spotify_id)
+   album_spotify_id = raw_input.replace("spotify:album:", "")
+   print(album_spotify_id)
 
-         #Use spotifys api to get info about the album
-         album_info = sp.album(album_spotify_id)
+   #Use spotifys api to get info about the album
+   album_info = sp.album(album_spotify_id)
 
-         #Get the album name and cover
-         album_link = album_info['images'][0]['url']
-         album_name = album_info["name"]
+   #Get the album name and cover
+   album_link = album_info['images'][0]['url']
+   album_name = album_info["name"]
 
-         #Structure the new data
-         data = {
-            "cover": album_link,
-            "name": album_name,
-            "uri" : raw_input,
-         }
+   #Structure the new data
+   data = {
+      "cover": album_link,
+      "name": album_name,
+      "uri" : raw_input,
+   }
 
-      session['data'] = data
+elif "track" in raw_input:
+   track_spotify_id = raw_input.replace("spotify:track:", "")
+   print(track_spotify_id)
 
-      return redirect(url_for("scan"))
+   # Use Spotify's API to get info about the track
+   track_info = sp.track(track_spotify_id)
+
+   # Get the track name and album
+   track_name = track_info["name"]
+   track_album_cover = track_info["album"]["images"][0]["url"]
+
+   # Structure the new data
+   data = {
+      "cover":track_album_cover,
+      "name":track_name,
+      "uri": raw_input
+   }
 ```
 
-Vi skal jo selvfølgelig gå gjennom hver del.  
-Som du kanskje ser sjekker vi igjen om det er et album eller en sang. Jeg kommer bare til å gå over album funksjonen, fordi begge er ganske like.
-```python
-if "album" in raw_input:
-```
-Dette er måten jeg sjekker om det er et album eller ikke, og siden vår URI inneholder "album" vet vi at det er et album.  
-Nå skal vi gjøre noe som kanskje virker litt idiotisk med tanke på det vi akkuratt gjorde i `link_to_id` funksjonen. Men vi lager en ny variabel hvor vi fjerner `spotify:album:` fra URIen så vi bare står igjen med IDen som ser slik ut: `7Grz4hgSBRdEPj6Vxm991i`  
-Med det her henter vi informasjon om albumet med hjelp fra Spotify, og lagrer det i variablen `album_indo`
-```python
-album_info = sp.album(album_spotify_id)
-```
-Ut fra vår nyinnhentet data om albumet kan vi splitte dataen opp til informasjonen vi faktisk trenger:
-```python
-album_link = album_info['images'][0]['url']
-album_name = album_info["name"]
-```
-`album_link` for linken til album coveret, og `album_name` for navnet til albumet.  
-Etter dette strukturer vi dataen i formatet som brukes i databasen:
-```python
-data = {
-   "cover": album_link,
-   "name": album_name,
-   "uri" : raw_input,
+Ikke bare skaffer denne funksjonen her infoen om albumet / sangen, men den strukturer det også i variablen `data` som vi senere skal legge til i databasen. Hvis du ser på koden over er det to ganske like seksjoner, det er fordi det er en for album og en for sanger, men til slutt vil data variablen se sånn her ut uansett:
+```json
+{
+   "cover": "https://news.artnet.com/app/news-upload/2023/06/HAPO7184_M_Pink_Floyd_DSOTM_Photo_Cover_RT_PF_GT-1024x1024.jpg",
+   "name": "Sample album",
+   "uri": "spotify:album:2WT1pbYjLJciAR26yMebkH",
 }
 ```
-Men istedenfor å skrive dette rett til databasen lagrer vi det i en session:
-```python
-session['data'] = data
-```
-Noe som er lagret i en session er det samme som det "cookies" er, som man ofte må akseptere for å bruke en nettside.
-Grunnen til at vi ikke skriver det rett til databasen er fordi det er en ting vi mangler, derfor sender vi brukeren til en annen link:
-```python
-return redirect(url_for("scan"))
-```
-Det vi mangler er IDen til "tagen" som skal scannes for å spille musikken. Som du kanskje husker, når man legger til et nytt album eller en ny sang, ber den deg scanne NFC-tagen din. Det er det vi skal gjøre nå.
+Siden vi skal scanne en NFC-tag for å spille av musikken må vi knytte en ID til både en NFC-tag og dataen i databasen. Derfor lagrer vi denne dataen vi har hittil i en "cookie" (som du kanskje er vant med å akseptere når du går inn på nettsider) og så sender vi brukeren videre til en ny side for å få IDen til NFC-tagen.
 
 Som vi har gjort for alle andre linker definerer vi dem først i Flask:
 ```python
@@ -769,6 +600,7 @@ id_from_scan = str(id_from_scan)
 
 GPIO.cleanup()
 ```
+
 `id = reader.read()` ber scanneren om å lete etter en tag, når en tag har blitt scannet lagres dataen den finner i variablen `id` og koden fortsetter.
 
 ### Scanner problemet
@@ -785,52 +617,34 @@ Dette skal i teorien printe IDen til tagen (Alle NFC-tager har en ID som blir gi
 "AUTH ERROR!!
 AUTH ERROR(status2reg & 0x08) != 0"
 ```
-Som man ser først fungerer det å printe IDen, men teksten ikke så bra. "AUTH ERROR" betyr at noe har gått galt under en autentikasjon med tagen, selvom tagen ikke har noe passord eller enkrypsjon. På linje 3 ser vi `0x08` dette er en referanse til et sted i minne til tagen. Etter litt googling fant jeg ut at ikke bare det var jeg som hadde dette problemet. Det som gjør at det feiler er at programmet som kjører på scanneren ble sist oppdatert for 7 år siden, og tagene jeg har er nyere enn det. Så autentikasjonen dems fungerer ikke. Men hvordan skulle jeg nå gjøre prosjektet mitt? Jo siden IDen fortsatt fungerer kan jeg bruke den til å forbinde dem med album. Dette gjør også at man slipper å skrive en ID til en tag. Derfor scanner man tagen når man legger den til i nettsiden.
-
+Som man ser først fungerer det å printe IDen, men teksten ikke så bra. "AUTH ERROR" betyr at noe har gått galt under scanningen av tagen. Problemet viste seg å være at programvaren på scanneren var syv år gammelt og funket ikke med mine tager. Heldigvis funket det fortsatt å lese IDen som vi kan bruke istedenfor.
 ### Tilbake til scanning
 
+Så koden jeg bruker nå ser slik ut:
 ```python
 id = reader.read()
+print(f"id: {id}")
 
 id_from_scan = id[0]
 id_from_scan = str(id_from_scan)
 
 GPIO.cleanup()
 ```
-Som sagt er dette koden jeg bruker nå.  
-IDen man får fra scanneren er formatert i det som kalles for en "tuple" som er slik ut:
-```python
-("519383492", " ")
-```
-Det vi vil ha er bare det tallet, som en string (strings er tekstformat i programmering)  
-Derfor setter vi `id_from_scan` til element nummer 0 i tuplen som gir oss dette:
-```
-519383492
-```
-Problemet her er at dette er en integer og ikke en string (Integers er tall i programmering)  
-Så vi bruker dette for å gjøre det om til en string:
-```
-id_from_scan = str(id_from_scan)
-```
-Nå står vi igjen med det vi trenger, IDen i en string:
+
+Dette gir oss IDen i en string, som vi kan bruke til å knytte en tag sammen med et album eller en sang:
 ```python
 "519383492"
 ```
+Etter vi har fått denne IDen må vi sjekke om denne IDen allerede finnes i databasen, det gjør vi med denne koden her:
 
-Etter vi har fått IDen bruker vi `load()` funksjonen igjen for å laste databasen av album til variablen temp.
-```python
-temp = load()
-```
-Så kjører vi det som virker som en ganske komplisert funksjon:
 ```python
 for item in temp:
    if 'id' in item and item['id'] == id_from_scan:
       print("Error, cant have two albums / songs with the same ID")
       return redirect(url_for("ID_conflict"))
 ```
-I "menneske språk" betyr dette: for hvert element i databasen, sjekk om IDen matcher med IDen fra scannen, hvis den gjør det si ERROR  
+I "menneske språk" betyr dette: for hvert element i databasen, sjekk om IDen matcher med IDen fra scannen, hvis den gjør det si ERROR og send brukeren til denne delen av nettsiden vår:
 
-Dette er for å forhindre at to album har samme tag forbundet med seg. På samme måte som på hjem funksjonen bruker vi `return redirect` for å sende brukeren til en annen link. Funksjonen for denne linken ser sånn her ut:
 ```python
 @app.route("/ID_conflict")
 def ID_conflict():
@@ -884,25 +698,19 @@ Koden for denne nettsiden er veldig simpel og ser sånn her ut:
 Hvis man ignorerer alt innenfor `<style>` tagene, ser man at dette egentlig bare er en error melding og en knapp for å gå tilbake  
 ![ID conflict](https://github.com/simen64/Design-og-redesign/blob/6948e8086821f71447895406d89acf95056f7057/NFC-musikkspiller%20/Bilder/Id_conflict.png)
 
-Men hvis vår "if" funksjon ikke finner noen matchende IDer i databasen kan den gå videre.
+Men hvis vår sikkerhets-funksjon ikke finner noen konfliktende IDer i databasen kan den gå videre.
 
 Hvis du husker så puttet vi dataen vi fikk om albumet eller sangen fra spotify i en session cookie som så slik ut:
 ```python
-data = {
-   "cover":track_album_cover,
-   "name":track_name,
-   "uri": raw_input
+{
+   "cover": "https://news.artnet.com/app/news-upload/2023/06/HAPO7184_M_Pink_Floyd_DSOTM_Photo_Cover_RT_PF_GT-1024x1024.jpg",
+   "name": "Sample album",
+   "uri": "spotify:album:2WT1pbYjLJciAR26yMebkH",
 }
 ```
-Denne dataen henter vi inn igjen til en variabel vi kaller `data`
-```python
-data = session.get('data')
-```
-Så med den here linjen legger vi til "id" til dataen som inneholder IDen vi fikk fra scanneren:
-```python
-data['id'] = id_from_scan
-```
-Nå ser data variablen vår sånn her ut:
+
+Nå kan vi hente inn denne daten fra cookien vår og legge til IDen vi fikk fra scanneren, så vi står igjen med denne dataen:
+
 ```python
 data = {
    "cover":track_album_cover,
@@ -911,30 +719,17 @@ data = {
    "id": id_from_scan
 }
 ```
-Siden vi har lastet databasen vår inn i variablen `temp` kan vi "appende" (legge til) denne nye dataen til datbasen:
-```python
-temp.append(data)
-```
-Når dette er gjort kan vi skrive den nye dataen til database filen:
-```python
-with open("database.json", "w") as file:
-   json.dump(temp, file, indent=4)
-```
-Sist men ikke minst sender vi brukeren tilbake hjem:
-```python
-return redirect(url_for("home"))
-```
-Og når brukeren laster inn hjem siden bygger javascript tabellen på nytt som nå har med den nylige lagt til sangen eller albumet.
+Til slutt lagrer vi denne nye dataen i databsen, og sender brukeren til hjemsiden.
 
 # Å spille av musikk
 
-Helt i starten viste jeg et veldig simpelt diagram på hvordan musikken skal spilles av, men nå skal vi se på det i detalje. Jeg skrev dette programmet i python fordi det er det språket jeg kan. Før vi starter å gå gjennom koden er det noen ting som må nevnes. Denne koden er funksjons basert som betyr at nesten all koden er inni forksjellige funksjoner som blir tilkalt. Dette kan gjøre det litt vanskeligere å forstå sammenhengen mellom forksjellige deler av koden, men heng med.
+Helt i starten viste jeg et veldig simpelt diagram på hvordan musikken skal spilles av, men nå skal vi se på det i detalje. Jeg skrev dette programmet i python fordi det er det språket jeg kan. Før vi starter å gå gjennom koden er det noen ting som må nevnes. Denne koden er funksjonsbasert, som betyr at nesten all koden er inni forskjellige funksjoner som blir tilkalt. Dette kan gjøre det litt vanskeligere å forstå sammenhengen mellom forskjellige deler av koden, men heng med.
 
-Vi starter med å gå gjennom musikk faktisk blir spilt. Det første du må vite er hva en API er. En API er en måte vi i koden vår kan si til spotify eller home assistant, gjør det her. Så når jeg refererer til en "API request" snakker jeg om å be noe som Spotify eller Home Assistant om å gjøre noe.
+Vi starter med å gå gjennom hvordan musikk faktisk blir spilt. Det første du må vite er hva en API er. En API er en måte vi i koden vår kan si til spotify eller home assistant; gjør det her. Så når jeg refererer til en "API request" snakker jeg om å be noe som Spotify eller Home Assistant om å gjøre noe.
 
 ## Home Assistant
 
-Home Assistant er det som styrer alle smarthus enhetene i huset mitt inkludert høytalere. I Home Assistant har vi et script, dette er litt some et program som kan utføre en rekke med hendelser i huset. I vårt tilfelle skal scriptet spille av musikk gjennom Spotify. Dette gjør vi med en utivdelse som heter "Spotcast" denne lar oss velge en høytaler og en sende en Spotify URI for å spille av musikk. Sånn her ser Home Assistant scriptet ut:
+Home Assistant er det som styrer alle smarthus enhetene i huset mitt inkludert høytalere. I Home Assistant har vi et script, dette er litt som et program som kan utføre en rekke med hendelser i huset. I vårt tilfelle skal scriptet spille av musikk gjennom Spotify. Dette gjør vi med en utvidelse som heter "Spotcast" denne lar oss velge en høytaler og en sende en Spotify URI for å spille av musikk. Sånn her ser Home Assistant scriptet ut:
 ```yaml
 service: spotcast.start
 data:
@@ -948,26 +743,14 @@ data:
   device_name: Simens Rom Høytaler
   uri: "{{ states('input_text.spotify_uri') }}"
 ```
-De to viktigste tingene her er `device name` som spesifiserer hvilke høytaler som skal brukes og `uri`. URI delen derimot som du kanskje ser inneholder ikke en URI, men statusen til det som heter en "hjelper". En hjelper er en variabel i Home Assistant som kan holde data. Her inneholder variablen en Spotify URI, hvorfor vi gjør det sånn her kommer vi tilbake til. Konklusjonen er at når dette scriptet kjøres spilles det av musikk på høytaleren.
+De to viktigste tingene her er `device name` som spesifiserer hvilke høytaler som skal brukes og `uri`. URI delen derimot inneholder ikke en URI, men statusen til det som heter en "hjelper". En hjelper er en variabel i Home Assistant som kan holde data. Her inneholder variablen en Spotify URI, hvorfor vi gjør det sånn her kommer vi tilbake til. Konklusjonen er at når dette scriptet kjøres spilles det av musikk på høytaleren.
 
 ### Aktivere scriptet fra Python
 
-Naturligvis siden scriptet er det som spiller av musikken trenger vi å aktivere dette fra Python programmet vårt. Heldigvis har Home Assistant har en API som vi kan bruke.
-
-Helt øverst i programmet vårt setter vi noen variabler, disse kommer du til å se senere. Du trenger ikke huske dem bare vit at de er der.
-```python
-Token = os.getenv("HA_TOKEN")
-
-headers = {
-    "Authorization": str("Bearer " + Token),
-    "content-type": "application/json",
-}
-
-HA_URL = "http://192.168.58.178:8123 #Fake IP adresse for min sikkerhet"
-```
-En Token er litt som et passord, og gir oss tilgang til å styre Home Assistant fra Python, denne Tokenen er lagret i en .env fil som blir hentet av `os.getenv`.
+Naturligvis siden scriptet er det som spiller av musikken trenger vi å aktivere dette fra Python programmet vårt. Heldigvis har Home Assistant en API som vi kan bruke.
 
 Jeg snakket om hvordan scriptet bruker en hjelper for å vite hva den skal spille av. Grunnen til dette er så vi kan endre hva som skal spilles med Python scriptet. Det gjør vi med denne funksjonen her:
+
 ```python
 def update_helper(Spotify_URI):
     global helper_id, HA_URL, headers
@@ -984,30 +767,8 @@ def update_helper(Spotify_URI):
     else:
         print(f'Failed to update the value. Status code: {response.status_code}, Response: {response.text}')
 ```
-Vi ser at det er en funksjon med at den starter med `def`. Det vi også kan legge merke til er at i parantesene på første linje står det `Spotify_URI`. Dette betyr at når noe tilkaller denne funksjonen gir de også funksjonen data som for denne funksjonen er en Spotify URI (Hvis du har glemt det så er en Spotify URI en måte for Spotify å identifisere en sang) Variablen `Spotify URI` inneholder en identifikasjonen til en sang eller et album.
-
-Det som står etter `global` er variabler vi trekker inn i funksjonen. `HA_URL` og `headers` viste jeg ista og er bare der for å få det til å funke. Men `helper_id` er Home Assistant IDen til hjelperen vi skal oppdatere og den ser slik ut:
-```
-helper_id = "input_text.spotify_uri"
-```
-Grunnen til at vi putter dette i en variabel er for å gjøre det lettere å bytte IDen hvis man trenger det i framtiden, eller hvis jeg skal gjøre dette prosjektet offentlig må det være lett å putte inn sin egen data.
-
-Så definerer vi data i JSON format, som er det som sier til Home Assistant hva hjelperen skal oppdateres til. Og vi vil at den skal oppdateres til å inneholde Spotify URIen vi fikk når noe tilkalte funkjsonen:
-```python
-data = {
-    'state': Spotify_URI,
-    }
-```
-Så har vi denne delen som setter alt sammen og sender det til Home Assistant:
-```python
-response = requests.post(f'{HA_URL}/api/states/{helper_id}', headers=headers, json=data)
-
-if response.status_code == 200:
-   print(f'Successfully updated the value of {helper_id}')
-else:
-   print(f'Failed to update the value. Status code: {response.status_code}, Response: {response.text}')
-```
-Hvis vi får tilbake koden `200` vet vi at det gikk gjennom, derimot hvis ikke så gikk noe galt. Dette er hele funksjonen for å oppdatere hjelperen til sangen vi har lyst til å spille av.
+Denne funksjonen ser vi har `Spotify_URI` i parantes som betyr at når noe tilkaller denne funksjonen sender de også med spotify URIen.  
+Funksjonen bruker en HTTP POST request for å sende en beskjed til Home Assistant om at hjelperen skal oppdateres til Spotify URIen som ble sendt med tilkallingen av funksjonen.
 
 Neste funksjon vi trenger er for å faktisk aktivere scriptet.  
 ```python
@@ -1028,11 +789,7 @@ def run_script():
     else:
         print(f'Failed to activate the script. Status code: {response.status_code}, Response: {response.text}')
 ```
-Vi ser at denne funksjonen er veldig lik. Men her tar vi ikke inn noe ekstra data. Men vi trekker inn `script_id` som er Home Assistant IDen til scriptet som ser sånn her ut:
-```
-script_id = "script.nfc_musikkspiller"
-```
-I data seksjonen har vi nå en `entity_id` som er det som forteller Home Assistant hvilke script som skal aktiveres. Resten er likt som den andre funksjonen hvor den setter alt sammen og sender det ut.
+Vi ser at denne funksjonen er veldig lik. Her sender vi bare rett til Home Assistant "Aktiver dette scriptet vi har valgt for å spille av musikk"
 
 ### Scanning, sortering, og sammensetting
 
@@ -1040,26 +797,25 @@ Vi har også en funksjon som gjør selve scanningen
 
 # Systemd
 
-Hvis du noen gang har lurt på hva i operativsystemet ditt det er som starter alle prosessene som det som styrer wifi, antivirus, brannmur, oppstartsprogrammer etc? Vel i tilfelle til de fleste Linux distrubisjoner er dette systemd. Det er ofte hatet ettersom at det ikke følger Unix filososifen som sier: "Skriv programmer som gjør én ting, og én ting godt. Systemd gjør mange ting, middels godt, men det har blitt tatt i bruk fordi det er universalt og lett. Det systemd er er et "init system". I windows når du skal få et program som nettsiden eller programmet for å spille musikk til å starte når systemet starter kan du bare putte det i en mappe, på Linux er det ikke fullt så lett. For at systemd skal vite hvordan programmet skal startes må vi skrive en konfigurasjonsfil til systemd.
+Hvis du noen gang har lurt på hva i operativsystemet ditt det er som starter alle prosessene som det som styrer wifi, antivirus, brannmur, oppstartsprogrammer etc? Vel i tilfelle til de fleste Linux distrubisjoner er dette Systemd. Det er ofte hatet ettersom at det ikke følger Unix filososifen som sier: "Skriv programmer som gjør én ting, og én ting godt. Systemd gjør mange ting, middels godt, men det har blitt tatt i bruk fordi det er universalt og lett. Det Systemd er er et "init system". I windows når du skal få et program som nettsiden eller programmet for å spille musikk til å starte når systemet starter kan du bare putte det i en mappe, på Linux er det ikke fullt så lett. For at Systemd skal vite hvordan programmet skal startes må vi skrive en konfigurasjonsfil til Systemd.
 
 ### Webserveren
 
-Som jeg har gått over er nettsiden skrevet med Flask. Når man kjører et python program med Flask starter den en "devolpment server" dette er veldig bra når man designer nettsiden, men det er tregt og ustabilt for produksjon. Derfor bruker vi "Gunicorn" som er en python web server gateway. Å bruke gunicorn er overraskende lett, man starter med å skrive en gunicorn konfigurasjonsfil:
+Som jeg har gått over er nettsiden skrevet med Flask. Når man kjører et python program med Flask starter den en "devolpment server" dette er veldig bra når man designer nettsiden, men det er tregt og ustabilt for produksjon. Derfor bruker vi "Gunicorn" som er en python web server gatewaysom brukes når man faktisk skal bruke nettsiden og ikke utvikle den.
+
+Dette er konfigurasjonsfilen til Gunicorn som gjør at alle på samme nett kan gå inn på nettsiden:
 ```python
 bind = "0.0.0.0:8000"
 workers = 1
 worker_class = "sync"
 ```
-Bind setter vi først til `0.0.0.0` dette betyr at den kommer til å "lytte" for tilkoblinger fra alle IP adresser, `:8000` betyr at vi setter porten til 8000. Vanligvis kjører web på port 80 og 443, men vi bruker 8000 for to grunner. En er at da slipper vi konflikt med andre nettsider. Den mere viktige delen er at porter under 1024 er "priviligerte" porter som betyr at man trenger adminstartor for å bruke dem. Vi vil slippe dette for å øke sikkerheten i systemet vårt.
-
-`Workers = 1` betyr at vi skal bruke 1 CPU core, kort fortalt er workers hvor mye kraft webserveren får av raspberry pien. Vi trenger absolutt ikke mye og setter den til 1. `worker_class = "sync"` forteller gunicorn hvordan flere workers skal kommunisere, noe som ikke bryr oss siden vi bare har 1 worker.
 
 Nå som vi har satt opp gunicorn kan vi starte det med kommandoen:
 ```
 gunicorn -b 0.0.0.0:8000 -c gunicorn_config.py webserver:app
 ```
-Ettersom at dette nå funker må vi nå lage konfigurasjonsfilen for systemd, så webserveren kan starte når musikkspilleren blir plugget inn.
-Vi starter med å lage en fil som heter `flaskserver.service` i `/etc/systemd/system` I denne filen skriver vi dette:
+Ettersom at dette nå funker må vi nå lage konfigurasjonsfilen for Systemd, så webserveren kan starte når musikkspilleren blir plugget inn.
+Den konfigurasjonsfilen ser sånn her ut og forteller Systemd hvordan programmet skal starte i hvilke mappe og med hvilke kommandoer:
 ```
 [Unit]
 Description=Flask server for NFC music player
@@ -1075,15 +831,10 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 ```
-I [Unit] seksjonen legger vi til en beskrivelse, men også `After=network.target` dette sier til systemd at webserveren må vente med å starte til prosessen som driver nettverket har startet
-
-[Service] sekjsonen er der det morsomme skjer. Først sier vi at webserveren skal kjøres med min bruker. Så forteller vi hvor dette er lagret med `WorkingDirectory`. Hvis du husker kommandoen vi gjørte for å starte gunicorn, er det denne vi forteller at skal kjøres når den starter, dette putter vi under `ExecStart`. Hvis prosessen kræsjer setter vi `Restart` til `always` så den kan restarte serveren.
-
-[Install] seksjonen har bare en faktor som er `WantedBy`, dette er en ganske komplisert Linux funksjon, men lett forklart er det en måte å fortelle systemd når prosessen skal starte basert på en rekke med faktorer.
 
 ### Spilleren
 
-Konfigurasjonen for å starte python scriptet som spiller av sanger og albumer er nesten helt likt som for webserveren bare at isteder for å kjøre med gunicorn kjører vi rett med python. Og fordi det krever root setter vi brukeren til root.
+Konfigurasjonen for å starte python scriptet som spiller av sanger og albumer er nesten helt likt som for webserveren, bare at isteden for å kjøre med gunicorn kjører vi rett med python. Og fordi det krever root setter vi brukeren til root.
 ```
 [Unit]
 Description=Core functions of playing music with the music player
