@@ -384,26 +384,27 @@ Med `data=data` sender vi denne informasjonen over til `index.html` som innehold
 
 Javascript er et annet programmeringsspråk som brukes for laging av nettsider. I mitt tilfelle er det det som genererer tabellen med sangene og albumene fra databasen.  
 
-Så for å motta dataen fra Jinja må vi definere en variabel som vi kaller `data` og putte dataen i JSON format fra Jinja der.
+Så for å motta dataen fra Jinja må vi definere en variabel som vi kaller `data` og putte dataen i JSON format fra Jinja der:
 
 ```js
 var data = {{ data|tojson }};
 ```
 
-Etter dette, på samme måte som vi definerte en funksjon i python, definerer vi en funksjon i javascript med dataen fra Jinja
+Etter dette, på samme måte som vi definerte en funksjon i python, definerer vi en funksjon i javascript med dataen fra Jinja:
 
 ```js
 function buildTable(data){}
 ```
 
 For at Javascript skal vite at vi snakker om tabellen vi lagde i [struktur](#struktur) delen, har vi gitt tabellen IDen: `table`
-Derfor kan vi bruke denne linjen med kode for å si til Javascript at det er denne tabellen vi snakker om. Dette blir puttet i variablen `table`
+
+Derfor kan vi bruke denne linjen med kode for å si til Javascript at det er denne tabellen vi snakker om. Dette blir puttet i variablen `table`:
 
 ```js
 var table = document.getElementById('table')
 ```
 
-Denne delen ser veldig komplisert ut, men enkelt forklart gjør den det neste vi skal gå gjennom for hvert element i databasen.
+Denne delen ser veldig komplisert ut, men enkelt forklart utfører den det neste vi skal gå gjennom en gang for hvert element i databasen.
 ```js
 for (var i = 0; i < data.length; i++){}
 ```
@@ -438,7 +439,7 @@ Betyr rett å slett at alt inni dette er en rad i tabellen. Og alle de bokstaven
 <td style="text-align: center;"><img src="${data[i].cover}" width="100" height="100"></td>
 ```
 
-`<td>` betyr "table data" og dette er for album eller sang coveret. Vi starter med å bruke `style=` for å si at bildet skal være i midten med `text-align: center;` HTML sin innebygde `<img src= >` funksjon viser et bilde fra linken spesifisert fra `src=` Den litt kompliserte `${data[i].cover}` delen kort forklart henter verdien `cover` fra `data` variablen. Som hvis vi ser på databasen igjen ser at `cover` inneholder en link til cover bildet.
+`<td>` betyr "table data" og dette er for album eller sang coveret. Vi starter med å bruke `style=` for å si at bildet skal være i midten med `text-align: center;` HTML sin innebygde `<img src= >` funksjon viser et bilde fra linken spesifisert fra `src=` Den litt kompliserte `${data[i].cover}` delen kort forklart henter verdien `cover` fra `data` variablen. Som hvis vi ser på databasen igjen ser at `cover` inneholder en link til cover bildet. `Width` og `height` sier seg selv og bestemmer at bilde skal være 100x100 piksler stort. Hvordan elementet fra databsaen ser ut:
 
 ```json
 {
@@ -448,7 +449,6 @@ Betyr rett å slett at alt inni dette er en rad i tabellen. Og alle de bokstaven
    "id": "5841841343875"
 }
 ```
-`Width` og `height` sier seg selv og bestemmer at bilde skal være 100x100 piksler stort.
 
 ```js
 <td>${data[i].name}</td>
@@ -476,20 +476,23 @@ def delete():
 ```
 Her er en ny ting, `methods` Dette sier at vi kan motta både POST og GET (det man vanligvis bruker for å se en nettside) -requests. Når man klikker på "Delete" knappen, er den en POST request som inneholder IDen til albumet eller sangen.
 
+Vi starter med å sjekke om det er en POST request for å vite om vi faktisk skal slette et album:
+
 ```python
 if request.method == "POST":
 ```
-Vi startet med å sjekke om det er en POST request for å vite om vi faktisk skal slette et album.
+
+Så bruker vi `request.form` for å hente informasjonen fra POST requesten, og putte den i variablen `id`:
 
 ```python
 id = request.form["delete"]
 ```
-Så bruker vi `request.form` for å hente informasjonen fra POST requesten, og putte den i variablen `id`
+Etter vi har IDen bruker vi `load()` funksjonen igjen for å laste databasen inn i variablen `temp`:
 
 ```python
 temp = load()
 ```
-Etter vi har IDen bruker vi `load()` funksjonen igjen for å laste databasen inn i variablen `temp`
+Dette er algoritmen som sletter albumet eller sangen:
 
 ```python
 for item in temp:
@@ -503,7 +506,8 @@ for item in temp:
    else:
       pass
 ```
-Dette er algoritmen som sletter albumet eller sangen, la oss gå gjennom det.  
+La oss gå gjennom det.
+
 ```python
 for item in temp:
 ```
@@ -518,7 +522,7 @@ temp.remove(item)
 with open("database.json", "w") as file:
    json.dump(temp, file, indent=4)
 ```
-Så hvis IDene matcher sletter vi den sangen eller albumet fra databasen. Etter det bruker vi `with open` på samme måte som i `load()` funksjonen, bare at nå bruker vi "w" for å indikere at vi skal skrive til filen. Så skriver vi den oppdaterte informasjonen uten den slettede elementet til databasen igjen.
+Så hvis IDene matcher sletter vi den sangen eller albumet fra databasen. Etter det bruker vi `with open` på samme måte som i `load()` funksjonen, bare at nå bruker vi "w" for å indikere at vi skal skrive til filen. Så skriver vi den oppdaterte informasjonen uten det slettede elementet til databasen igjen.
 ```python
 return redirect(url_for("home"))
 ```
@@ -544,6 +548,8 @@ For at denne nettsiden skal gjøre det den skal, trenger den en måte å ta inpu
 Brukeren må putte inn en spotify URI (Spotify sin måte å identifisere albumer og sanger) og en knapp for å legge til.
 For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en funksjon som tar en input, og så sender informasjonen til serveren med en link. Dette kalles for en POST request. POST er måten en nettside kan sende ting til servere.
 
+Her er HTML koden for feltet man putter inn album eller sangen.
+
 ```html
 <form id="Form" action="/send_data" method="post" onsubmit="return showAlert()">
     <p>Enter Album / Song Link or URI</p>
@@ -552,7 +558,8 @@ For å gjøre dette brukte jeg det som kalles for en `form action` Dette er en f
 </form>
 ```
 
-Etter brukeren har klikket på "Add album or song" utføres javascript funksjonen `showAlert()` Denne funksjonen forteller brukeren at de skal plassere "tagen" som skal kobles til denne sangen eller albumet på scanneren. Etter at den har blitt scannet sendes dataen over til serveren. Hva som skjer med dataen, kommer jeg tilbake til.
+Etter brukeren har klikket på "Add album or song" utføres javascript funksjonen `showAlert()` Denne funksjonen forteller brukeren at de skal plassere "tagen" som skal kobles til denne sangen eller albumet på scanneren. Etter at den har blitt scannet sendes dataen over til serveren. Hva som skjer med dataen, kommer jeg tilbake til.  
+Her er `showAlert()` funksjonen:
 
 ```javascript
 function showAlert() {
@@ -570,7 +577,7 @@ function showAlert() {
 
 #### Motta input i Flask
 
-For å motta dataen i webserveren, så den kan bli puttet i databasen må vi definere en funksjon for linken der dataen sendes. Som her er til `/send_data`
+For å motta dataen i webserveren, så den kan bli puttet i databasen må vi definere en funksjon for linken der dataen sendes. Som her er `/send_data` dette gjør vi i Flask:
 
 ```python
 @app.route('/send_data',methods = ['POST', 'GET'])
@@ -578,13 +585,15 @@ def album_data():
    if request.method == 'POST':
 ```
 På lik måte som når vi lagde funksjonen for "Delete-knappen" sjekker vi først om det er en POST request (altså at linken inneholder data)
+
+På lik måte som vi gjorde i Delte funksjonen, putter vi dataen fra POST linken i en variabel vi kaller `raw_input`:
+
 ```python
 raw_input = request.form["raw-input"]
 ```
-Dette er også veldig likt som "Delete" funksjonen, hvor vi putter Spotify URIen i variablen `raw_input`
 
 #### Link til URI
-Som jeg nevnte måtte man putte inn en Spotify URI, for å gjøre denne prosessen enklere har jeg kodet en funksjon som gjør linker om til URIer. Så nå kan man putte inn begge to i nettsiden.  
+Som jeg nevnte måtte man putte inn en Spotify URI, for å gjøre denne prosessen enklere har jeg kodet en funksjon som gjør spotify linker om til URIer. Så nå kan man putte inn begge to i nettsiden.  
 Her er hvordan det funker.
 
 ```python
@@ -609,13 +618,18 @@ if "https://" in raw_input:
 ```
 
 La oss gå gjennom hver seksjon.  
-Vi starter med å definere en funksjon som heter `link_to_id` med `def link_to_id(link):` Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut: `https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99` Målet med denne funksjonen er å ta linken, og gjøre den om til bare IDen som i dette eksemplet er `7Grz4hgSBRdEPj6Vxm991i`
-De to linjene:
+Vi starter med å definere en funksjon som heter `link_to_id` med `def link_to_id(link):` Det at `link` er i parantes betyr at når man tilkaller funksjonen gir man den også informasjonen til `link` I dette eksemplet la oss si at linken vi gir til funksjonen ser slik ut:
+```
+https://open.spotify.com/track/7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99
+```
+Målet med denne funksjonen er å ta linken, og gjøre den om til bare IDen som i dette eksemplet er `7Grz4hgSBRdEPj6Vxm991i`,
+De to linjene her bytter ut både `https://open.spotify.com/album/` og `https://open.spotify.com/track/` med tomrom, grunnen til at vi har begge er fordi `/album/`er for album, og `/track/` er for sanger:  
+
 ```python
 link = link.replace("https://open.spotify.com/album/", "")
 link = link.replace("https://open.spotify.com/track/", "")
 ```
-Bytter ut både `https://open.spotify.com/album/` og `https://open.spotify.com/track/` med tomrom, grunnen til at vi har begge er fordi `/album/`er for album, og `/track/` er for sanger.  
+ 
 I vårt eksempel er det en sang, så nå står vi igjen med:
 ```
 7Grz4hgSBRdEPj6Vxm991i?si=aeb28778c8f44a99
@@ -625,10 +639,12 @@ Det vi vil ha er IDen, som her er:
 7Grz4hgSBRdEPj6Vxm991i
 ```
 Det betyr at vi må fjerne alt etter og inkludert spørsmålstegnet.  
+
+Dette splitter opp linken vår i to:
 ```python
 link = link.split("?")
 ``` 
-Dette splitter opp linken vår i to. Nå står vi igjen med en liste som inneholder:
+Nå står vi igjen med en liste som inneholder:
 ```python
 ["7Grz4hgSBRdEPj6Vxm991i", "?si=aeb28778c8f44a99"]
 ```
@@ -646,21 +662,25 @@ Sist men ikke minst returner vi dette til det som opprinnelig tilkalte funksjone
 return id
 ```
 
-Nå som vi vet hvordan denne funksjonen fungerer kan vi gå videre til resten av koden.  
+Nå som vi vet hvordan denne funksjonen fungerer kan vi gå tilbake til koden som mottar dataen fra koden.
+
 Etter at vi har fått inputet fra brukeren som her er linken, sjekker vi om det er en link eller en URI.  
 Dette gjør vi med:
+
 ```python
 if "https://" in raw_input:
 ```
 Det sjekker om `https://` er i det brukeren ga oss. Hvis det er det kan vi være ganske sikre på at det er en link.  
-Etter dette må vi sjekke om det er en album eller en sang.
+Etter dette må vi sjekke om det er en album eller en sang:
+
 ```python
 if "album" in raw_input:
       id = link_to_id(raw_input)
       raw_input = "spotify:album:" + id
 ```
-Dette gjør vi med å sjekke om ordet `album` er i linken. Hvis det er et album tilkaller vi funksjonen vår som gjør linken om til en id, dette betyr at vi får tilbake: `7Grz4hgSBRdEPj6Vxm991i`  
+Dette gjør vi med å sjekke om ordet `album` er i linken. Hvis det er et album tilkaller vi funksjonen vi nylig gikk gjennom som gjør linken om til en id, dette betyr at vi får tilbake: `7Grz4hgSBRdEPj6Vxm991i`  
 Så for å gjøre dette til en gyldig Spotify URI som kan sendes til spotify legger vi til `spotify:album:` Da står vi igjen med: `spotify:album:7Grz4hgSBRdEPj6Vxm991i` som er en gyldig spotify URI  
+
 Funksjonen for sanger er nesten det samme bare bytte ut `album` med `track`:
 ```python
 elif "track" in raw_input:
@@ -714,7 +734,7 @@ Ut fra vår nyinnhentet data om albumet kan vi splitte dataen opp til informasjo
 album_link = album_info['images'][0]['url']
 album_name = album_info["name"]
 ```
-`album_link` for linker til album coveret, og `album_name` for navnet til albumet.  
+`album_link` for linken til album coveret, og `album_name` for navnet til albumet.  
 Etter dette strukturer vi dataen i formatet som brukes i databasen:
 ```python
 data = {
@@ -727,17 +747,19 @@ Men istedenfor å skrive dette rett til databasen lagrer vi det i en session:
 ```python
 session['data'] = data
 ```
-Noe som er lagret i en session er det samme som det "cookies" er, som man må akseptere for å bruke nettsiden.
+Noe som er lagret i en session er det samme som det "cookies" er, som man ofte må akseptere for å bruke en nettside.
 Grunnen til at vi ikke skriver det rett til databasen er fordi det er en ting vi mangler, derfor sender vi brukeren til en annen link:
 ```python
 return redirect(url_for("scan"))
 ```
 Det vi mangler er IDen til "tagen" som skal scannes for å spille musikken. Som du kanskje husker, når man legger til et nytt album eller en ny sang, ber den deg scanne NFC-tagen din. Det er det vi skal gjøre nå.
+
+Som vi har gjort for alle andre linker definerer vi dem først i Flask:
 ```python
 @app.route("/scan")
 def scan():
 ```
-Som vi har gjort for alle andre linker definerer vi dem først i Flask.  
+
 Dette er koden som scanner NFC-tagen:
 ```python
 id = reader.read()
@@ -765,7 +787,7 @@ AUTH ERROR(status2reg & 0x08) != 0"
 ```
 Som man ser først fungerer det å printe IDen, men teksten ikke så bra. "AUTH ERROR" betyr at noe har gått galt under en autentikasjon med tagen, selvom tagen ikke har noe passord eller enkrypsjon. På linje 3 ser vi `0x08` dette er en referanse til et sted i minne til tagen. Etter litt googling fant jeg ut at ikke bare det var jeg som hadde dette problemet. Det som gjør at det feiler er at programmet som kjører på scanneren ble sist oppdatert for 7 år siden, og tagene jeg har er nyere enn det. Så autentikasjonen dems fungerer ikke. Men hvordan skulle jeg nå gjøre prosjektet mitt? Jo siden IDen fortsatt fungerer kan jeg bruke den til å forbinde dem med album. Dette gjør også at man slipper å skrive en ID til en tag. Derfor scanner man tagen når man legger den til i nettsiden.
 
-### Tilbake til input
+### Tilbake til scanning
 
 ```python
 id = reader.read()
@@ -807,6 +829,7 @@ for item in temp:
       return redirect(url_for("ID_conflict"))
 ```
 I "menneske språk" betyr dette: for hvert element i databasen, sjekk om IDen matcher med IDen fra scannen, hvis den gjør det si ERROR  
+
 Dette er for å forhindre at to album har samme tag forbundet med seg. På samme måte som på hjem funksjonen bruker vi `return redirect` for å sende brukeren til en annen link. Funksjonen for denne linken ser sånn her ut:
 ```python
 @app.route("/ID_conflict")
@@ -861,7 +884,8 @@ Koden for denne nettsiden er veldig simpel og ser sånn her ut:
 Hvis man ignorerer alt innenfor `<style>` tagene, ser man at dette egentlig bare er en error melding og en knapp for å gå tilbake  
 ![ID conflict](https://github.com/simen64/Design-og-redesign/blob/6948e8086821f71447895406d89acf95056f7057/NFC-musikkspiller%20/Bilder/Id_conflict.png)
 
-Men hvis vår "if" funksjon ikke finner noen matchende IDer i databasen kan den gå videre.  
+Men hvis vår "if" funksjon ikke finner noen matchende IDer i databasen kan den gå videre.
+
 Hvis du husker så puttet vi dataen vi fikk om albumet eller sangen fra spotify i en session cookie som så slik ut:
 ```python
 data = {
@@ -960,28 +984,30 @@ def update_helper(Spotify_URI):
     else:
         print(f'Failed to update the value. Status code: {response.status_code}, Response: {response.text}')
 ```
-Vi ser at det er en funksjon med at den starter med `def`. Det vi også kan legge merge til er at i parantesene på første linje står det `Spotify_URI`. Dette betyr at når noe tilkaller denne funksjonen gir de også funksjonen data som for denne funksjonen er en Spotify URI (Hvis du har glemt det så er en Spotify URI en måte for Spotify å identifisere en sang) Variablen `Spotify URI` inneholder en identifikasjonen til en sang eller et album.
+Vi ser at det er en funksjon med at den starter med `def`. Det vi også kan legge merke til er at i parantesene på første linje står det `Spotify_URI`. Dette betyr at når noe tilkaller denne funksjonen gir de også funksjonen data som for denne funksjonen er en Spotify URI (Hvis du har glemt det så er en Spotify URI en måte for Spotify å identifisere en sang) Variablen `Spotify URI` inneholder en identifikasjonen til en sang eller et album.
 
 Det som står etter `global` er variabler vi trekker inn i funksjonen. `HA_URL` og `headers` viste jeg ista og er bare der for å få det til å funke. Men `helper_id` er Home Assistant IDen til hjelperen vi skal oppdatere og den ser slik ut:
 ```
 helper_id = "input_text.spotify_uri"
 ```
 Grunnen til at vi putter dette i en variabel er for å gjøre det lettere å bytte IDen hvis man trenger det i framtiden, eller hvis jeg skal gjøre dette prosjektet offentlig må det være lett å putte inn sin egen data.
+
+Så definerer vi data i JSON format, som er det som sier til Home Assistant hva hjelperen skal oppdateres til. Og vi vil at den skal oppdateres til å inneholde Spotify URIen vi fikk når noe tilkalte funkjsonen:
 ```python
 data = {
     'state': Spotify_URI,
     }
 ```
-Denne dataen her er i JSON format og er det som sier til Home Assistant hva hjelperen skal oppdateres til. Og vi vil at den skal oppdateres til å inneholde Spotify URIen vi fikk når noe tilkalte funkjsonen.
+Så har vi denne delen som setter alt sammen og sender det til Home Assistant:
 ```python
-    response = requests.post(f'{HA_URL}/api/states/{helper_id}', headers=headers, json=data)
+response = requests.post(f'{HA_URL}/api/states/{helper_id}', headers=headers, json=data)
 
-    if response.status_code == 200:
-        print(f'Successfully updated the value of {helper_id}')
-    else:
-        print(f'Failed to update the value. Status code: {response.status_code}, Response: {response.text}')
+if response.status_code == 200:
+   print(f'Successfully updated the value of {helper_id}')
+else:
+   print(f'Failed to update the value. Status code: {response.status_code}, Response: {response.text}')
 ```
-Den siste delen her setter alt sammen og sender det til Home Assistant. Hvis vi får tilbake koden `200` vet vi at det gikk gjennom, derimot hvis ikke så gikk noe galt. Dette er hele funksjonen for å oppdatere hjelperen
+Hvis vi får tilbake koden `200` vet vi at det gikk gjennom, derimot hvis ikke så gikk noe galt. Dette er hele funksjonen for å oppdatere hjelperen til sangen vi har lyst til å spille av.
 
 Neste funksjon vi trenger er for å faktisk aktivere scriptet.  
 ```python
@@ -1029,7 +1055,7 @@ gunicorn -b 0.0.0.0:8000 -c gunicorn_config.py webserver:app
 ```
 Ettersom at dette nå funker må vi nå lage konfigurasjonsfilen for systemd, så webserveren kan starte når musikkspilleren blir plugget inn.
 Vi starter med å lage en fil som heter `flaskserver.service` i `/etc/systemd/system` I denne filen skriver vi dette:
-```bash
+```
 [Unit]
 Description=Flask server for NFC music player
 After=network.target
@@ -1053,7 +1079,7 @@ I [Unit] seksjonen legger vi til en beskrivelse, men også `After=network.target
 ### Spilleren
 
 Konfigurasjonen for å starte python scriptet som spiller av sanger og albumer er nesten helt likt som for webserveren bare at isteder for å kjøre med gunicorn kjører vi rett med python. Og fordi det krever root setter vi brukeren til root.
-```bash
+```
 [Unit]
 Description=Core functions of playing music with the music player
 After=network.target
@@ -1073,7 +1099,7 @@ WantedBy=multi-user.target
 ### Oppdateringer
 
 Som alle burde vite er det ekstremt viktig å holde systemet sitt oppdatert for å passe på at det er sikkert mot nye trusler. For å slippe å måtte SSH inn i musikkspilleren min hver dag for å oppdatere den lagde jeg en service her også for å oppdatere systemt. En ekstremt nyttig ting med Linux er at du har noe som heter en "package manager" som handler alle programmene dine. Dette gjør at du kan oppdatere alt samtid. `apt update` oppdaterer hvor package manageren laster ned pakkene, og `apt upgrade` er det som faktisk oppdaterer systemet og alle programmene. Her er systemd serviceen for å oppdatere systemet når musikkspilleren starter:
-```bash
+```
 [Unit]
 Description=Update System on Boot
 After=network.target
