@@ -1033,6 +1033,11 @@ Vi ser at denne funksjonen er veldig lik. Men her tar vi ikke inn noe ekstra dat
 script_id = "script.nfc_musikkspiller"
 ```
 I data seksjonen har vi nå en `entity_id` som er det som forteller Home Assistant hvilke script som skal aktiveres. Resten er likt som den andre funksjonen hvor den setter alt sammen og sender det ut.
+
+### Scanning, sortering, og sammensetting
+
+Vi har også en funksjon som gjør selve scanningen 
+
 # Systemd
 
 Hvis du noen gang har lurt på hva i operativsystemet ditt det er som starter alle prosessene som det som styrer wifi, antivirus, brannmur, oppstartsprogrammer etc? Vel i tilfelle til de fleste Linux distrubisjoner er dette systemd. Det er ofte hatet ettersom at det ikke følger Unix filososifen som sier: "Skriv programmer som gjør én ting, og én ting godt. Systemd gjør mange ting, middels godt, men det har blitt tatt i bruk fordi det er universalt og lett. Det systemd er er et "init system". I windows når du skal få et program som nettsiden eller programmet for å spille musikk til å starte når systemet starter kan du bare putte det i en mappe, på Linux er det ikke fullt så lett. For at systemd skal vite hvordan programmet skal startes må vi skrive en konfigurasjonsfil til systemd.
