@@ -791,9 +791,216 @@ def run_script():
 ```
 Vi ser at denne funksjonen er veldig lik. Her sender vi bare rett til Home Assistant "Aktiver dette scriptet vi har valgt for å spille av musikk"
 
-### Scanning, sortering, og sammensetting
+### Scanning, spilling, og pausing
 
-Vi har også en funksjon som gjør selve scanningen 
+Vi har også en funksjon som gjør selve scanningen, som ser slik ut:
+
+```python
+def scanning():
+    global current_tag_id
+    try:
+        while True:
+            print("Hold a tag near the reader")
+            id = reader.read()
+            id = id[0]
+            id = str(id)
+            print(id)
+
+            
+            if id != current_tag_id:
+                play_album(id)
+            else:
+                print("same tag")
+
+            current_tag_id = id
+            time.sleep(10) 
+
+    except KeyboardInterrupt:
+        GPIO.cleanup()
+        raise
+```
+
+Sånn denne funksjonen virker er at hvert 10. sekund scanner den etter en tag, hvis tagen er den samme som forrige gang skipper de, men hvis det er en ny tag aktiverer vi scriptet `play_album` og gir IDen til tagen som ble scannet til funksjonen.
+
+Funksjonen `play_album` har to viktige oppgaver. Den ene er å matche IDen fra tagen til en sang eller et album. Og å kjøre funksjonene `update_helper` og `run_script`. Funksjonen ser sånn her ut:
+
+```python
+ef play_album(id):
+    global Spotify_URI, id_played
+    print("playing album")
+
+    data = load()
+
+    for item in data:
+        if 'id' in item and item['id'] == id:
+            print(f"Found album with ID {item['id']}")
+            Spotify_URI = item["uri"]
+            id_played = id
+
+            update_helper(Spotify_URI)
+
+            run_script()
+
+            print("Made green with play_album function")
+            wipe_to_green()
+            break
+    else:
+        print("no albums with matchind IDs were found")
+```
+Først tar vi IDen fra tagen og går gjennom databasen for å finne en matchende sang eller album. Så oppdaterer vi hjelperen med `update_helper` funksjonen og det er her vi mater inn hvilke Spotify URI vi skal oppdatere hjelperen til. Etter det kan vu bruke funksjonen `run_script` for å spille av musikken. Og sist men ikke minst tilkaller vi en siste funksjon som heter `wipe_tpo_green`. Dette er animasjonen som gjør lyset grønt på musikkspilleren når noe spilles. Den funksjonen ser sånn ut:
+
+```python
+def wipe_to_green():
+    for i in range(len(pixels)):
+        pixels[i] = (0,255,0)
+        pixels.show()
+        time.sleep(0.05)
+    for i in range(len(pixels)):
+        pixels[i] = (0,0,0)
+        pixels.show()
+        time.sleep(0.05)
+```
+
+Nå er det en ting som musikkspilleren mangler som må kodes, og det er at når "platen" blir tatt av spilleren pauses musikken. I tilegg ville jeg ha det sånn at hvis du la på platen innen 1 minutt fra du tok den av fortsatte musikken fra der den pauset, men hvis det går over et minutt og du legger på platen starter det på nytt.
+
+Først må vi ha en funksjon for å pause og spille musikken. Denne funksjonen ligner på `update_helper` funksjonen. Funksjonen kan man mate inn `pause` eller `play` for å spille av eller pause. Her er koden for funksjonen:
+
+```python
+def music_control(pause_or_play):
+    global spotify_id
+
+    data = {
+    "entity_id": spotify_id
+    }
+
+    response = requests.post(f'{HA_URL}/api/services/media_player/media_{pause_or_play}', headers=headers, json=data)
+
+    if response.status_code == 200:
+        print(f'Successfully paused or played')
+    else:
+        print(f'Failed to update the value. Status code: {response.status_code}, Response: {response.text}')
+```
+
+Å finn en løsning for å vite om platen var der eller ikke viste seg å være litt vanskeligere enn jeg trodde, men dette er hvordan jeg gjorde det. En funksjon scanner kontinuerlig for en tag, hvis den finner en tag oppdateres variablen `tag_countdown` til 5 sekunder. Samtidig i bakgrunnen kjører en annen funksjon som hele tiden teller ned fra verdien til `tag_countdown` og ned til 0. Så hvis ikke en tag er der på 5 sekunder kan vi konkludere at det ikke er en plate der.
+
+Dette er koden for funksjonen som sjekker kontinuerlig for en tag:
+
+```python
+def tag_detect():
+    global tag_countdown, on_pause, id_played
+    while True:
+        id = reader.read()
+        id = id[0]
+        id = str(id)
+        print("tag is there")
+        tag_countdown = 3
+        if on_pause:
+            if id == id_played:
+                print(f"ID: {id}, id_played: {id_played}")
+                music_control("play")
+                on_pause = False
+                print("Made green with tag_detect function")
+                t = threading.Thread(target=wipe_to_green)
+                t.start()
+            else:
+                on_pause = False
+```
+
+Og her er funksjonen som teller ned:
+
+```python
+def tag_detect_countdown():
+    global tag_countdown
+    while True:
+        tag_countdown = tag_countdown - 1
+        if tag_countdown <= -1:
+            tag_countdown = -1
+        if tag_countdown == 0:
+            tag_not_there()
+
+        time.sleep(1)
+```
+
+Som man kan se på bunnen av `tag_detect_countdown` funksjonen, så blir funksjonen `tag_not_there` når nedtellingen treffer 0. La oss se på hva den gjør.
+
+`tag_not_there` er en veldig enkel funksjon som ser sånn her ut:
+
+```python
+def tag_not_there():
+    global on_pause, countdown
+    print("tag not there anymore")
+    music_control("pause")
+    countdown = 60
+    on_pause = True
+    print("Made lights yellow")
+    wipe_to_yellow()
+```
+
+Funksjonen gjør 4 ting. Først pauser den musikken, så setter den en ny nedtelling (Ikke bland denne nedtellingen med den forbundet med `tag_detect_countdown`) til 60 sekunder. Så sier vi til resten av programmet at den er på pause med `on_pause = True` Til slutt tilkaller vi funksjonen `wipe_to_yellow` som er lik `wipe_to_green` bare med en gul farge.
+
+Den nye nedtellingen på 60 sekunder brukes til det jeg prøvde å forklare med at hvis det går 1. minutt så spilles sangen av på nytt.
+Dette er nesten helt likt som nedtellingen på 5 sekunder og nedtellingsfunksjonen ser nesten helt lik ut:
+
+```python
+def pause_countdown():
+    global on_pause, current_tag_id, countdown
+    countdown = 60
+    while True:
+        if on_pause:
+            countdown = countdown - 1
+            if countdown == 0:
+                print("COUNT REACHED 0")
+                on_pause = False
+                current_tag_id = None
+                pixels.fill((0,0,0))
+                pixels.show()
+                print("TURNED OFF PIXELS")
+            time.sleep(1)
+        else:
+            pass
+```
+
+Eneste er at denne funksjonen skrur av lysene og resetter programmet så det er klart for en ny plate. Men hva om man legger på platen innen 1 minutt?
+
+Hvis vi ser tilbake på `tag_detect` funksjonen. Er det noe den gjør i tilegg til å resette nedtellingen. Den sjekker om musikken er på pause, og hvis den er det og platen er den samme som når musikken ble satt på pause så spiller den av musikken igjen. Det er det denne delen av funksjonen `tag_detect` gjør:
+
+```python
+if on_pause:
+   if id == id_played:
+      print(f"ID: {id}, id_played: {id_played}")
+      music_control("play")
+      on_pause = False
+      print("Made green with tag_detect function")
+      t = threading.Thread(target=wipe_to_green)
+      t.start()
+   else:
+      on_pause = False
+```
+
+### Threading
+
+Som jeg har sagt er det flere funksjoner i dette programmet som kjører samtidig, som med nedtellingene. Derfor må vi bruke det som heter en "thread" som lar programmet kjøre flere ting samtidig. Koden for dette ser sånn her ut:
+
+```python
+scan_thread = threading.Thread(target=scanning)
+tag_detect_thread = threading.Thread(target=tag_detect)
+tag_countdown_thread = threading.Thread(target=tag_detect_countdown)
+pause_countdown_thread = threading.Thread(target=pause_countdown)
+
+scan_thread.start()
+tag_detect_thread.start()
+tag_countdown_thread.start()
+pause_countdown_thread.start()
+
+scan_thread.join()
+tag_detect_thread.join()
+tag_countdown_thread.join()
+pause_countdown_thread.join()
+```
+
+Første "Avsnitt" definerer hvilke funksjoner som skal kjøres samtidig, og det er: `scanning`, `tag_detect`, `tag_detect_countdown`, og `pause_countdown`.  
+
+Andre avsnitt starter alt, og siste avsnitt avslutter dem når programmet stopper.
 
 # Systemd
 
