@@ -12,6 +12,10 @@ Funksjoner jeg vil ha med:
 - lys 
 - kunne pause musikken når man tar av platen
 
+## Video
+
+[Video showcase av prosjektet](https://youtu.be/5ZSzAxJ7XmM)
+
 ## Planen
 
 ### Hjernen
