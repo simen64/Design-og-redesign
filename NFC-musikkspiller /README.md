@@ -1086,3 +1086,5 @@ WantedBy=default.target
 I konklusjon synes jeg dette prosjektet var veldig gøy å jobbe med. Jeg endte opp med å bruke mye mere tid på det enn det jeg trodde, sikkert 30 timer på programmering alene. Men jeg lærte mye nytt om servere, programmering, databaser, NFC, og nettsider. Og jeg synes at programmering er veldig gøy. Problemløsningen med å finne komponenter som funket og å løse konflikter med koden og komponenter var også en veldig morsom utfordring. Jeg håper at vi har muligheten til å ha flere sånne åpene oppgaver som det her i framtiden.
 
 Jeg vet at denne loggen er veldig lang, men det har vært ganske vanskelig å dytte mange uker med arbeid inn i en logg uten å ikke ta med viktige deler av hvordan ting funker. Mye av loggen består av kode som kan virke litt mye, men jeg anbefaler å ta en titt på de forskjellige kodefilene i GitHub for å se en helhet av koden.
+
+Du kan også prøve å kjøre nettsiden selv! Bare last ned `webserver.py`, sett opp et python virtual enviroment, bruk pip til å laste ned `requirements.txt`, sett opp en `.env` fil, og kjør!
