@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error ID conflict</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .error-message {
+            font-size: 24px;
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        .home-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #c1c1c1;
+            color: #000000;
+            font-size: x-large;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-message">
+        <p>Error, you cant have two albums bound to the same NFC/RFID tag</p>
+    </div>
+
+    <button class="home-button" onclick="window.location.href = '/'">Go back home</button>
+</body>
+</html>

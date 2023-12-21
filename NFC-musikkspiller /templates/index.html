@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>NFC music player</title>
+</head>
+<body>
+
+<style>
+
+table, th, td {
+    border: 3px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+  padding: 15px;
+}
+
+button {
+    font-size: 20px;
+    padding: 6px;
+    margin-top: 14px;
+    display: block;
+}
+
+label{
+      display: block;
+      margin-bottom: 5px;
+      margin-top: 5px;
+    }
+
+input{
+    font-size: 20px;
+}
+</style>
+
+<h1>NFC music player</h1>
+
+<h2>Album / Song Database:<h2>
+
+<table id="table">
+    <tr>
+        <th>Cover</th>
+        <th>Name</th>
+        <th>ID</th>
+    </tr>
+    <tr>
+
+    </tr>
+</table> 
+
+<form id="Form" action="/send_data" method="post" onsubmit="return showAlert()">
+    <p>Enter Album / Song Link or URI</p>
+    <p><input type="text" name="raw-input" /></p>
+    <p><input type="submit" value="Add album or song" /></p>
+</form>
+
+<script>
+    function showAlert() {
+        // Show the alert
+        window.alert('Plasser NFC/RFID tag på skanneren, og vent til siden er ferdig med å laste');
+        
+        // Return true to allow the form submission
+        return true;
+    }
+</script>
+
+
+<script type="module">
+
+var data = {{ data|tojson }};
+console.log(data);
+
+function buildTable(data){
+		var table = document.getElementById('table')
+
+		for (var i = 0; i < data.length; i++){
+			var row = `<tr>
+                            <td style="text-align: center;"><img src="${data[i].cover}" width="100" height="100"></td>
+
+							<td>${data[i].name}</td>
+
+							<td>${data[i].id}</td>
+
+                            <td>
+                                <form action="/delete" method="post" onsubmit="return confirm('Are you sure you want to delete that album?')";>
+                                    <button type="submit" name="delete" value="${data[i].id}">Delete</button>
+                                </form>
+                            </td>
+
+					  </tr>`
+			table.innerHTML += row
+
+		}
+	}
+
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Hello World";
+}
+
+buildTable(data)
+
+
+</script>
+
+</body>
+</html> 
