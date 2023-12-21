@@ -1,0 +1,7 @@
+SPOTIPY_CLIENT_ID=Put your spotify client id here
+SPOTIPY_CLIENT_SECRET=And your spotify client secret here
+HA_TOKEN=Here you put your HA token
+HA_URl=and your HA url
+HELPER_ID=The HA id for your text helper
+SCRIPT_ID=The HA id for your script
+SPOTIFY_ID=the HA spotify id
