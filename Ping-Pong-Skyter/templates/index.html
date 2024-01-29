@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <style>
+        body {
+            background-color: #090c10;
+        }
+
+        h1, h2, h3, p {
+                font-family: 'Open Sans', sans-serif;
+                font-family: BlinkMacSystemFont,segoe ui,Roboto,helvetica neue,Arial,noto sans,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol,noto color emoji;
+                font-weight: 500;
+                line-height: 1.2;
+                color: #f0f6fc;
+        }
+
+        .frame {
+            width: 50%;
+            height: 30%;
+            border: 1.5px solid #198754;
+            padding-left: 10px;
+            margin-bottom: 10px;
+            border-radius: 15px;
+            background-color: #0d1117;
+        }
+
+        .besides > * {
+            display: inline-block;
+            padding-right: 5px;
+        }
+
+        .clear-line {
+            clear: both;
+        }
+
+        .text_form {
+            border-color: #1d2634;
+            color: #b1b8c0;
+            padding: .375rem .75rem;
+            border-radius: 50rem;
+            background-color: #070a10;
+            text-align: center;
+        }
+
+        .text_form input:focus {
+           outline: 2px solid #198754;  
+        }
+
+        .button {
+            width: 100px;
+            height: 35px;
+            border-radius: 50rem;
+            background-color: #50b174;
+            border-color: #1d2634;
+            color: black;
+            font-family: "Open Sans", sans-serif;
+        }
+
+        .button_choose {
+            width: 150px;
+            height: 35px;
+            border-radius: 50rem;
+            background-color: #556379;
+            border-color: #1d2634;
+            color: black;
+            font-family: "Open Sans", sans-serif;
+            margin: 10px;
+        }¨
+
+        #static_div {
+            display: none;
+        }
+
+    </style>
+
+    <title>Ping Pong Loner</title>
+
+  </head>
+  <body>
+    <main>
+        <h1>Ping Pong Loner</h1>
+
+        <div id="choose_div" class="frame">
+            <h3>Choose mode:</h3>
+
+            <button class="button_choose" id="static_button" style="display: block;" onclick="showStatic()">Static mode</button>
+
+            <button class="button_choose" id="remote_button" style="display: block;" onclick="showTrigger()">Remote mode</button>
+
+            <button class="button_choose" id="random_button" style="display: block;" onclick="showRandom()">Random mode</button>
+
+        </div>
+
+        <div id="static_div" class="frame">
+            <h3>Static firing mode</h3>
+            <form action="/static_options" method="post">
+
+                <div class="besides">
+                    <p>Interval,</p>
+                    <p>
+                        <input type="text" class="text_form" name="interval" size="2"/>
+                    </p>
+                    <p>seconds</p>
+                </div>
+
+                <div class="clear-line"></div>
+
+                <div class="besides">
+                    <p><input type="submit" value="Start" class="button"/></p>
+                    <p><button value="stopp" class="button" style="background-color: #bb2d3b;" >Stopp</button></p>
+                </div>
+            </form> 
+        
+        </div>
+
+        <div id="trigger_div" class="frame">
+            <h3>Remote Trigger mode</h3>
+            <form action="/trigger_options" method="post"></form>
+        </div>
+
+        <div id="random_div" class="frame">
+            <h3>Random mode</h3>
+            <form action="/random_options" method="post"></form>
+        </div>
+
+    </main>
+	<script>
+
+        console.log("Test")
+
+        var static_div = document.getElementById("static_div");
+        var trigger_div = document.getElementById("trigger_div");
+        var random_div = document.getElementById("random_div")
+
+        trigger_div.style.display = "none";
+        random_div.style.display = "none";
+        static_div.style.display = "none";
+
+        var static_button = document.getElementById("static_button")
+        var remote_button = document.getElementById("remote_button")
+        var random_button = document.getElementById("random_button")
+
+        function showStatic() {
+            trigger_div.style.display = "none";
+            random_div.style.display = "none";
+            remote_button.style.backgroundColor = "#556379"
+            random_button.style.backgroundColor = "#556379"
+
+            if (static_div.style.display === "none") {
+                static_div.style.display = "block";
+                static_button.style.backgroundColor = "#50b174"
+            } else {
+                static_div.style.display = "none";
+                static_button.style.backgroundColor = "#556379"
+            }
+        } 
+
+        function showTrigger() {
+            static_div.style.display = "none";
+            random_div.style.display = "none";
+            static_button.style.backgroundColor = "#556379"
+            random_button.style.backgroundColor = "#556379"
+
+            if (trigger_div.style.display === "none") {
+                trigger_div.style.display = "block";
+                remote_button.style.backgroundColor = "#50b174"
+            } else {
+                trigger_div.style.display = "none";
+                remote_button.style.backgroundColor = "#556379"
+            }
+        }
+
+        function showRandom() {
+            static_div.style.display = "none";
+            trigger_div.style.display = "none";
+            static_button.style.backgroundColor = "#556379"
+            remote_button.style.backgroundColor = "#556379"
+
+            if (random_div.style.display === "none") {
+                random_div.style.display = "block";
+                random_button.style.backgroundColor = "#50b174"
+            } else {
+                random_div.style.display = "none";
+                random_button.style.backgroundColor = "#556379"
+            }
+        }
+    </script>
+  </body>
+</html>
