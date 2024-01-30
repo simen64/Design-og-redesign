@@ -20,13 +20,19 @@ def static_mode(interval):
          pass
       time.sleep(interval)
       print("FIRE!")
-      print(static_mode_status)
 
 
 def random_mode():
    global random_mode_status
    while True:
-
+      if random_mode_status == False:
+         print("turning off")
+         break
+      else:
+         pass
+      interval = random.randint(1,7)
+      time.sleep(interval)
+      print("FIRE!")
 
 
 @app.route("/")
@@ -55,6 +61,22 @@ def static_mode_activation():
          static_mode_thread = threading.Thread(target=static_mode, args=(interval,))
          static_mode_thread.start()
       
+   return redirect(url_for("home"))
+
+
+@app.route("/random_options", methods = ["POST", "GET"])
+def random_mode_activation():
+   global random_mode_status
+   if request.method == "POST":
+
+      if "stopp" in request.form:
+         print("Stopping")
+         random_mode_status = False
+      else:
+         random_mode_status = True
+         random_mode_thread = threading.Thread(target=random_mode)
+         random_mode_thread.start()
+
    return redirect(url_for("home"))
 
 
