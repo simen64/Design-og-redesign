@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -69,7 +69,7 @@
             color: black;
             font-family: "Open Sans", sans-serif;
             margin: 10px;
-        }¨
+        }
 
         #static_div {
             display: none;
@@ -78,116 +78,113 @@
     </style>
 
     <title>Ping Pong Loner</title>
+</head>
+<body>
+<main>
+    <h1>Ping Pong Loner</h1>
 
-  </head>
-  <body>
-    <main>
-        <h1>Ping Pong Loner</h1>
+    <div id="choose_div" class="frame">
+        <h3>Choose mode:</h3>
 
-        <div id="choose_div" class="frame">
-            <h3>Choose mode:</h3>
+        <button class="button_choose" id="static_button" style="display: block;" onclick="showStatic()">Static mode</button>
 
-            <button class="button_choose" id="static_button" style="display: block;" onclick="showStatic()">Static mode</button>
+        <button class="button_choose" id="remote_button" style="display: block;" onclick="showTrigger()">Remote mode</button>
 
-            <button class="button_choose" id="remote_button" style="display: block;" onclick="showTrigger()">Remote mode</button>
+        <button class="button_choose" id="random_button" style="display: block;" onclick="showRandom()">Random mode</button>
 
-            <button class="button_choose" id="random_button" style="display: block;" onclick="showRandom()">Random mode</button>
+    </div>
 
-        </div>
+    <div id="static_div" class="frame">
+        <h3>Static firing mode</h3>
+        <form action="/static_options" method="post">
 
-        <div id="static_div" class="frame">
-            <h3>Static firing mode</h3>
-            <form action="/static_options" method="post">
+            <div class="besides">
+                <p>Interval,</p>
+                <p>
+                    <input type="text" class="text_form" name="interval" size="2"/>
+                </p>
+                <p>seconds</p>
+            </div>
 
-                <div class="besides">
-                    <p>Interval,</p>
-                    <p>
-                        <input type="text" class="text_form" name="interval" size="2"/>
-                    </p>
-                    <p>seconds</p>
-                </div>
+            <div class="clear-line"></div>
 
-                <div class="clear-line"></div>
+            <div class="besides">
+                <p><input type="submit" value="Start" class="button"/></p>
+                <p><button name="stopp" class="button" style="background-color: #bb2d3b;">Stop</button></p>
+            </div>
+        </form>
 
-                <div class="besides">
-                    <p><input type="submit" value="Start" class="button"/></p>
-                    <p><button value="stopp" class="button" style="background-color: #bb2d3b;" >Stopp</button></p>
-                </div>
-            </form> 
-        
-        </div>
+    </div>
 
-        <div id="trigger_div" class="frame">
-            <h3>Remote Trigger mode</h3>
-            <form action="/trigger_options" method="post"></form>
-        </div>
+    <div id="trigger_div" class="frame">
+        <h3>Remote Trigger mode</h3>
+        <form action="/trigger_options" method="post"></form>
+    </div>
 
-        <div id="random_div" class="frame">
-            <h3>Random mode</h3>
-            <form action="/random_options" method="post"></form>
-        </div>
+    <div id="random_div" class="frame">
+        <h3>Random mode</h3>
+        <form action="/random_options" method="post">
+            <div class="besides">
+                <p><input type="submit" value="Start" class="button"/></p>
+                <p><button name="stopp" class="button" style="background-color: #bb2d3b;">Stop</button></p>
+            </div>
+        </form>
+    </div>
 
-    </main>
-	<script>
-
-        console.log("Test")
-
-        var static_div = document.getElementById("static_div");
-        var trigger_div = document.getElementById("trigger_div");
-        var random_div = document.getElementById("random_div")
-
-        trigger_div.style.display = "none";
-        random_div.style.display = "none";
-        static_div.style.display = "none";
-
-        var static_button = document.getElementById("static_button")
-        var remote_button = document.getElementById("remote_button")
-        var random_button = document.getElementById("random_button")
-
-        function showStatic() {
+</main>
+<script>
+    // Function to show the selected tab based on the stored value
+    function showSelectedTab() {
+        var selectedTab = localStorage.getItem("selectedTab");
+        if (selectedTab) {
+            // Hide all divs
+            static_div.style.display = "none";
             trigger_div.style.display = "none";
             random_div.style.display = "none";
-            remote_button.style.backgroundColor = "#556379"
-            random_button.style.backgroundColor = "#556379"
 
-            if (static_div.style.display === "none") {
+            // Reset background color of all buttons
+            static_button.style.backgroundColor = "#556379";
+            remote_button.style.backgroundColor = "#556379";
+            random_button.style.backgroundColor = "#556379";
+
+            // Show the selected tab and update button color
+            if (selectedTab === "static") {
                 static_div.style.display = "block";
-                static_button.style.backgroundColor = "#50b174"
-            } else {
-                static_div.style.display = "none";
-                static_button.style.backgroundColor = "#556379"
-            }
-        } 
-
-        function showTrigger() {
-            static_div.style.display = "none";
-            random_div.style.display = "none";
-            static_button.style.backgroundColor = "#556379"
-            random_button.style.backgroundColor = "#556379"
-
-            if (trigger_div.style.display === "none") {
+                static_button.style.backgroundColor = "#50b174";
+            } else if (selectedTab === "remote") {
                 trigger_div.style.display = "block";
-                remote_button.style.backgroundColor = "#50b174"
-            } else {
-                trigger_div.style.display = "none";
-                remote_button.style.backgroundColor = "#556379"
-            }
-        }
-
-        function showRandom() {
-            static_div.style.display = "none";
-            trigger_div.style.display = "none";
-            static_button.style.backgroundColor = "#556379"
-            remote_button.style.backgroundColor = "#556379"
-
-            if (random_div.style.display === "none") {
+                remote_button.style.backgroundColor = "#50b174";
+            } else if (selectedTab === "random") {
                 random_div.style.display = "block";
-                random_button.style.backgroundColor = "#50b174"
-            } else {
-                random_div.style.display = "none";
-                random_button.style.backgroundColor = "#556379"
+                random_button.style.backgroundColor = "#50b174";
             }
         }
-    </script>
-  </body>
+    }
+
+    // Function to update the stored value when a tab is clicked
+    function updateSelectedTab(tabName) {
+        localStorage.setItem("selectedTab", tabName);
+    }
+
+    // Event listeners to update the stored value and show/hide tabs when a tab is clicked
+    static_button.addEventListener("click", function() {
+        updateSelectedTab("static");
+        showSelectedTab();
+    });
+
+    remote_button.addEventListener("click", function() {
+        updateSelectedTab("remote");
+        showSelectedTab();
+    });
+
+    random_button.addEventListener("click", function() {
+        updateSelectedTab("random");
+        showSelectedTab();
+    });
+
+    // Call the showSelectedTab function when the page loads
+    document.addEventListener("DOMContentLoaded", showSelectedTab);
+</script>
+
+</body>
 </html>
