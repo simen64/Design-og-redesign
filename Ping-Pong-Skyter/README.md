@@ -96,8 +96,8 @@ Vårt første instinkt var å forbedre motor holderne så ikke hjulene skulle fl
 Prototype nr. 2 hadde en rekke problemer:
 - Batteriet plugget ut (det var pipelyden)
 - Batteriet er festet med en strikk
-- Hjulene hadde ikke noe feste
-- Motorne var vanskelig og feste
+- Hjulene hadde ikke noe feste i bakken
+- Motorne var vanskelig å montere
 
 Vi innså at Olav måtte design en ny baseplate for komponentene. Denne måtte ha en holder for batteriet og motor holdere som var lettere å feste motorne til.
 
