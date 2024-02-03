@@ -73,3 +73,5 @@ Batteriet vi endte opp med å bruke var et Tattu 1s 450mah lipo batteri. Dette b
 Videoen av den første testen tror jeg sier seg selv:
 
 https://youtube.com/shorts/QQjjO0h9N5E
+
+Så ja det gikk ikke helt etter planen
