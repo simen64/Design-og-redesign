@@ -50,3 +50,11 @@ I både ping-pong prosjektet og bil prosjektet bruker vi 3D printere for noen de
 ### Elektronikk
 
 Også i begge prosjektene brukes elektronikk. Elektronikk er på ingen måte miljøbesparende, og uheldigvis blir en god del elektronikk produsert på dårlig måte. I bil prosjektet er hovedelektronikken fra Happymodel som er et kinesisk selskap og er nok devserre ikke så miljøbesparende. Men i ping-pong prosjektet bruker vi en Raspberry Pi, dette er et mere rent amerikansk selskap som har en renere produksjon av elektronikken. Siden elektronikk ikke er særlig miljøbesparende passer vi på å bare gjennbruke elektronikk vi allerede har.
+
+## Første design
+
+Når vi kom hjem fra skolen etter vi hadde sketchet i Design og Redesign timen gikk vi rett til arbeid. Olav startet på designet av platen, og jeg begynte å gjøre klar elektronikken. Å gjøre klar elektronikken besto egentlig bare av å lodde på motorene og koble kontrolleren til flight controlleren.
+
+Loddingen var ganske straight forward tok bare litt tid fordi hver motor har 3 ledninger, 6 ledninget til sammen, og tre av de lendingene måtte forlenges, så til sammen 9 loddinger.  
+
+<img src="https://lh3.googleusercontent.com/pw/ABLVV85IjE_g7wikBACKIM8NL7b8aMmXPDGfS4XosgWTyU41xuF_LMbC-XdiTRo7-xP8L_t3cFziVdWIY3xOPaHyqVXgaHbizkAjkl4FcNTr2bYxDqsq6DdMBgQbgL6YqUfxcjxrMQeyfWAR9Xbl14tA3iXDyTUkq5ByWCsX6ZhoYgKDPAtjdLPGopdHeJj-0x06WfKqPP2EQeON-R4627DiivLkzsGs7-Y3rZjJz_1sd6UdZK9lB6wpN7XjQykCzYMUyDjblApPdNVMoZiXHOEvM3y97DU3-K0SMufYxsy2DLksRkUYvW_mTOJekNlp4uEh8kZLVxYJEfLrLJ82K0wcPTXk4vtKWgWxedgFaw1qEZ1ZBqerSqtoGpL47Bb8PGyIKq-nYT-gUvefrmmmXytj6X4RWJxvXXw9kaQYhG8UU0CyQgX9i5R9aHqUBcEOqQTkCQD92Aym4OYUfLYz_Q0nvPTbeqBzyx-O45bCl1pG8dfiBPRwNSZZJYR3lJUOXPOIi1RKQL9Z4M7jzhLvb5ywK3cAr6aYdkEW4EK1BAlq-dHsUjQfgoabs4li9XU9V6SO_W-iYQmLXCPmdAHsuV0OAGmDYpDtNMwrATzVO-jlfB0gWEW6hVA9k-X6DqBHnu-1ThVtMU9l7dPXeajvMjBTm06GEZjZUUreVLrzfctGszsDzxj_eclCL80CMDnLIY8n-dhNf_Q7SympoR8htwrUOIQ-lNmtLK2_3IYjfpeJi6iAKD33qhyD7Gn0zAi90QxHfmtv38IJRvcCPCUE3HKYkbdNuuDYUSz30nSAluppeJJv4EqXh5XMuYOP1xqprL30V4BbPrFQEFDiotCR0B-rBIUWXDQRwkGBwxDk6-cHDwzrHI8xA3A8SJrX2QM0T6n0-nWb2A7UHL7iFfKyT3yYUt1X8w=w961-h1276-s-no?authuser=0" width="200">
