@@ -140,6 +140,13 @@ def random_mode_activation():
 
    return redirect(url_for("home"))
 
+@app.route("/fire", methods = ["POST", "GET"])
+def fire_post():
+   if request.method == "POST":
+      load_ball()
+
+   return "fired"
+
 
 if __name__ == '__main__':
    app.run(debug=True, host="0.0.0.0", port=9000)
