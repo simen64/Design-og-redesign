@@ -37,8 +37,6 @@ Hjulene designet jeg i Blender som er et 3D modellerings program.
 
 Første design av hjulene:  
 
-<img src="https://github.com/simen64/Design-og-redesign/blob/c7779db209bf5bbb20d381b99ca7dd395a67beee/Ping-Pong-Skyter/Bilder/f%C3%B8rste_hjul.jpg" alt="første hjul" width="200"/>
-
 <img src="Bilder/første_hjul.jpg" width="200">
 
 
@@ -71,3 +69,7 @@ Etter at begge motorene var loddet på, og Olav sin baseplate printet kunne jeg 
 Batteriet vi endte opp med å bruke var et Tattu 1s 450mah lipo batteri. Dette batteriet har en celle med 4.35 volt som er nok til å gi strøm til hele bilen, og de 450 amperetimene lar bilen kjøre lenge nok. Siden vi ikke hadde tenkt på noe god måte å feste batteriet på enda ble en strikk løsningen.
 
 <img src="Bilder/første_bygg_batteri.jpg" width="300">
+
+Videoen av den første testen tror jeg sier seg selv:
+
+![første test video](Videoer/første_test.mp4)
