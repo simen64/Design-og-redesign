@@ -17,7 +17,7 @@ For å gjøre prosjektet miljøbesparende ville vi bare bruke deler vi allerede 
 
 Dette var vår første sketch som vi lagde den første timen på skolen:  
 
-<img src="https://github.com/simen64/Design-og-redesign/blob/8a3dd155cd754b0f11e5aec8ad47cc14194f60db/Ping-Pong-Skyter/Bilder/f%C3%B8rste_sketch.png" alt="første_sketch" width="300"/>
+<img src="Bilder/første_sketch.png" alt="første_sketch" width="300"/>
 
 ### Hjernen til bilen
 For å styre bilen trengte den en hjerne som kunne bli kontrollert av en fjernkontroll, styre motorene, og strømme det kameraet ser til en skjerm. Olav hadde flight controlleren "Happymodel Diamond F4" liggende. Denne flight controlleren er laget for veldig små droner, men passer perfekt til det vi skulle bruke den til. Grunnen til at Olav ikke brukte den lenger var fordi bare 3 av motorene man koblet til den funket, heldigvis trengte vi bare 2 til hjulene bak. Denne flight controlleren er formet som en trekant, og derfor er sketchen sånn også.  
@@ -26,20 +26,20 @@ For å styre bilen trengte den en hjerne som kunne bli kontrollert av en fjernko
 
 Motorene vi hadde tenkt til å bruke var mine SE0802 25000KV motorer. Disse motorene er på størrelse med en negl, men spinner fortsatt sinnsykt raskt. Jeg har hatt disse motorene støve i en skuff i et halvt år nå etter at jeg ødela dronen som brukte de og gadd aldri å kjøpe nye deler til den dronen. Bilde av motorene på den nå ødelagte dronen:  
 
-<img src="https://lh3.googleusercontent.com/pw/ABLVV84TbH9ZR_z543i-Z8-YDLgNcK7mhuvHnkEjKgpVQccEPUVWNsHXVU5qRkuWAciQqSBgcIU8XsfmJgD7ot5rh2dW1PSOoQNT2_ow-o29t1nuw3IEuPwq8omGjJikPwKNbndyAY2R2Q8BrtwfZNya6fgu9RRyi2Bh6ClmrhpdLscKzZ7HOdDaRUh0Efx-EmMExnSxx-ZQamZwFuPFm8VLLbvlHVHrJ-eQlNIyJJvThYwxYiYehTI0jM2HaTVEL3Ub67m9gROKMGuXkcn6Vu_8_v8KmCgFmyxJcd1VUg5c9PzicMAXogxA1qSeum8S5o6XcBqrXxVFv_a5sh64fXXmPP5-ktfsaAwM9RAjtGBuJdnP8ee4GSGFmwu50NhTiMm3sGRPFNPLpUZq7DRVO7I5WGK_cpUa-iigUzQpjiI9g8_7pz2fkJh6Zfv5r2TBL-wQpdoW0IqOa-ftiPqIF5Nt7OWHCMQbt5mALfoY9SonKgV1ljoNEQ222hyswUK7OydvsFIx4ODO9U89_g70O1757ZI-aT9bO5wPISHAI2n4vcEnC4wbuEB8vRPM2iTWKKzv8zblD4MvmN5qfvp-kV61ff77-f97H70-dkwS2ETFgRkMljpuiWCi_cbl7plpAtiRdiWCycXntcKD99UxzfmkHRJCkJgNdIcV9ZbWWns0sYtC8CP4waKD7JA_7K7BI1nA_z5QAfoJPiK721a1tmxhhMDT3LQZgohG4SitK64FDVxFazTAdJZ3MJholu2-GY6FEr5E-uuM2ylKGhqZ1aJ862Al7mynhxvPf-oTgjiNVyNbwGRk2X5BAtmk0IG-IAtiXPjFIDh6uRk6CqJHm2uHTrZCnobrQApr3C_ErJNVATW-78g323zFW7r_qvW923HvX48Q_lJdkBN_MIzj2P2RFPCD=w957-h1276-s-no?authuser=0" alt="mini motorer" width="300"/>
+<img src="Bilder/mini_drone.jpg" alt="mini motorer" width="300"/>
 
 ### Hjul
 
 Bilen vår trengte hjul (selvfølgelig). Siden akslene på motorene er såpass tynne (1mm) måtte vi designe våre egne. Dette var min jobb i arbeidsfordelingen. Siden jeg har tilgang til en 3D printer var det logisk å bruke den til hjulene.
 
 Hjulene designet jeg i Blender som er et 3D modellerings program.  
-<img src="https://github.com/simen64/Design-og-redesign/blob/24dfc4fab3e4336f6be5f8a7d6a5662a024ef653/Ping-Pong-Skyter/Bilder/blender_hjul.png" alt="hjul i blender" width="200"/>
+<img src="Bilder/blender_hjul.png" alt="hjul i blender" width="200"/>
 
 Første design av hjulene:  
 
 <img src="https://github.com/simen64/Design-og-redesign/blob/c7779db209bf5bbb20d381b99ca7dd395a67beee/Ping-Pong-Skyter/Bilder/f%C3%B8rste_hjul.jpg" alt="første hjul" width="200"/>
 
-<img src="Bilder/første_hjul.jpg">
+<img src="Bilder/første_hjul.jpg" width="200">
 
 
 ### Baseplaten
@@ -56,12 +56,18 @@ Også i begge prosjektene brukes elektronikk. Elektronikk er på ingen måte mil
 
 ## Første design
 
-Når vi kom hjem fra skolen etter vi hadde sketchet i Design og Redesign timen gikk vi rett til arbeid. Olav startet på designet av platen, og jeg begynte å gjøre klar elektronikken. Å gjøre klar elektronikken besto egentlig bare av å lodde på motorene og koble kontrolleren til flight controlleren.
+Når vi kom hjem fra skolen etter vi hadde sketchet i Design og Redesign timen gikk vi rett til arbeid. Olav startet på designet av platen, og jeg begynte å gjøre klar elektronikken. Å gjøre klar elektronikken besto egentlig bare av å lodde på motorene.
 
 Loddingen var ganske straight forward tok bare litt tid fordi hver motor har 3 ledninger, 6 ledninget til sammen, og tre av de lendingene måtte forlenges, så til sammen 9 loddinger.  
 
-<img src="https://lh3.googleusercontent.com/pw/ABLVV85IjE_g7wikBACKIM8NL7b8aMmXPDGfS4XosgWTyU41xuF_LMbC-XdiTRo7-xP8L_t3cFziVdWIY3xOPaHyqVXgaHbizkAjkl4FcNTr2bYxDqsq6DdMBgQbgL6YqUfxcjxrMQeyfWAR9Xbl14tA3iXDyTUkq5ByWCsX6ZhoYgKDPAtjdLPGopdHeJj-0x06WfKqPP2EQeON-R4627DiivLkzsGs7-Y3rZjJz_1sd6UdZK9lB6wpN7XjQykCzYMUyDjblApPdNVMoZiXHOEvM3y97DU3-K0SMufYxsy2DLksRkUYvW_mTOJekNlp4uEh8kZLVxYJEfLrLJ82K0wcPTXk4vtKWgWxedgFaw1qEZ1ZBqerSqtoGpL47Bb8PGyIKq-nYT-gUvefrmmmXytj6X4RWJxvXXw9kaQYhG8UU0CyQgX9i5R9aHqUBcEOqQTkCQD92Aym4OYUfLYz_Q0nvPTbeqBzyx-O45bCl1pG8dfiBPRwNSZZJYR3lJUOXPOIi1RKQL9Z4M7jzhLvb5ywK3cAr6aYdkEW4EK1BAlq-dHsUjQfgoabs4li9XU9V6SO_W-iYQmLXCPmdAHsuV0OAGmDYpDtNMwrATzVO-jlfB0gWEW6hVA9k-X6DqBHnu-1ThVtMU9l7dPXeajvMjBTm06GEZjZUUreVLrzfctGszsDzxj_eclCL80CMDnLIY8n-dhNf_Q7SympoR8htwrUOIQ-lNmtLK2_3IYjfpeJi6iAKD33qhyD7Gn0zAi90QxHfmtv38IJRvcCPCUE3HKYkbdNuuDYUSz30nSAluppeJJv4EqXh5XMuYOP1xqprL30V4BbPrFQEFDiotCR0B-rBIUWXDQRwkGBwxDk6-cHDwzrHI8xA3A8SJrX2QM0T6n0-nWb2A7UHL7iFfKyT3yYUt1X8w=w961-h1276-s-no?authuser=0" width="300">
+<img src="Bilder/lodding.jpg" width="300">
 
-<img src="https://lh3.googleusercontent.com/pw/ABLVV861XtQKhNIPWCcCUCwXl1FsFIoQRE_JRrWg4nE2_MemSyphUJbCFA9DZjTDmD4Vzpihkv9hoqg9-h3Ild6pkkzc9TSH_6VtQXtQRpzn-rKK3y93mXC57KkTdXmtM2s5Uy3y-sYEGirFcqxCX90dS646HOckuY0-uJw-a7FLrKJfaIu-PLw0lMWHP8sPrjdccby7-Tgp3UQNFpLFhM7hiofaxhsy-LL1uqM0wDgtaWCoccqTjD1X-a8JWlu7HYqp6vCwNUSm8VncMaNopHuR_RUaZKRdLVlb_GYJEHW_j25REKpV1OMugBP9mTTdaMalDi9P8JN770v7htWUOIJkgRhp2e9f58Zs1GiqzOCbZ7GROt1kr8hJ475Y0strJnpi329FKmsteWSeVVuv9Spa6jijdyAt1lcZkc-ZkFkxbAUZZlhLoIQM7-0g9SFu79ce2YQe_xgXCKnbLDUdov14xh6ENWTiIl4X31qgUnxHnVVjSn8eSZJ3dCFbsZPtc6dOvX-IVlFGhM9fgG2pWvzuj77ITliYY9mM6mOI8cKoybH5Le1hvxI-JCD-70OlnnEnPTSf5CdMg0S2W0EwqQGCWEQRucHoTiMQ4PFwb3VXC5Uy3QcmeSeC4tfiMie2Ls3uTFMi5ldkF5KIadz9Wn6YQkPCnavyIqFgw9dH76xTDSCiOZzIV5eu26swou2g_H0jlvKU7b-OGi09numUJJLQQlOtyTssKLHCss1aF_QmcvHz9Q2-sGzbhrbO8BLPhXILGP_Hj2xPdkYazbJpcHs2chMi_vcP2IxJPugu5gr4EWHfDzQI3ZGilSYyE9cFE0eavMs5c8fxkfaD0bXNi2-n7pEIQlYhSLP9yDDlnD8Mll_KCeuASFRUfsdlFs6Ix4Xdv_ta1J5LA6ljKSmp-oyXrOCsMw=w961-h1276-s-no?authuser=0" width="300">
+<img src="Bilder/lodde_motorer.jpg" width="300">
 
-Etter at begge 
+Etter at begge motorene var loddet på, og Olav sin baseplate printet kunne jeg sette alt sammen med noen M2 skruer.
+
+<img src="Bilder/første_bygg.jpg" width="300">
+
+Batteriet vi endte opp med å bruke var et Tattu 1s 450mah lipo batteri. Dette batteriet har en celle med 4.35 volt som er nok til å gi strøm til hele bilen, og de 450 amperetimene lar bilen kjøre lenge nok. Siden vi ikke hadde tenkt på noe god måte å feste batteriet på enda ble en strikk løsningen.
+
+<img src="Bilder/første_bygg_batteri.jpg" width="300">
