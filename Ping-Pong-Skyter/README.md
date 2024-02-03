@@ -32,4 +32,21 @@ Motorene vi hadde tenkt til å bruke var mine SE0802 25000KV motorer. Disse moto
 
 Bilen vår trengte hjul (selvfølgelig). Siden akslene på motorene er såpass tynne (1mm) måtte vi designe våre egne. Dette var min jobb i arbeidsfordelingen. Siden jeg har tilgang til en 3D printer var det logisk å bruke den til hjulene.
 
-Hjulene designet jeg i Blender som er et 3D modellerings program.
+Hjulene designet jeg i Blender som er et 3D modellerings program.  
+<img src="https://github.com/simen64/Design-og-redesign/blob/24dfc4fab3e4336f6be5f8a7d6a5662a024ef653/Ping-Pong-Skyter/Bilder/blender_hjul.png" alt="hjul i blender" width="200"/>
+
+Første design av hjulene:  
+<img src="https://lh3.googleusercontent.com/pw/ABLVV84Kkg6J9fGG8RDDcId9mRwQnOL_x4_xeHydLDUamEH6NoDyJqMfomxH3ee1eZ-x2kVMGE01ed0AjG5rklOVqAubydxj2wgUuGPuDe21RGWZ4uiTb8k7S5vH2TbBFybfISF828sWaVuQwxnC2ldu_agAoCWjbyScLH8D7Bp2rCNau1Llxh3zaOFa9IPKYxg313QpuTa30wNpvuxt_8PtXVm4hSnAZA19eADLndhGoMXBWyZYGo96ocqJNRmfi9Gl1VQewaanHuRa6w1pA0qqIejG29TqMYpvDT2IsO-IEd3dVbN26bD8ayqjUQVs7o_cdlJ3j8BxoKYOMqrxLrUF50LZmmOzbFiXzynbU7PX_259lclSxkwSFNaM6aUEYVJhRueAT8eMA4MjjGtvqte3KdHAupa0squ8M5UltdD_pAYAhyWxSwci8MW6eGWi7W12olxLHQ2iNXreGtfOBtfdFG2HjocIrolOf7zz78Ddbhx4p3r2irOnSy7R42_AU47WsFbsMsfIuWFgM-TQEinr2T4siO5kf-qR9DsNSs4T3JFHwVrnXQPfEXAn6IPZr_vqnpDj0pDb5QVsvK4I0jl7CqsCTmJcT9icOouFWvTcM9Yps9bn-zY1GzM5J_zeTrzmag2kIbU4quI2MI0jBeQ8UeXfFgH7Vfvv9ZnCVtJtgCZoWwJCMM98Z_lVdMJA4RtkhNuIs38RYGrjJ7Gz34Se1lseR3KVWEDxgXaduzOBv3l3pO8cXKVI4g68afduqTVKac9PHgogIaaG9nJwVVorSONKETeBcgb5A9WjmecuITqWjdq_ncxJhsmY-o6L7_pYdKXe39oAABvdaGkKLBtO4lBcvGb2qtRjEBPwrp4wqcOimYGfjQliMxGLihrieK_f14n9__dPymi6Yy_4iiN-HRfb=w961-h1276-s-no?authuser=0" width="200">
+
+
+### Baseplaten
+
+Platen hvor alle komponentene ble plassert var Olav sin jobb å designe, han laget også disse i Blender. De gikk gjennom mange forksjellige variasjoner. Disse platene 3D printet vi også. Vi brainstormet om det var noen andre mere miljøbesparende materialer vi kunne brukt, men vi innså at 3D printet PLA var det eneste som kunne ha våre komponenter festet til seg, og det tålte mye mer enn la oss si papp.
+
+### Filament
+
+I både ping-pong prosjektet og bil prosjektet bruker vi 3D printere for noen deler. Plastikken 3D printere bruker heter filament. Vi bruker mest PLA, PLA er et miljøbesparende filament fordi det er nedbrytbart, krever mindre energi og lager færre skadelige stoffer under printing enn andre filamenter, og forbrenningsprosessen er ikke like skadelig som vanlig plastikk. Vi passer også på å bruke det vi kaller reste-filament som er filament vi har liggende og kanskje ikke er så glad i, og ikke hadde brukt ellers. Når det kommer til hjul bruker vi TPU, dette er et gummi aktig filament som ofte gir bedre feste. TPU er også nedbrytbart, men produksjonesprosessen og forbrenningsprosessen er desverre ikke like ren som PLA, derfor prøver vi å bruke det så lite som mulig.
+
+### Elektronikk
+
+Også i begge prosjektene brukes elektronikk. Elektronikk er på ingen måte miljøbesparende, og uheldigvis blir en god del elektronikk produsert på dårlig måte. I bil prosjektet er hovedelektronikken fra Happymodel som er et kinesisk selskap og er nok devserre ikke så miljøbesparende. Men i ping-pong prosjektet bruker vi en Raspberry Pi, dette er et mere rent amerikansk selskap som har en renere produksjon av elektronikken. Siden elektronikk ikke er særlig miljøbesparende passer vi på å bare gjennbruke elektronikk vi allerede har.
