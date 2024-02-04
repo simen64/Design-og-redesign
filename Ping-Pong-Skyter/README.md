@@ -7,6 +7,7 @@ Her er loggen min for de to prosjektene jeg og Olav jobbet på
 Når jeg og Olav planla ideen vår var det første vi tenkte på en radiostyrt bil. Begge oss er veldige glade og har drevet mye med den radiostyrte hobbyen, og mer spesielt droner. Dette gjorde at vi hadde en god del halvfungerende dronedeler liggende allerede. Vi ville se om vi kunne lage dette om til en radiostyrt bil. Og etter litt planlegging var vi sikre på at dette var noe som kunne bli gjort.
 
 ## Delene
+
 Delene vi hadde tekt til å bruke måtte følge noen kriterier.
 
 1. Delene må være noe vi allerede har og ikke bruker
@@ -15,16 +16,17 @@ Delene vi hadde tekt til å bruke måtte følge noen kriterier.
 
 For å gjøre prosjektet miljøbesparende ville vi bare bruke deler vi allerede hadde og ikke brukte, som i det forrige prosjektet. Og grunnen til at vi ville at delene skulle være små var fordi vi ville gjøre bilen innendørs venlig.
 
-Dette var vår første sketch som vi lagde den første timen på skolen:  
+Dette var vår første sketch som vi lagde den første timen på skolen:
 
 <img src="Bilder/første_sketch.png" alt="første_sketch" width="300"/>
 
 ### Hjernen til bilen
-For å styre bilen trengte den en hjerne som kunne bli kontrollert av en radiokontrolleren (litt som en gaming kontroller for RC), styre motorene, og strømme det kameraet ser til en skjerm. Olav hadde flight controlleren "Happymodel Diamond F4" liggende. Denne flight controlleren er laget for veldig små droner, men passer perfekt til det vi skulle bruke den til. Grunnen til at Olav ikke brukte den lenger var fordi bare 3 av motorene man koblet til den funket, heldigvis trengte vi bare 2 til hjulene bak. Denne flight controlleren er formet som en trekant, og derfor er sketchen sånn også.  
+
+For å styre bilen trengte den en hjerne som kunne bli kontrollert av en radiokontrolleren (litt som en gaming kontroller for RC), styre motorene, og strømme det kameraet ser til en skjerm. Olav hadde flight controlleren "Happymodel Diamond F4" liggende. Denne flight controlleren er laget for veldig små droner, men passer perfekt til det vi skulle bruke den til. Grunnen til at Olav ikke brukte den lenger var fordi bare 3 av motorene man koblet til den funket, heldigvis trengte vi bare 2 til hjulene bak. Denne flight controlleren er formet som en trekant, og derfor er sketchen sånn også.
 
 ### Motorene
 
-Motorene vi hadde tenkt til å bruke var mine SE0802 25000KV motorer. Disse motorene er på størrelse med en negl, men spinner fortsatt sinnsykt raskt. Jeg har hatt disse motorene støve i en skuff i et halvt år nå etter at jeg ødela dronen som brukte de og gadd aldri å kjøpe nye deler til den dronen. Bilde av motorene på den nå ødelagte dronen:  
+Motorene vi hadde tenkt til å bruke var mine SE0802 25000KV motorer. Disse motorene er på størrelse med en negl, men spinner fortsatt sinnsykt raskt. Jeg har hatt disse motorene støve i en skuff i et halvt år nå etter at jeg ødela dronen som brukte de og gadd aldri å kjøpe nye deler til den dronen. Bilde av motorene på den nå ødelagte dronen:
 
 <img src="Bilder/mini_drone.jpg" alt="mini motorer" width="300"/>
 
@@ -35,10 +37,9 @@ Bilen vår trengte hjul (selvfølgelig). Siden akslene på motorene er såpass t
 Hjulene designet jeg i Blender som er et 3D modellerings program.  
 <img src="Bilder/blender_hjul.png" alt="hjul i blender" width="200"/>
 
-Første design av hjulene:  
+Første design av hjulene:
 
 <img src="Bilder/første_hjul.jpg" width="200">
-
 
 ### Baseplaten
 
@@ -57,6 +58,7 @@ Også i begge prosjektene brukes elektronikk. Elektronikk er på ingen måte mil
 Når vi kom hjem fra skolen etter vi hadde sketchet i Design og Redesign timen gikk vi rett til arbeid. Olav startet på designet av platen, og jeg begynte å gjøre klar elektronikken. Å gjøre klar elektronikken besto egentlig bare av å lodde på motorene.
 
 ### Konfigurasjon
+
 Men før jeg kunne gjøre klar komponentene måtte jeg konfigurere flight controlleren. Dette gjør jeg gjennom et program som heter Betaflight Configurator. Protokollen denne flight controlleren bruker for å koble til radiokontrolleren min heter ELRS, siden dette er en SPI ELRS reciever er å koble de to sammen så lett som å bare putte inn et passord som kobler dem sammen.
 
 ![elrs binding phrase](https://support.betafpv.com/hc/article_attachments/4412258219161/mceclip1.png)
@@ -68,7 +70,8 @@ En veldig viktig funksjon alle flight controllere har som er viktig for å holde
 ![MOTOR_STOP](Bilder/MOTOR_STOP.png)
 
 ### Bygging og lodding
-Loddingen var ganske straight forward tok bare litt tid fordi hver motor har 3 ledninger, 6 ledninget til sammen, og tre av de lendingene måtte forlenges, så til sammen 9 loddinger.  
+
+Loddingen var ganske straight forward tok bare litt tid fordi hver motor har 3 ledninger, 6 ledninget til sammen, og tre av de lendingene måtte forlenges, så til sammen 9 loddinger.
 
 <img src="Bilder/lodding.jpg" width="300">
 <img src="Bilder/lodde_motorer.jpg" width="300">
@@ -94,6 +97,7 @@ Vårt første instinkt var å forbedre motor holderne så ikke hjulene skulle fl
 ## Prototype 3
 
 Prototype nr. 2 hadde en rekke problemer:
+
 - Batteriet plugget ut (det var pipelyden)
 - Batteriet er festet med en strikk
 - Hjulene hadde ikke noe feste i bakken
@@ -121,6 +125,7 @@ Som man kan se i testen med full gass kjører bilen ekstremt sakte. Vi visste og
 Vår første tanke var at kanskje ikke hjulene ikke hadde nok feste. Men det kan ikke stemme ettersom at hvis det hadde vært problemet hadde hjulene spunnet løst rundt som i [prototype 1](https://youtube.com/shorts/QQjjO0h9N5E).
 
 Det vi også tenkte kunne være problemet var en betaflight funksjon som heter "runaway". Dette er en veldig lur funksjon som stopper / sakker ned motorene hvis motorene blir for varme, er under for mye belasting, en motor ledning har røket, etc. Vi tenkte at kanskje runaway merket at det var for mye motstand å flytte seg på et gulv i motsetning til i lufta. Å skur av runaway er veldig lett, men er også en veldig dårlig idee hvis man ikke er veldig sikre på hva man gjør. Heldigvis kan ikke bilen vår gjøre så mye skade i motsetning til si en drone med 4 skarpe propeller. Kommandoen for å skru av runaway:
+
 ```
 set runaway_takeoff_prevention = OFF
 ```

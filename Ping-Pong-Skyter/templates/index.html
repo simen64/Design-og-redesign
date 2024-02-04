@@ -117,8 +117,13 @@
     </div>
 
     <div id="trigger_div" class="frame">
-        <h3>Remote Trigger mode</h3>
-        <form action="/trigger_options" method="post"></form>
+        <h3 id="trigger_title">Remote Trigger mode</h3>
+        <form action="/trigger_options" method="post">
+            <div class="besides">
+                <p><input type="submit" value="Start" class="button" onclick="listen()"/></p>
+                <p><button name="stopp" class="button" style="background-color: #bb2d3b;" onclick="stop_listen()">Stop</button></p>
+            </div>
+        </form>
     </div>
 
     <div id="random_div" class="frame">
@@ -132,7 +137,29 @@
     </div>
 
 </main>
+
 <script>
+    var trigger_title = document.getElementById("trigger_div").getElementsByTagName("h3")[0];
+
+    function listen() {
+        localStorage.setItem("listening", true);
+    }
+
+    function stop_listen() {
+        localStorage.setItem("listening", false);
+    }
+
+    function show_listen_status() {
+        var listening_status = localStorage.getItem("listening");
+        if (listening_status === "true") {
+            trigger_title.innerText = "Remote Trigger mode (listening)"
+        }
+        else if (listening_status === "false") {
+            console.log("no listening")
+            trigger_title.innerText = "Remote Trigger mode"
+        }
+    }
+
     // Function to show the selected tab based on the stored value
     function showSelectedTab() {
         var selectedTab = localStorage.getItem("selectedTab");
@@ -183,7 +210,9 @@
     });
 
     // Call the showSelectedTab function when the page loads
+    if (localStorage.getItem("selectedTab") === null) {localStorage.setItem("selectedTab", "static")}
     document.addEventListener("DOMContentLoaded", showSelectedTab);
+    document.addEventListener("DOMContentLoaded", show_listen_status);
 </script>
 
 </body>

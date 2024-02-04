@@ -67,6 +67,7 @@ app = Flask(__name__)
 #Set up variables
 static_mode_status = False
 random_mode_status = False
+trigger_mode_status = False
 
 
 def static_mode(interval):
@@ -103,7 +104,7 @@ def home():
 
 @app.route("/static_options", methods = ['POST', 'GET'])
 def static_mode_activation():
-   global static_mode_status
+   global static_mode_status, random_mode_status, trigger_mode_status
    if request.method == 'POST':
 
       if "stopp" in request.form:
@@ -118,6 +119,8 @@ def static_mode_activation():
          except:
             interval = 5
 
+         trigger_mode_status = False
+         random_mode_status = False
          static_mode_status = True
          static_mode_thread = threading.Thread(target=static_mode, args=(interval,))
          static_mode_thread.start()
@@ -127,25 +130,45 @@ def static_mode_activation():
 
 @app.route("/random_options", methods = ["POST", "GET"])
 def random_mode_activation():
-   global random_mode_status
+   global random_mode_status, static_mode_status, trigger_mode_status
    if request.method == "POST":
 
       if "stopp" in request.form:
          print("Stopping")
          random_mode_status = False
       else:
+         trigger_mode_status = False
+         static_mode_status = False
          random_mode_status = True
          random_mode_thread = threading.Thread(target=random_mode)
          random_mode_thread.start()
 
    return redirect(url_for("home"))
 
+@app.route("/trigger_options", methods = ["POST", "GET"])
+def trigger_mode():
+   global random_mode_status, static_mode_status, trigger_mode_status
+   if request.method == "POST":
+      if "stopp" in request.form:
+         print("Stopping")
+         trigger_mode_status = False
+   else:
+      static_mode_status = False
+      random_mode_status = False
+      trigger_mode_status = True
+   return redirect(url_for("home"))
+
 @app.route("/fire", methods = ["POST", "GET"])
 def fire_post():
+   global trigger_mode_status
    if request.method == "POST":
-      load_ball()
-
-   return "fired"
+      if trigger_mode_status == True:
+         load_ball()
+         return "fired"
+      else:
+         return "not listening"
+   else:
+      return "not post"
 
 
 if __name__ == '__main__':
