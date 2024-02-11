@@ -8,7 +8,7 @@ Når jeg og Olav planla ideen vår var det første vi tenkte på en radiostyrt b
 
 ## Delene
 
-Delene vi hadde tekt til å bruke måtte følge noen kriterier.
+Delene vi hadde tenkt til å bruke måtte følge noen kriterier.
 
 1. Delene må være noe vi allerede har og ikke bruker
 2. De må være kompatible med hverandre
@@ -142,7 +142,7 @@ Det som endte opp med å være problemet vårt er at ESCen ikke er kraftig nok. 
 
 Etter en god del brainstorming og leting i skuffer og skap fant vi en god ide.
 
-Jeg hadde liggene en flight controller som kunne ta 2s batterier. Dette betydde at flight controlleren fikk dobbelt så mye strøm, motorene kunne være sterkere, og ESCen tålte mere. Hvorfor brukte vi ikke denne in the first place? Jo fordi VTXen det som sender det kameraet ser til skjermen vår ikke funker, så planen var å senere montere den andre flight controlleren oppå kun for kamera.
+Jeg hadde liggene en flight controller som kunne ta 2s batterier. Dette betydde at flight controlleren fikk dobbelt så mye strøm, motorene kunne være sterkere, og ESCen tålte mere. Hvorfor brukte vi ikke denne in the first place? Jo fordi VTXen det som sender det kameraet ser til skjermen vår ikke funker, så planen var å senere montere den andre flight controlleren oppå kun for kameraet.
 
 [Video av første test med sterkere komponenter](https://youtube.com/shorts/oO1Mb_OD9XM)
 
@@ -151,3 +151,50 @@ Olav endret designe på den originale baseplaten for å passe de nye komponenten
 
 Motorene satt for løst og konfigurasjonen for motorene var feil så de spant feil vei. Etter å ha printet nye hjul som passet bedre, og rekonfigurert motorene så de spinner riktig vei hadde vi en god del tester hvor hjulene bare spant løst på gulvet. Løsningen vi kom opp med var å feste strikker på hjulet.  
 [Resultatet av strikker på hjulene](https://youtube.com/shorts/CIFSEfY2Mvc)
+
+Som man kan se gikk bilen unna for å si det mildt. Problemet var at dette var med minst mulig gass. Vi prøvde flere forskjellige måter å sakke ned motorene på, men ingen fikk den til å gå særlig mye saktere. Dette var den mest irriterende tingen vi kom over, de andre prototypene var for trege til å bli kontrollert, og denne var for rask til å bli kontrollert.
+
+# Brainstorming
+
+Vi innså at vi måtte finne en ny ide, så vi gikk rett til brainstorming. Noen av ideene vi kom opp med var blant annet:
+- fjernstyrt lysbryter
+- Automatisk nerf pistol
+- Ping-pong ball skyter
+
+Det vi endte opp med var ping-pong skyteren
+
+# Ping-pong skyter
+
+Planen var å lage en maskin man kunne bruke til å øve på bordtennis alene.
+
+Vi brukte et online program som heter "miro" for å kunne sketche en ide sammen. Og dette var første sketch:  
+<img src="Bilder/ping-pong%20sketch1.jpg" width="500">
+
+Planen besto av tre deler:
+
+## Skyteren
+
+Mekanismen for å skyte ut selve ballene lå fremst i maskinen. På den første sketchen var planen å bruke to motorer med hjul for å spinne ut ballen. Dette er samme måte nerf pistoler og tennis skytere funker på. Dette var det olav skulle lage
+
+## Magasinet
+
+Over skyte mekanismen måtte det være et magasin hvor man kunne lagre baller, men også en mekanisme for å bestemme når en ball skulle bli sluppet inn i skyteren.
+
+Første plan for ball fordelingen (systemet som styrer når en ball blir skutt) var å lage gangen inn til skyteren akkuratt litt for liten for ballen til å trille gjennom, og så bruke en motor til å dytte ballen gjennom når vi ville skyte.  
+<img src="Bilder/Ping-pong_ball-fordeling.jpg" width="400">
+ 
+
+ Selv før jeg lagde denne ideen fysisk fant jeg en bedre løsning. Det var å bruke en roterende motor med armer som kunne laste inn en og en ball. Tegningen her har noen problemer som vi kommer til senere.  
+ <img src="Bilder/Ping-pong_ny-ball-fordeling.jpg" width="250">
+
+ Det var min jobb å bygge ballfordelingen og Olav sin jobb å bygge magasinet.
+
+ ## Å bygge magasinet
+
+ ### Materialer
+
+ Jeg bestemte meg for å bygge tuben rundt systemet av resirkulert papp. Dette var for å holde bygget mest mulig miljøbesparende som mulig.
+
+ Armen man kan se på bildet 3d printet jeg av filament, for å gjøre det stødig nok og passe dimensjonene, jeg skrev om miljøbesparligheten til PLA [her](#filament)
+
+ Motoren jeg brukte heter en stepper motor. Det er en spesiell motor som kobles til en chip, denne chipen styrer motoren i små "steps" som gjør at motoren kan styres veldig presist, akkuratt det jeg trenger. I en rotasjon er det 4096 individuelle "steps".
