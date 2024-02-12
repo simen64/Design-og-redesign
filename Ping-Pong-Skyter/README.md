@@ -193,8 +193,16 @@ Første plan for ball fordelingen (systemet som styrer når en ball blir skutt) 
 
  ### Materialer
 
- Jeg bestemte meg for å bygge tuben rundt systemet av resirkulert papp. Dette var for å holde bygget mest mulig miljøbesparende som mulig.
+ Jeg bestemte meg for å bygge tuben rundt systemet av resirkulert papp. Dette var for å holde bygget mest mulig miljøbesparende som mulig. 
 
  Armen man kan se på bildet 3d printet jeg av filament, for å gjøre det stødig nok og passe dimensjonene, jeg skrev om miljøbesparligheten til PLA [her](#filament)
 
  Motoren jeg brukte heter en stepper motor. Det er en spesiell motor som kobles til en chip, denne chipen styrer motoren i små "steps" som gjør at motoren kan styres veldig presist, akkuratt det jeg trenger. I en rotasjon er det 4096 individuelle "steps".
+
+### Prototype 1
+
+ Første prototype var bare for å se om dette ville funke i det hele tatt, derfor brukte jeg minst mulig materialer som mulig, og minst mulig tid. Her er en video av første prototype.  
+
+ [Første prototype](https://youtu.be/wClO_wcjor0)
+
+ ### Prototype 2
