@@ -206,3 +206,9 @@ Første plan for ball fordelingen (systemet som styrer når en ball blir skutt) 
  [Første prototype](https://youtu.be/wClO_wcjor0)
 
  ### Prototype 2
+
+ Jeg innså jo hvor dårlig jeg hadde satt opp systemet i den første prototypen. Nå istedenfor å ha motoren og hjulet direkte inne i røret lå det på utsiden med armer stikkende inn. Jeg tror videon forklarer det bedre. [video](https://youtube.com/shorts/VSZZech8jSM)
+
+ Her brukte jeg noen små pinne ting jeg fant liggende i hobby skuffen for å forlenge armene. Jeg glemte å filme at den roterte, men problemet her var at armene var for langt unna hverandre så to baller ble med ned.  
+ 
+ <img src="Bilder/2-baller-med.jpg" width=400>
