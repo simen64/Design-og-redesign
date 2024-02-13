@@ -212,3 +212,288 @@ Første plan for ball fordelingen (systemet som styrer når en ball blir skutt) 
  Her brukte jeg noen små pinne ting jeg fant liggende i hobby skuffen for å forlenge armene. Jeg glemte å filme at den roterte, men problemet her var at armene var for langt unna hverandre så to baller ble med ned.  
  
  <img src="Bilder/2-baller-med.jpg" width=400>
+
+ ### Nye armer!
+
+ Jeg skjønte at her var å legge til flere armer løsningen. Jeg gikk vekk fra å bruke de pinnene ettersom at de viste seg å ikke være særlig strukturelt sterke.
+
+ [Video av nye armer](https://youtube.com/shorts/QrIoHUfi8oQ)
+
+Dette som man kunne se funket jo, sånn halveis. Hypotesen min var at det var to armer for mye, som gjorde at ballen satt seg sånn rart mellom armene.
+
+Derfor designet jeg en ny versjon med seks armer istedenfor 8.
+
+[Seks armer video](https://youtube.com/shorts/YYM5-XYwLgA)
+
+Dette gjorde akkuratt det jeg trengte, og selve mekanismen var ferdig!
+
+## Oppmøte på skolen
+
+2 uker etter prosjektet startet tok vi med det vi hadde til skolen. Olav hadde jobbet på skyte systemet i mellomtiden. Vi hadde begge snakket over nett mens vi jobbet så vi visste hva begge drev med. Derfor kunne vi også hjelpe hverandre når vi satt fast på problemer.
+
+På skolen la  vi til en strikk på hjulet til skyteren for bedre grep på ballen. Og testet litt andre greier, men mesteparten av tiden ble brukt til å brainstorme hvordan vi skulle fortsette å bygge ut prosjektet. Men vi fikk også rigget sammen et midlertidig setup for å skyte noen ping-pong baller!
+
+[Første skudd video!](https://youtube.com/shorts/ojOTOftyVaE)
+
+## Programvaren
+
+Hittil hadde jeg brukt [dette](servo.py) programmet til å styre motoren til ballfordelingssystemet. Måten det funket på var at jeg enten skrev inn antall rotasjoner eller "load" for å laste inn en ball. Dette funket under testing, men var uakseptabelt for et ferdig produkt. Derfor startet jeg på designet av nettsiden. Siden dette var en komplisert og lang prosess skal jeg bare gå kjapt over hva som skjer i bakgrunnen her.
+
+### HTML
+
+HTML er et språk brukt for å strukturere innholdet til en nettside. HTML konfigurasjonen til nettsiden jeg lagde ser sånn her ut:
+
+```html
+<main>
+    <h1>Ping Pong Loner</h1>
+
+    <div id="choose_div" class="frame">
+        <h3>Choose mode:</h3>
+
+        <button class="button_choose" id="static_button" style="display: block;" onclick="showStatic()">Static mode</button>
+
+        <button class="button_choose" id="remote_button" style="display: block;" onclick="showTrigger()">Remote mode</button>
+
+        <button class="button_choose" id="random_button" style="display: block;" onclick="showRandom()">Random mode</button>
+
+    </div>
+
+    <div id="static_div" class="frame">
+        <h3>Static firing mode</h3>
+        <form action="/static_options" method="post">
+
+            <div class="besides">
+                <p>Interval,</p>
+                <p>
+                    <input type="text" class="text_form" name="interval" size="2"/>
+                </p>
+                <p>seconds</p>
+            </div>
+
+            <div class="clear-line"></div>
+
+            <div class="besides">
+                <p><input type="submit" value="Start" class="button"/></p>
+                <p><button name="stopp" class="button" style="background-color: #bb2d3b;">Stop</button></p>
+            </div>
+        </form>
+
+    </div>
+
+    <div id="trigger_div" class="frame">
+        <h3 id="trigger_title">Remote Trigger mode</h3>
+        <form action="/trigger_options" method="post">
+            <div class="besides">
+                <p><input type="submit" value="Start" class="button" onclick="listen()"/></p>
+                <p><button name="stopp" class="button" style="background-color: #bb2d3b;" onclick="stop_listen()">Stop</button></p>
+            </div>
+        </form>
+    </div>
+
+    <div id="random_div" class="frame">
+        <h3>Random mode</h3>
+        <form action="/random_options" method="post">
+            <div class="besides">
+                <p><input type="submit" value="Start" class="button"/></p>
+                <p><button name="stopp" class="button" style="background-color: #bb2d3b;">Stop</button></p>
+            </div>
+        </form>
+    </div>
+
+</main>
+```
+
+Det er delt opp i fire grupper også kjent som "divs". Øverst ligger kondifurasjonen for knappene som bestemmer hvilke modus man er er på. Resten av gruppene ligner veldig på hverandre og er en for hver modus.
+
+### CSS
+
+CSS brukes for å "style" nettsiden og gjøre den fin. Uten CSS hadde nettsiden sett sånn her ut:
+
+<img src="Bilder/Nettside_uten_css.png">
+
+Derfor har jeg lagt til denne CSS konfigurasjonen:
+
+```css
+body {
+    background-color: #090c10;
+}
+
+h1, h2, h3, p {
+        font-family: 'Open Sans', sans-serif;
+        font-family: BlinkMacSystemFont,segoe ui,Roboto,helvetica neue,Arial,noto sans,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol,noto color emoji;
+        font-weight: 500;
+        line-height: 1.2;
+        color: #f0f6fc;
+}
+
+.frame {
+    width: 50%;
+    height: 30%;
+    border: 1.5px solid #198754;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    background-color: #0d1117;
+}
+
+.besides > * {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+.clear-line {
+    clear: both;
+}
+
+.text_form {
+    border-color: #1d2634;
+    color: #b1b8c0;
+    padding: .375rem .75rem;
+    border-radius: 50rem;
+    background-color: #070a10;
+    text-align: center;
+}
+
+.text_form input:focus {
+    outline: 2px solid #198754;  
+}
+
+.button {
+    width: 100px;
+    height: 35px;
+    border-radius: 50rem;
+    background-color: #50b174;
+    border-color: #1d2634;
+    color: black;
+    font-family: "Open Sans", sans-serif;
+}
+
+.button_choose {
+    width: 150px;
+    height: 35px;
+    border-radius: 50rem;
+    background-color: #556379;
+    border-color: #1d2634;
+    color: black;
+    font-family: "Open Sans", sans-serif;
+    margin: 10px;
+}
+
+#static_div {
+    display: none;
+}
+```
+
+Og med det kan nettsiden se sånn her ut:
+
+<img src="Bilder/nettside_med_css.png">
+
+### Javascript
+
+Javascript er et programmeringssptråk i motsetning til HTML og CSS. Dette er det som gir nettsiden mesteparten av funksjonene sine. Sånn her ser javascript koden for nettsiden:
+
+```javascript
+var trigger_title = document.getElementById("trigger_div").getElementsByTagName("h3")[0];
+
+function listen() {
+    localStorage.setItem("listening", true);
+}
+
+function stop_listen() {
+    localStorage.setItem("listening", false);
+}
+
+//Function to show listenign status
+function show_listen_status() {
+    var listening_status = localStorage.getItem("listening");
+    if (listening_status === "true") {
+        trigger_title.innerText = "Remote Trigger mode (listening)"
+    }
+    else if (listening_status === "false") {
+        console.log("no listening")
+        trigger_title.innerText = "Remote Trigger mode"
+    }
+}
+
+// Function to show the selected tab based on the stored value
+function showSelectedTab() {
+    var selectedTab = localStorage.getItem("selectedTab");
+    if (selectedTab) {
+        // Hide all divs
+        static_div.style.display = "none";
+        trigger_div.style.display = "none";
+        random_div.style.display = "none";
+
+        // Reset background color of all buttons
+        static_button.style.backgroundColor = "#556379";
+        remote_button.style.backgroundColor = "#556379";
+        random_button.style.backgroundColor = "#556379";
+
+        // Show the selected tab and update button color
+        if (selectedTab === "static") {
+            static_div.style.display = "block";
+            static_button.style.backgroundColor = "#50b174";
+        } else if (selectedTab === "remote") {
+            trigger_div.style.display = "block";
+            remote_button.style.backgroundColor = "#50b174";
+        } else if (selectedTab === "random") {
+            random_div.style.display = "block";
+            random_button.style.backgroundColor = "#50b174";
+        }
+    }
+}
+
+// Function to update the stored value when a tab is clicked
+function updateSelectedTab(tabName) {
+    localStorage.setItem("selectedTab", tabName);
+}
+
+// Event listeners to update the stored value and show/hide tabs when a tab is clicked
+static_button.addEventListener("click", function() {
+    updateSelectedTab("static");
+    showSelectedTab();
+});
+
+remote_button.addEventListener("click", function() {
+    updateSelectedTab("remote");
+    showSelectedTab();
+});
+
+random_button.addEventListener("click", function() {
+    updateSelectedTab("random");
+    showSelectedTab();
+});
+
+// Call the showSelectedTab function when the page loads
+if (localStorage.getItem("selectedTab") === null) {localStorage.setItem("selectedTab", "static")}
+document.addEventListener("DOMContentLoaded", showSelectedTab);
+document.addEventListener("DOMContentLoaded", show_listen_status);
+```
+
+Grunnen til at det er kommentarer her i javascript koden og ikke css og html er fordi html og css er lett å lese og skjønne med bare litt øvelse. Det Javascript koden min gjør er at når du bytter modus lagres modusen du er på i lokal lagring, så når du refresher siden er du på samme side. Og jabascript koden er også det som gjør at å bytte mellom moduser endrer det du ser på skjermen.
+
+### Prøv det ut!
+
+Hvis du laster ned filen [index.html](templates/index.html) og åpner den i en nettleser kan du prøve å navigere rundt på nettsiden. Bare ikke klikk "start" eller "stopp" fordi det vil ikke funke.
+
+## Baksiden av nettsiden
+
+Alle nettsider har det som kalles en "backend" det vi nettop gikk gjennom med html, css, og javascript kalles for "front end". Backenden ligger på serveren og behandler tilkoblingene til nettsiden, og i vårt tilfelle styrer den også motoren.
+
+Backenden jeg lagde er skrevet i Python med Flask. Koden ligger [her](main.py) hvis du vil se på den. Her er hvordan alt funker:
+
+<img src="Bilder/Backend_diagram.jpg">
+
+Dette er veldig simplifisert, men gir ett overblikk
+
+## Møte på skolen nummer 2
+
+Olav hadde også forbedret skyteren sin. Og planen var å bygge alt sammen nå. Olav hadde med limpistol, og jeg hadde med papp vi hadde hentet fra papirsøppla. Sammen satt vi sammen skyteren og ballfordeleren. Uheldigvis var vi altfor opptatt med det og glemte å ta bilder, men heldigvis var du jo der in person.
+
+Siden vi ikke ble helt ferdig på skolen satt olav på skyteren hjemme med gjennbrukte prottype deler.
+
+<img src="Bilder/Olav-fikser.jpg" width="300">
+
+## Siste innspurt
+
+På tirsdagen uka før presentasjonen møttes vi hos olav for å fikse de siste greiene. Det viktigste vi måtte fikse var å få ballen til å skyte litt oppover for å komme over nettet med ballen.

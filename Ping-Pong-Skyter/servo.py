@@ -52,7 +52,7 @@ def cleanup():
     GPIO.output( in4, GPIO.LOW )
     GPIO.cleanup()
 
-# the meat
+# the main function
 try:
     i = 0
     for i in range(step_count):
