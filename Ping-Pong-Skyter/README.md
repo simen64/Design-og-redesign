@@ -237,7 +237,17 @@ På skolen la  vi til en strikk på hjulet til skyteren for bedre grep på balle
 
 ## Programvaren
 
-Hittil hadde jeg brukt [dette](servo.py) programmet til å styre motoren til ballfordelingssystemet. Måten det funket på var at jeg enten skrev inn antall rotasjoner eller "load" for å laste inn en ball. Dette funket under testing, men var uakseptabelt for et ferdig produkt. Derfor startet jeg på designet av nettsiden. Siden dette var en komplisert og lang prosess skal jeg bare gå kjapt over hva som skjer i bakgrunnen her.
+Hittil hadde jeg brukt [dette](servo.py) programmet til å styre motoren til ballfordelingssystemet. Måten det funket på var at jeg enten skrev inn antall rotasjoner eller "load" for å laste inn en ball. Dette funket under testing, men var uakseptabelt for et ferdig produkt. Derfor startet jeg på designet av nettsiden. Nettsiden skulle ha tre moduser man kunne bytte mellom
+
+- Statisk modus. Skyt en ball hvert x sekund
+- Remote mode. Skut en ball hver gang du klikker på en fjernkontroll
+- Random mode. En ball blir skutt med et tilfeldig mellomrom på 1 og 7 sekunder.
+
+Her er en sketch av hvordan jeg hadde tenkt til å designe nettsiden:
+
+<img src="Bilder/nettside_sketch.jpg" width="600">
+
+ Siden dette var en komplisert og lang prosess skal jeg bare gå kjapt over hva som skjer i bakgrunnen her.
 
 ### HTML
 
@@ -496,4 +506,60 @@ Siden vi ikke ble helt ferdig på skolen satt olav på skyteren hjemme med gjenn
 
 ## Siste innspurt
 
-På tirsdagen uka før presentasjonen møttes vi hos olav for å fikse de siste greiene. Det viktigste vi måtte fikse var å få ballen til å skyte litt oppover for å komme over nettet med ballen.
+### Tirsdag
+
+På tirsdagen uka før presentasjonen møttes vi hos olav for å fikse de siste greiene. Det viktigste vi måtte fikse var å få ballen til å skyte litt oppover for å komme over nettet med ballen. Vi startet med å bare vippe hele maskinen, noe som funket til et visst punkt. Hvis vi gikk over det endte ballene opp med å ikke få nok fart til å gå inn i skyteren. Vår første fiks for dette var å flytte motoren nærmere magasinet så ballen ikke trengte å dra så langt. Dette funket også, men bare litt. Etter litt brainstorming endte vi opp med å lage en rampe av en papp bit og en 3d printet bit som skulle blitt brukt til å vippe den mere oppover. Denne rampen funket veldig bra og endte opp med å bli en del av slutt produktet. Men vi lot også litt av den originale oppvippingen være.
+
+<img src="Bilder/Rampe.png" width="400">
+
+Noe annet vi hadde tenkt til å designe var en løsning for å lagre flere baller i magasinet. Det vi hadde tenkt fra starten var å lage en trakt form rundt toppen av magasinet hvor man kunne helle opp baller. Her er det eneste bilde jeg har av trakten...
+
+<img src="Bilder/Trakt.jpg" width="500">
+
+Denne rakk vi ikke prøve før onsdagen.
+
+### Onsdag
+
+Onsdagen var vår siste sjanse til å fullføre prosjektet. Det første vi gjorde var å passe på at alt funket. Det gjorde det ikke. Trakten vi hadde laget dagen før endte opp med å gjøre så baller satt seg fast og ikke kom ned i magasinet. Vi prøvde å fikse dette med å ta et lag med gaffa teip over, noe som ikke funket. Løsningen ble å vrake trakten og designe en ny løsning. Løsningen vår å forlenge magasinet horisontalt, men med litt tilt. 
+
+<img src="Bilder/forlenget_magasin.jpg" width="400">
+
+[Her](https://youtu.be/M56EKY8VWjA) er første ordentlig test av maskinen.
+
+Ikke lenge etter dette måtte Olav dra, så jeg dro hjem for å fikse noen siste detaljer og for å sette sammen en kjapp powerpoint.
+
+Når jeg kom hjem satt jeg et ark oppå det nye magasinet, dette er for å hindre at man kan se på fortid når en ball blir skutt, dette gjør det en god del vanskeligere.
+
+<img src="Bilder/ark_over_magasin.jpg" width="400">
+
+Dette er sånn produktet fullført ble seende ut, jeg slang på et klistremerke for å kjule pizzabakeren logoen.
+
+<img src="Bilder/Fullført produkt.jpg" width="500">
+
+### Siste programvare endring
+
+En siste ting jeg måtte fikse med programvaren var at nettsiden måtte starte av seg selv når jeg plugget den inn. For å gjøre dette konfigurerte jeg gunicorn som er et program for å kjøre Flask nettsider, og skrev et SystemD script for å starte den på boot. Jeg skrev mere om hvordan jeg gjorde det i min forrige logg [her](../NFC-musikkspiller/README.md#systemd)
+
+### Powerpointen
+
+Powerpointen jeg brukte satt jeg lett sammen med noen bullet-points og bilder, pluss at jeg fordelte hvem som skulle si hva.
+
+## Fremføringen
+
+Vi var selvfølgelig veldig spente på om alt kom til å funke under fremføringen. Noe jeg merket rett før folk begynte å fremføre var at fjernkontrollen ikke funket. Jeg fant ut av når jeg startet nettsiden ikke gjennom gunicorn funket det. jeg innså senere at det er fordi gunicorn bruker port 8000 mens bare Flask bruker port 9000. Dette hadde jeg ikke tid til å fikse, så vi var nødt til å starte webserveren manuelt når vi startet.
+
+Vi hadde allerede plugget inn maskinen fra start så vi var sikre på at den var koblet til nettet fra telefonen min. Så når det var vår tur tok jeg fram laptopen og kjørte:
+
+```
+ssh simen@192.168.186.230 #for å koble til maskinen
+```
+```
+cd ping-pong #bytt mappe til mappen med alle filene i
+```
+```
+source env/bin/activate #aktiver python
+```
+```
+python -m main.py #for å starte serveren
+```
+Nå burde alt være klart og vi startet å fremføre. Alt funket bra under demonstrasjoenn og vi var fornøyde. Folk likte produktet, og det var ingen spørsmål vi ikke kunne svare på. Når jeg kom hjem fikset jeg problemet med kontrolleren.
