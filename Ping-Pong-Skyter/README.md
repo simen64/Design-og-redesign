@@ -22,7 +22,7 @@ Dette var vår første sketch som vi lagde den første timen på skolen:
 
 ### Hjernen til bilen
 
-For å styre bilen trengte den en hjerne som kunne bli kontrollert av en radiokontroller (litt som en gaming kontroller for RC) for å styre motorene, og strømme det kameraet ser til en skjerm. Olav hadde flight controlleren "Happymodel Diamond F4" liggende. Denne flight controlleren er laget for veldig små droner, men passer perfekt til det vi skulle bruke den til. Grunnen til at Olav ikke brukte den lenger var fordi bare 3 av motorene man koblet til den funket, heldigvis trengte vi bare 2 til hjulene bak. Denne flight controlleren er formet som en trekant, og derfor er sketchen sånn også.
+For å styre bilen trengte den en hjerne som kunne bli kontrollert av en radiokontroller (litt som en gaming kontroller for RC) for å styre motorene, og strømme det kameraet ser til en skjerm. Til dette trengte vi en "flight controller" dette er et elektronisk komponent som i hovedsak er hjernen til dronen, men det vi har er en AIO, det betyr at den inkluderer en flight controller, 4 ESCer en esc står for "electronic speed controller" og trengs for at flight controlleren skal kunne styre motorene", den kommer også med en VTX som strømmer det er kamera ser over 5,8ghz bondet, og til slutt en reciever vi kan koble kontrolleren vår til. Olav hadde flight controlleren "Happymodel Diamond F4" liggende. Denne flight controlleren er laget for veldig små droner, men passer perfekt til det vi skulle bruke den til. Grunnen til at Olav ikke brukte den lenger var fordi bare 3 av motorene man koblet til den funket, heldigvis trengte vi bare 2 til hjulene bak. Denne flight controlleren er formet som en trekant, og derfor er sketchen sånn også.
 
 ### Motorene
 
@@ -563,3 +563,9 @@ source env/bin/activate #aktiver python
 python -m main.py #for å starte serveren
 ```
 Nå burde alt være klart og vi startet å fremføre. Alt funket bra under demonstrasjoenn og vi var fornøyde. Folk likte produktet, og det var ingen spørsmål vi ikke kunne svare på. Når jeg kom hjem fikset jeg problemet med kontrolleren.
+
+# Konklusjon
+
+Jeg synes dette har vært et veldig morsomt prosjekt, jeg synes det er litt dumt at vi ikke fikk bygget bilen, men jeg fikk hvertfall programmert litt på det andre prosjektet så det er gøy. Jeg er også veldig glad for at jeg kom med Olav så jeg fikk muligheten til å bygge noe elektronisk som dette. Dette prosjektet var ikke i lik kompleksitet med det første, men det var fortsatt veldig gøy! Jeg synes også vi burde fortsette med å presentere hva man har bygget, det trenger jo ikke nødvendigvis å være at vurderingen inkluderer å presentere det, men bare så folk får sett hva andre lager. Alt i alt veldig morsomt prosjekt, og jeg håper vi kan ha flere sånne her prosjekter hvor man kan lage litt hva man vil.
+
+Samarbeidet mellom meg og Olav har hvert veldig bra og jeg har ingen klager over det eller arbeidsfordelingen egentlig.
