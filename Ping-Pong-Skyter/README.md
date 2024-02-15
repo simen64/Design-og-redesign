@@ -4,7 +4,7 @@ Her er loggen min for de to prosjektene jeg og Olav jobbet på
 
 # RC bil av drone deler
 
-Når jeg og Olav planla ideen vår var det første vi tenkte på en radiostyrt bil. Begge oss er veldige glade og har drevet mye med den radiostyrte hobbyen, og mer spesielt droner. Dette gjorde at vi hadde en god del halvfungerende dronedeler liggende allerede. Vi ville se om vi kunne lage dette om til en radiostyrt bil. Og etter litt planlegging var vi vesentlig sikre på at dette var noe som kunne bli gjort.
+Når jeg og Olav planla ideen vår var det første vi tenkte på en radiostyrt bil. Begge oss er veldige glade i og har drevet mye med den radiostyrte hobbyen, og mer spesielt droner. Dette gjorde at vi hadde en god del halvfungerende dronedeler liggende allerede. Vi ville se om vi kunne lage dette om til en radiostyrt bil. Og etter litt planlegging var vi vesentlig sikre på at dette var noe som kunne bli gjort.
 
 ## Delene
 
@@ -14,7 +14,7 @@ Delene vi hadde tenkt til å bruke måtte følge noen kriterier.
 2. De må være kompatible med hverandre
 3. Vesentlig små
 
-For å gjøre prosjektet miljøbesparende ville vi bare bruke deler vi allerede hadde og ikke brukte, som i det forrige prosjektet. Og grunnen til at vi ville at delene skulle være små var fordi vi ville gjøre bilen innendørs venlig.
+For å gjøre prosjektet miljøbesparende ville vi bare bruke deler vi allerede hadde og ikke brukte, som i det forrige prosjektet. Og grunnen til at vi ville at delene skulle være små var fordi vi ville gjøre bilen innendørs vennlig.
 
 Dette var vår første sketch som vi lagde den første timen på skolen:
 
@@ -22,7 +22,7 @@ Dette var vår første sketch som vi lagde den første timen på skolen:
 
 ### Hjernen til bilen
 
-For å styre bilen trengte den en hjerne som kunne bli kontrollert av en radiokontroller (litt som en gaming kontroller for RC) for å styre motorene, og strømme det kameraet ser til en skjerm. Til dette trengte vi en "flight controller" dette er et elektronisk komponent som i hovedsak er hjernen til dronen, men det vi har er en AIO, det betyr at den inkluderer en flight controller, 4 ESCer en esc står for "electronic speed controller" og trengs for at flight controlleren skal kunne styre motorene", den kommer også med en VTX som strømmer det er kamera ser over 5,8ghz bondet, og til slutt en reciever vi kan koble kontrolleren vår til. Olav hadde flight controlleren "Happymodel Diamond F4" liggende. Denne flight controlleren er laget for veldig små droner, men passer perfekt til det vi skulle bruke den til. Grunnen til at Olav ikke brukte den lenger var fordi bare 3 av motorene man koblet til den funket, heldigvis trengte vi bare 2 til hjulene bak. Denne flight controlleren er formet som en trekant, og derfor er sketchen sånn også.
+For å styre bilen trengte den en hjerne som kunne bli kontrollert av en radiokontroller (litt som en gaming kontroller for RC) for å styre motorene, og strømme det kameraet ser til en skjerm. Til dette trengte vi en "flight controller" dette er et elektronisk komponent som i hovedsak er hjernen til dronen, men det vi har er en AIO, det betyr at den inkluderer en flight controller, 4 ESCer en ESC står for "electronic speed controller" og trengs for at flight controlleren skal kunne styre motorene", den kommer også med en VTX som strømmer det er kamera ser over 5,8ghz båndet, og til slutt en reciever vi kan koble kontrolleren vår til. Olav hadde flight controlleren "Happymodel Diamond F4" liggende. Denne flight controlleren er laget for veldig små droner, men passer perfekt til det vi skulle bruke den til. Grunnen til at Olav ikke brukte den lenger var fordi bare 3 av motorene man koblet til den funket, heldigvis trengte vi bare 2 til hjulene bak. Denne flight controlleren er formet som en trekant, og derfor er sketchen sånn også.
 
 ### Motorene
 
@@ -32,9 +32,9 @@ Motorene vi hadde tenkt til å bruke var mine Happymodel SE0802 25000KV motorer.
 
 ### Hjul
 
-Bilen vår trengte hjul (selvfølgelig). Siden akslene på motorene er såpass tynne (1mm) måtte vi designe våre egne. Dette var min jobb i arbeidsfordelingen. Siden jeg har tilgang til en 3D printer var det logisk å bruke den til hjulene.
+Bilen vår trengte hjul (selvfølgelig). Siden akslene på motorene er såpass tynne (1mm) måtte vi designe våre egne. Dette var min jobb i arbeidsfordelingen. Siden jeg har tilgang til en 3D-printer var det logisk å bruke den til hjulene.
 
-Hjulene designet jeg i Blender som er et 3D modellerings program.  
+Hjulene designet jeg i Blender som er et 3D-modellerings program.  
 <img src="Bilder/blender_hjul.png" alt="hjul i blender" width="200"/>
 
 Første design av hjulene:
@@ -43,15 +43,15 @@ Første design av hjulene:
 
 ### Baseplaten
 
-Platen hvor alle komponentene ble plassert var Olav sin jobb å designe, han laget også disse i Blender. De gikk gjennom mange forksjellige variasjoner. Disse platene 3D printet vi også. Vi brainstormet om det var noen andre mere miljøbesparende materialer vi kunne brukt, men vi innså at 3D printet PLA var det eneste som kunne ha våre komponenter festet til seg presist nok, og det tålte mye mer enn noe som papp.
+Platen hvor alle komponentene ble plassert var Olav sin jobb å designe, han laget også disse i Blender. De gikk gjennom mange foskjellige variasjoner. Disse platene 3D-printet vi også. Vi brainstormet om det var noen andre mere miljøbesparende materialer vi kunne brukt, men vi innså at 3D printet PLA var det eneste som kunne ha våre komponenter festet til seg presist nok, og det tålte mye mer enn noe som papp.
 
 ### Filament
 
-I både ping-pong prosjektet og bil prosjektet bruker vi 3D printere for noen deler. Plastikken 3D printere bruker heter filament. Vi bruker mest PLA, det er et miljøbesparende filament fordi det er nedbrytbart, krever mindre energi og lager færre skadelige stoffer under printing enn andre filamenter, og forbrenningsprosessen er ikke like skadelig som vanlig plastikk. Vi passer også på å bruke det vi kaller reste-filament som er filament vi har liggende og kanskje ikke er så glad i, og ikke hadde brukt ellers. Når det kommer til hjul bruker vi TPU, dette er et gummi aktig filament som ofte gir bedre feste. TPU er også nedbrytbart, men produksjonesprosessen og forbrenningsprosessen er desverre ikke like ren som PLA, derfor prøver vi å bruke det så lite som mulig.
+I både ping-pong prosjektet og bil prosjektet bruker vi 3D printere for noen deler. Plastikken 3D printere bruker heter filament. Vi bruker mest PLA, det er et miljøbesparende filament fordi det er nedbrytbart, krever mindre energi og lager færre skadelige stoffer under printing enn andre filamenter, og forbrenningsprosessen er ikke like skadelig som vanlig plastikk. Vi passer også på å bruke det vi kaller reste-filament som er filament vi har liggende og kanskje ikke er så glad i, og ikke hadde brukt ellers. Når det kommer til hjul bruker vi TPU, dette er et gummi aktig filament som ofte gir bedre feste. TPU er også nedbrytbart, men produksjonsprosessen og forbrenningsprosessen er desverre ikke like ren som PLA, derfor prøver vi å bruke det så lite som mulig.
 
 ### Elektronikk
 
-Også i begge prosjektene brukes elektronikk. Elektronikk er på ingen måte miljøbesparende, og uheldigvis blir en god del elektronikk produsert på dårlig måte. I bil prosjektet er hovedelektronikken fra Happymodel som er et kinesisk selskap og er nok devserre ikke så miljøbesparende. Det som kan bli sagt derimot er at Happymodel sender med båt istedenfor fly som er mere miljøvenlig. Men i ping-pong prosjektet bruker vi en Raspberry Pi, dette er et mere rent selskap som har en renere produksjon av elektronikken. Siden elektronikk ikke er særlig miljøbesparende passer vi på å bare gjennbruke elektronikk vi allerede har.
+Også i begge prosjektene brukes elektronikk. Elektronikk er på ingen måte miljøbesparende, og uheldigvis blir en god del elektronikk produsert på dårlig måte. I bil prosjektet er hovedelektronikken fra Happymodel som er et kinesisk selskap og er nok desverre ikke så miljøbesparende. Det som kan bli sagt derimot er at Happymodel sender med båt istedenfor fly som er mere miljøvenlig. Men i ping-pong prosjektet bruker vi en Raspberry Pi, dette er et mere rent selskap som har en renere produksjon av elektronikken. Siden elektronikk ikke er særlig miljøbesparende passer vi på å bare gjenbruke elektronikk vi allerede har.
 
 ## Prototype 1
 
@@ -65,13 +65,13 @@ Før jeg kunne gjøre klar komponentene måtte jeg konfigurere flight controller
 
 Nå kunne jeg styre flight controlleren med radiokontrolleren min.
 
-En veldig viktig funksjon alle flight controllere har som er viktig for å holde droner stabile i lufta er at selvom du har armet dronen (å "arme" en drone er som å skru av sikkerheten på et gevær) så kommer motorene til å spinne selv når throttlen er på bunn (throttle er joysticken på radiokontrolleren som styrer hastighet på motorene). Dette er jo ikke optimalt for en bil hvor vi vil ha bilen til å stå stille når throttle stikken er helt nede. Heldigvis vår å fikse dette så lett som å skru på en switch.
+En veldig viktig funksjon alle flight controllere har som er viktig for å holde droner stabile i lufta er at selv om du har armet dronen (å "arme" en drone er som å skru av sikkerheten på et gevær) så kommer motorene til å spinne selv når throttlen er på bunn (throttle er joysticken på radiokontrolleren som styrer hastighet på motorene). Dette er jo ikke optimalt for en bil hvor vi vil ha bilen til å stå stille når throttle stikken er helt nede. Heldigvis vår å fikse dette så lett som å skru på en switch.
 
 ![MOTOR_STOP](Bilder/MOTOR_STOP.png)
 
 ### Bygging og lodding
 
-Loddingen var ganske straight forward tok bare litt tid fordi hver motor har 3 ledninger, 6 ledninget til sammen, og tre av de lendingene måtte forlenges, så til sammen 9 ledninger loddet. For lodding brukte jeg et blyinnholdig 63/37 flux core loddetinn. Dette gjør loddeprosessen mye bedre.
+Loddingen var ganske straight forward tok bare litt tid fordi hver motor har 3 ledninger, 6 ledninger til sammen, og tre av de lendingene måtte forlenges, så til sammen 9 ledninger loddet. For lodding brukte jeg et blyinnholdig 63/37 flux core loddetinn. Dette gjør loddeprosessen mye bedre.
 
 <img src="Bilder/lodding.jpg" width="300">
 <img src="Bilder/lodde_motorer.jpg" width="300">
@@ -90,7 +90,7 @@ Videoen av den første testen tror jeg sier seg selv:
 
 ## Prototype 2
 
-Vårt første instinkt var å forbedre motor holderne så ikke hjulene skulle fly avgårde igjen. Og det gjorde vi. Nå var skruehullene til motorene passe store så skruene faktisk kunne feste seg.
+Vårt første instinkt var å forbedre motor holderne så ikke hjulene skulle fly av gårde igjen. Og det gjorde vi. Nå var skruehullene til motorene passe store så skruene faktisk kunne feste seg.
 
 [Video av prototype 2](https://youtube.com/shorts/Ng86TNDHwoM)
 
@@ -101,7 +101,7 @@ Prototype nr. 2 hadde en rekke problemer:
 - Batteriet plugget ut (det var pipelyden)
 - Batteriet er festet med en strikk
 - Hjulene hadde ikke noe feste i bakken
-- Motorne var vanskelig å montere
+- Motorene var vanskelig å montere
 
 Vi innså at Olav måtte design en ny baseplate for komponentene. Denne måtte ha en holder for batteriet og motor holdere som var lettere å feste motorne til.
 
@@ -120,11 +120,11 @@ I videoen kjørte jeg kun med den laveste farten mulig, så jeg tok en ny test h
 
 ## Der det går nedover
 
-Som man kan se i testen med full gass kjører bilen ekstremt sakte. Vi visste også at dette ikke var et problem med noen av komponente, fordi vi testet de på bordet [her](https://youtube.com/shorts/-pAE5eclOGs).
+Som man kan se i testen med full gass kjører bilen ekstremt sakte. Vi visste også at dette ikke var et problem med noen av komponentene, fordi vi testet de på bordet [her](https://youtube.com/shorts/-pAE5eclOGs).
 
 Vår første tanke var at kanskje ikke hjulene ikke hadde nok feste. Men det kan ikke stemme ettersom at hvis det hadde vært problemet hadde hjulene spunnet løst rundt som i [prototype 1](https://youtube.com/shorts/QQjjO0h9N5E).
 
-Det vi også tenkte kunne være problemet var en betaflight funksjon som heter "runaway". Dette er en veldig lur funksjon som stopper / sakker ned motorene hvis motorene blir for varme, er under for mye belasting, en motor ledning har røket, etc. Vi tenkte at kanskje runaway merket at det var for mye motstand å flytte seg på et gulv i motsetning til i lufta. Å skur av runaway er veldig lett, men er også en veldig dårlig idee hvis man ikke er veldig sikre på hva man gjør. Heldigvis kan ikke bilen vår gjøre så mye skade i motsetning til si en drone med 4 skarpe propeller. Kommandoen for å skru av runaway:
+Det vi også tenkte kunne være problemet var en betaflight funksjon som heter "runaway". Dette er en veldig lur funksjon som stopper / sakker ned motorene hvis motorene blir for varme, er under for mye belasting, en motor ledning har røket, etc. Vi tenkte at kanskje runaway merket at det var for mye motstand å flytte seg på et gulv i motsetning til i lufta. Å skur av runaway er veldig lett, men er også en veldig dårlig ide hvis man ikke er veldig sikre på hva man gjør. Heldigvis kan ikke bilen vår gjøre så mye skade i motsetning til si en drone med 4 skarpe propeller. Kommandoen for å skru av runaway:
 
 ```
 set runaway_takeoff_prevention = OFF
@@ -237,7 +237,7 @@ På skolen la  vi til en strikk på hjulet til skyteren for bedre grep på balle
 
 ## Programvaren
 
-Hittil hadde jeg brukt [dette](servo.py) programmet til å styre motoren til ballfordelingssystemet. Måten det funket på var at jeg enten skrev inn antall rotasjoner eller "load" for å laste inn en ball. Dette funket under testing, men var uakseptabelt for et ferdig produkt. Derfor startet jeg på designet av nettsiden. Nettsiden skulle ha tre moduser man kunne bytte mellom
+Hittil hadde jeg brukt [dette](servo.py) programmet til å styre motoren til ballfordelingssystemet. Måten det funket på var at jeg enten skrev inn antall rotasjoner eller "load" for å laste inn en ball. Dette funket under testing, men var uakseptabelt for et ferdig produkt. Derfor startet jeg på designet av nettsiden. Nettsiden skulel kjøre på en raspberry pi zero som er en liten Linux pc som kan kjøre små prgorammer,Nettsiden skulle ha tre moduser man kunne bytte mellom
 
 - Statisk modus. Skyt en ball hvert x sekund
 - Remote mode. Skut en ball hver gang du klikker på en fjernkontroll
@@ -495,6 +495,10 @@ Backenden jeg lagde er skrevet i Python med Flask. Koden ligger [her](main.py) h
 <img src="Bilder/Backend_diagram.jpg">
 
 Dette er veldig simplifisert, men gir ett overblikk
+
+## Fjernkontrollen
+
+Fjernkontrollen lagde jeg av en raspberry pi zero w, dette er et lite elektronisk brett med wifi som kan kjøre små python programmer. Jeg koblet til en knapp og skrev litt kode som koblet den opp til nettsiden.
 
 ## Møte på skolen nummer 2
 
