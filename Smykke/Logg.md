@@ -25,7 +25,7 @@ Batteriet jeg hadde trengt å bruke hadde vært et lipo batteri. Eller også kje
 
 ## Magnet smykke
 
-Jeg er usikker på hvor ideen kom fra, men jeg kom på det å bruke magneter for å lage hva jeg refererte til som et "hot-swap" smykke. Hot-swap som i at det er super lett å bytte ut medaljongen, litt som bildekk blir byttet i et Formula 1 race. Dette gjør at man bare trenger ett smykke som kan funke til flere situasjoner. Dette gjør organisering lettere, det er mere bærekraftig, og det er billigere!  
+Jeg er usikker på hvor ideen kom fra, men jeg kom på det å bruke magneter for å lage hva jeg refererte til som et "hot-swap" smykke. Hot-swap som i at det er super lett å bytte ut medaljongen, litt som bildekk blir byttet i et Formula 1 race. Dette gjør at man bare trenger ett smykke som kan funke til flere situasjoner. Dette gjør organisering lettere, det er mere bærekraftig, og det er billigere! Jeg har ikke sett dette gjort i noen andre fmykker før så jeg vil si det er ganske originalt konsept. Medaljongene jeg endte opp med å lage er ikke særelig originale, men det er ikke det som skal settes fokus på med dette systemet.  
 Her er sketchen jeg designet for ideen:
 
 <img src="Bilder/magnet sketch.jpg" alt="pip boy" width="400"/>
