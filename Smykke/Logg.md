@@ -2,30 +2,32 @@
 
 ## Idé 1, smart smykke
 
-Når jeg først fikk vite at vi skulle lage noe som er et smykke var det første jeg begynte å tenke på var hvordan jeg kunne lage noe med elektronikk.  
-Jeg tenkte jeg kunne lage en type smart smykke. Første jeg tenkte var å prøve å ha et kamera som kunne sende det det så til ChatGPT så man kunne få realtime svar på ting. Som hvis du for eksempel ser en plante kan du bruke smykket til å ta et bilde og be chatgpt finne ut hvilke plante det er. Jeg endte ikke opp med å lage en sketch til det her.
+Når jeg først fikk vite at vi skulle lage noe som er et smykke, var det første jeg begynte å tenke på var hvordan jeg kunne lage noe med elektronikk.  
+Jeg tenkte jeg kunne lage en type smart-smykke. Første jeg tenkte, var å prøve å ha et kamera som kunne sende det kameraet så til ChatGPT. Dermed kunne man få realtime svar på ting. Som hvis du for eksempel så en plante, kunne du bruke smykket til å ta et bilde og be chatGTP finne ut hvilke plante det er. Jeg endte ikke opp med å lage en sketch til det her.
 
-Etter litt mere tenking innså jeg at dette kom til å bli et vanskelig prosjekt. Jeg har en vesentlig liten mikrokontroller som kunne kjørt programmet, men hvordan skulle brukeren få svaret fra chatgpt? Jeg tenkte at man kanskje kunne ha en øreplugg koblet til som ga svaret med lyd.
+Etter litt mere tenking innså jeg at dette kom til å bli et vanskelig prosjekt. Jeg har en vesentlig liten mikrokontroller som kunne kjørt programmet, men hvordan skulle brukeren få svaret fra chatGPT? Jeg tenkte at man kanskje kunne ha en øreplugg koblet til som ga svaret med lyd, men dette hadde blitt overkomplisert så jeg skrapet ideen.
 
 ## Idé 2, pip-boy
 
-I spillene fra Fallout serien har de fleste karakterene det som kalles en "pip-boy" som ser sånn her ut:
+I spillene fra Fallout-serien har de fleste karakterene det som kalles en "pip-boy" som ser sånn her ut:
 
 <img src="https://www.cnet.com/a/img/resize/88604796f7a4401b74b72b7258d056ace8cfc31d/hub/2012/10/29/85bd157f-cc2e-11e2-9a4a-0291187b029a/pip_1.jpg?auto=webp&fit=crop&height=675&width=1200" alt="pip boy" width="400"/>
 
-Pip-boyen er en type datamaskin i form av et stort armbånd. Jeg ville lage en form av det bare litt mindre. Her er min skisse av det, en mikrokontroller men en liten skjerm og noen knapper:
+Pip-boyen er en type datamaskin i form av et stort armbånd. Denne datamaskinen fungerer på mange samme måter som en smartklokke gjør. Jeg ville lage en form av det, bare litt mindre. Her er min skisse av det, en mikrokontroller men en liten skjerm og noen knapper:
 
 <img src="Bilder/pip-boy sketch.jpg" alt="pip boy" width="300"/>
 
 ## Problemene
 
-Begge disse to ideene har samme problem, mangel på deler. Jeg har en raspberry pi zero som er en liten Linux datamaskin jeg kan bruke som hjernen i begge prosjektene. Det jeg mangler for begge er ett form for batteri. Man kan jo ikke akkuratt gå rundt med en powerbank i lomma koblet til smykket.
+Begge disse to ideene har samme problem, mangel på deler. Jeg har en raspberry pi zero som er en liten Linux datamaskin jeg kan bruke som hjernen i begge prosjektene. Det jeg mangler for begge er et form for batteri. Man kan jo ikke akkurat gå rundt med en powerbank i lomma koblet til smykket.
 
 Batteriet jeg hadde trengt å bruke hadde vært et lipo batteri. Eller også kjent som et lithium-ion polymer batteri, det betyr at det polymer electrolyte istedenfor liquid electrolyte som er i vanlige batterier. Disse batteriene er populære på grunn av deres høye energitetthet, som gjør dem lette og kompakte i forhold til andre batterityper. En ulempe med lipo-batterier må behandles forsiktig og lades med spesialiserte ladere for å unngå skade eller brannfare. Dette er ett problem men og så har jeg ikke ett sånt batteri jeg kunne brukt, og siden kriteriene sier at vi ikke kan kjøpe inn noe nytt var begge disse ideene ute av vinduet.
 
+Pluss at dette ikke hadde vært en særlig original ide med tanke på at det er mange andre som har lagd noe lignende.
+
 ## Magnet smykke
 
-Jeg er usikker på hvor ideen kom fra, men jeg kom på det å bruke magneter for å lage hva jeg refererte til som et "hot-swap" smykke. Hot-swap som i at det er super lett å bytte ut medaljongen, litt som bildekk blir byttet i et Formula 1 race. Dette gjør at man bare trenger ett smykke som kan funke til flere situasjoner. Dette gjør organisering lettere, det er mere bærekraftig, og det er billigere! Jeg har ikke sett dette gjort i noen andre fmykker før så jeg vil si det er ganske originalt konsept. Medaljongene jeg endte opp med å lage er ikke særelig originale, men det er ikke det som skal settes fokus på med dette systemet.  
+Jeg er usikker på hvor ideen kom fra, men jeg kom på det å bruke magneter for å lage hva jeg refererte til som et "hot-swap" smykke. Hot-swap som i at det er super lett å bytte ut medaljongen, litt som bildekk blir byttet i et Formula 1 race. Dette gjør at man bare trenger ett smykke som kan funke til flere situasjoner. Dette gjør organisering lettere, det er mere bærekraftig, og det er billigere! Jeg har ikke sett dette gjort i noen andre smykker før så jeg vil si det er ganske originalt konsept. Medaljongene jeg endte opp med å lage er ikke særlig originale, men det er ikke det som skal settes fokus på med dette systemet.  
 Her er sketchen jeg designet for ideen:
 
 <img src="Bilder/magnet sketch.jpg" alt="pip boy" width="400"/>
@@ -38,35 +40,35 @@ Her er sketchen jeg designet for ideen:
 
 ## Markedsføring
 
-Jeg samarbeidet med Zara og Victoria for å markedsføre dette prosjektet. Vårt hoved salgspunk er hvordan dette kan fikse at smykkeskuffen ser noe sånn her ut:
+Jeg samarbeidet med Zara og Victoria for å markedsføre dette prosjektet. Vårt hovedsalgspunkt er hvordan dette kan fikse at smykkeskuffen ser noe sånn her ut:
 
 <img src="https://thecraftcomplex.files.wordpress.com/2014/01/messy-jewelry-drawer.jpg" width="400"/>
 
-Med dette smykket kan man heller organisere de forksjellige medaljongene og bare holde styr på ett halskjede!
+Med dette smykket kan man heller organisere de forskjellige medaljongene og bare holde styr på ett halskjede!
 
-Ett av våre andre salgspunkt er økosystemet. Fordi det er så lett som en 2x6mm magnet er det super lett å utvide økosystemet med alle mulige medaljonger. Jeg vil fremme at mplet mitt med dette var ikke å lage **ett** fint smykke, men heller noen konsepter for hvordan dette økosystemet vil fungere og kan utvides fremover.
+Ett av våre andre salgspunkt er økosystemet. Fordi det er så lett som en 2x6mm magnet er det super lett å utvide økosystemet med alle mulige medaljonger. Jeg vil fremme at målet mitt med dette var ikke å lage **ett** fint smykke, men heller noen konsepter for hvordan dette økosystemet vil fungere og kan utvides fremover.
 
-I et helt bedrifts-synspunt kunne vi gått for ett proprietært kobling design så kun vi kunne selge medaljonger. Noe som hadde økt inntekten, men dette er noe jeg er personlig imot og derfor beholder vi den åpne standar tilkoblingen.
+I et helt bedrifts-synspunkt kunne vi gått for ett proprietært koblingsdesign så vi kunne selge medaljonger som passet. Noe som hadde økt inntekten, men dette er noe jeg er personlig imot og derfor beholder vi den åpne standard tilkoblingen.
 
 ## Magnetene
 
-Magnete jeg har valgt å bruke til dette prosjektet er 2mm høye og 6 mm diameter neodymium magneter. Disse magnetene er laget av en blanding av neodymium, jern og bor. Dette gjør magnetene veldig sterke i forhold til størrelsen sin. Utvinning av neodymium kan være miljømessig utfordrende på grunn av behovet for gruvearbeid og kjemisk behandling i etterkant, Men man kan resirkulering neodymium fra brukte magneter som kan bidra til å redusere behovet for ny gruvedrift og redusere miljøpåvirkningen. Disse magnetene hadde jeg en bunke liggende av etter ett annet prosjekt som innvolverte magneter.
+Magnetene jeg har valgt å bruke til dette prosjektet er 2mm høye og 6 mm diameter neodymium magneter. Disse magnetene er laget av en blanding av neodymium, jern og bor. Dette gjør magnetene veldig sterke i forhold til størrelsen sin. Utvinning av neodymium kan være miljømessig utfordrende på grunn av behovet for gruvearbeid og kjemisk behandling i etterkant, Men man kan resirkulere neodymium fra brukte magneter og andre ting som kan bidra til å redusere behovet for ny gruvedrift som reduserer miljøpåvirkningen. Disse magnetene hadde jeg en bunke liggende av etter et annet prosjekt som innvolverte magneter.
 
 ## Halskjedet
 
 ### Tråden
 
-Halskjedet måtte som jeg har nevnt tidligere være noe veldig enkelt og simpelt. Så jeg gikk å rotet i moren min sin smykkeboks for å se om det var noe tråd jeg kunne gjennbruke. Der fant jeg en smykke tråd. Denne tråden er aget av vokset polyester. Tråden består av polyesterfiber smørt med voks for mere styrke i tråden. Dette gjør at den holder seg bedre mot slitasje, noe som gjør at den kan vare lengre. Generelt sett har polyester et lavere miljøavtrykk enn andre materialer sombomull, da det krever mindre vann og kjemikalier under produksjonen. Tråden har høy kostnadseffektivitet grunnet de enkle materialene noe som gjør det til et propulært valg for smykker.
+Halskjedet måtte som jeg har nevnt tidligere være noe veldig enkelt og simpelt. Så jeg gikk og rotet i moren min sin smykkeboks for å se om det var noe tråd jeg kunne gjennbruke. Der fant jeg en smykketråd. Denne tråden er laget av vokset polyester. Tråden består av polyesterfiber smørt med voks for mere styrke i tråden. Dette gjør at den holder seg bedre mot slitasje, noe som gjør at den kan vare lengre. Generelt sett har polyester et lavere miljøavtrykk enn andre materialer som bomull, da det krever mindre vann og kjemikalier under produksjonen. Tråden har høy kostnadseffektivitet grunnet de enkle materialene.
 
 ### 3D printet del
 
 På tråden tredde jeg på denne lille 3D-printete delen. Den hadde jeg lagd tidligere til et annet prosjekt, men den endte med å ikke komme i bruk. Delen er laget av PLA. Denne plastikken er bærekraftig for miljøet da det er nedbrytbart, krever mindre energi og produserer færre skadelige stoffer under 3D-printing sammenlignet med andre filamenter. Forbrenningsprosessen er også mindre skadelig enn for vanlig plast.
 
-<img src="Bilder/3d-printet del.jpg" width="300"/>
+<img src="Bilder/3d-printet-del.jpg" width="300"/>
 
 På denne limte jeg på en neodymium magnet.
 
-På smykket knøyt jeg en justerbar glidende knute, så man kan justere hvor stort smykket skal være. Dette tok noen forskjøt men etter at jeg fant [denne](https://www.youtube.com/watch?v=nzy1EVmVEv0) veldig gode instruksvideoen fikk jeg det til.
+På smykket knøt jeg en justerbar glidende knute, så man kan justere hvor stort smykket skal være. Dette tok noen forsøk men etter at jeg fant [denne](https://www.youtube.com/watch?v=nzy1EVmVEv0) veldig gode instruksvideoen fikk jeg det til.
 
 Sånn her ble enderesultatet av halskjedet:
 
@@ -112,7 +114,7 @@ Jeg startet med denne blokken med treverk, som jeg sagde en liten kube ut av
 
 <img src="Bilder/treverk-blokk.jpg" width="300"/>
 
-For å omgjøre dette til ett hjete måtte jeg kutte ut en enda mindre blokk fra den kuben. Mine første forsøk ble ikke fullt så bra...
+For å omgjøre dette til ett hjerte måtte jeg kutte ut en enda mindre blokk fra den kuben. Mine første forsøk ble ikke fullt så bra...
 
 <img src="Bilder/test-hjerter.jpg" width="300"/>
 
@@ -149,11 +151,11 @@ Etter å ha skrotet rundt i kjelleren fant jeg disse spikerene her, de er opprin
 Denne spikeren hadde disse verdiene som gjorde den perfekt:
 
 - Størrelse. Den passet perfekt ned i hullet jeg hadde borret til den.
-- Utseende. Fordi den er laget til å henege opp bilder er den laget med tanken om at man skal kunne se den som gjør at den ser finere ut enn vanlige spikre.
+- Utseende. Fordi den er laget til å henge opp bilder er den laget med tanken om at man skal kunne se den som gjør at den ser finere ut enn vanlige spikre.
 - Flat topp. Toppen av spikren er helt flat som gjør den perfekt til å lime en magnet på.
-- Kostnadseffektivithet og bærekraft. Disse spirkene er relativt billig å produsere, og kan bruke gjennbrukt stål som en bærekraftig produksjonsmetode.
+- Kostnadseffektivithet og bærekraft. Disse spikerne er relativt billig å produsere, og kan bruke gjennbrukt stål som en bærekraftig produksjonsmetode.
 
-Jeg var nøtt til å kutte ned spikeren til en litt mindre lengde for at den ikke skulle stikke altfor langt ut fra hjertet, det gjorde ved hjelp av en avbitertang.
+Jeg var nødt til å kutte ned spikeren til en litt mindre lengde for at den ikke skulle stikke altfor langt ut fra hjertet, det gjorde ved hjelp av en avbitertang.
 
 <img src="Bilder/kuttet-spiker.jpg" width="300"/>
 
@@ -181,7 +183,7 @@ Etter dette var det bare å smøre litt superlim på spikeren og la det stå ove
 
 ## Navne medaljong
 
-Jeg visste fra starten at jeg ville lage en medaljong som kunne bli tiplasset av kjøperen, og det jeg ville ha var navnet.
+Jeg visste fra starten at jeg ville lage en medaljong som kunne bli tilplasset av kjøperen, og det jeg ville ha var navnet.
 
 ### Brenne inn
 
@@ -215,7 +217,7 @@ Jeg malte kuben med ett lag svart maling først, så etter det hadde tørket mal
 
 Male fersighetene mine er ikke helt på topp så jeg ble ikke super fornøyd med "S"en, men jeg prøvde så godt jeg kunne og til slutt ble det helt greit.
 
-## Sprøsmålstegn
+## Spørsmålstegn
 
 Jeg ville ha en måte å symbolisere at man kunne ha hvilkesomhelst bokstav på medaljongen, så jeg lagde en med ett spørsmålstegn. Her repeterte jeg bare akkuratt samme prosess som på den med "S", uheldigvis var jeg tom for hvit maling og måtte bruke en annen vann basert maling som gjorde at tegnet ble mye mindre tydelig. Dette var uheldigvis ikke noe jeg fikk til å fikse, selvom jeg prøvde flere ganger med blant annet å legge flere lag.
 
@@ -231,9 +233,6 @@ Her er noen bilder Zara og Victoria tok av produktet:
 <img src="Bilder/Hjertet og &quot;S&quot; sammen.jpg" width="300"/>
 <img src="Bilder/Tiril med hjertet.jpg" width="400"/>
 
+## Konklusjon
 
-
-
-
-
-
+I konklusjon synes jeg det var gøy å få jobbet litt mere med treverk noe som jeg ikke gjør så ofte. Markedsføringen med Medier og Kommunikasjon var morsmom, men jeg syntes det var litt rart at de startet på prosjektet likt som oss. Egentlig burde jo vi fullført prosjektet vårt og så gitt det til de, så de kunne markedsføre nå. Fordi nå endte det opp med at de fra Medier og Kommunikasjon bare satt der mens vi i Design og Redesign jobbet. I tillegg gjorde dette at fristen ble kortere fordi vi måtte rekke p bli ferdig med produktet så Medier og Kommunikasjon kunne ta bilder og gjøre andre ting med produktet. Jeg fikk uheldigvis ikke vært der den torsdagen vi viste fram de forskjellige produktene, men jeg fikk se noen av de andres produkter i de forskjellige timene.
